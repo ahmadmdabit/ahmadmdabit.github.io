@@ -16,7 +16,48 @@ import ImgDP203 from './../../public/data/Certificate_DP-203.png';
 import ImgAPlus from './../../public/data/Certificate_A+.jpg';
 import { css } from '@emotion/react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { Reveal } from "react-awesome-reveal";
+import { keyframes } from "@emotion/react";
 
+
+const textAnimation = keyframes`
+  from {
+    opacity: 0;
+    transform-origin: center bottom;
+    transform: translate(0, 10rem) scale(0.0, 0.0);// skew(0, 45deg)
+  }
+  to {
+    opacity: 1;
+    transform-origin: center bottom;
+    transform: translate(0, 0) scale(1.0, 1.0);// skew(0, 0)
+  }
+`;
+
+const imageAnimation = keyframes`
+  from {
+    opacity: 0;
+    transform-origin: center center;
+    transform: scale(0.0);
+  }
+  to {
+    opacity: 1;
+    transform-origin: center center;
+    transform: scale(1.0);
+  }
+`;
+
+const buttonAnimation = keyframes`
+  from {
+    opacity: 0;
+    transform-origin: center center;
+    transform: translate(0, 10rem) scale(0.0);
+  }
+  to {
+    opacity: 1;
+    transform-origin: center center;
+    transform: translate(0, 0) scale(1.0);
+  }
+`;
 
 const theme = createTheme({
     palette: {
@@ -62,6 +103,13 @@ const StyledPaper = styled('div')<{
     flexDirection: 'column',
     alignItems: 'center',
 }));
+
+const StyledReveal = styled(Reveal)({
+    margin: '0 auto',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+});
 
 const StyledGridContainer = styled(Grid)({
     maxWidth: '50rem',
@@ -149,24 +197,38 @@ export const Portfolio: React.FC = () => {
                             <StyledImageBoxIcon height={56} width={56} src={ImgTR} alt="TR" />
                         </StyledGridItem>
                     </Grid>
-                    <StyledTypography variant="h3" gutterBottom>
-                        Ahmet Fatihoğlu
-                    </StyledTypography>
-                    <Typography variant="h5" color="text.secondary" gutterBottom>
-                        Senior Software Developer
-                    </Typography>
-                    <Box component="img" height={128} width={128} borderRadius={'50%'} src={ImgPersonalPhotoCircle} alt={import.meta.env.VITE_APP_NAME} />
+                    <Reveal keyframes={textAnimation}>
+                        <StyledTypography variant="h3" gutterBottom>
+                            Ahmet Fatihoğlu
+                        </StyledTypography>
+                    </Reveal>
+                    <Reveal keyframes={textAnimation} delay={500}>
+                        <Typography variant="h5" color="text.secondary" gutterBottom>
+                            Senior Software Developer
+                        </Typography>
+                    </Reveal>
+                    <StyledReveal keyframes={imageAnimation} delay={300}>
+                        <Box component="img" height={128} width={128} borderRadius={'50%'} src={ImgPersonalPhotoCircle} alt={import.meta.env.VITE_APP_NAME} />
+                    </StyledReveal>
                     <StyledDivider />
                     <StyledGridContainer container spacing={3} justifyContent="center" alignItems="center">
                         {portfolioItems.map((item: PortfolioItemType) => (
                             <StyledGridItem size={{ xs: 12, sm: 10, md: 8 }} key={item.id}>
-                                <HeadButton {...item} />
+                                <Reveal keyframes={buttonAnimation}>
+                                    <HeadButton {...item} />
+                                </Reveal>
                             </StyledGridItem>
                         ))}
                     </StyledGridContainer>
-                    <StyledImageBox height={'20rem'} width={'auto'} margin={'1.5rem 0 0 0'} src={ImgPersonalPhoto} alt={import.meta.env.VITE_APP_NAME} />
-                    <StyledImageBox height={'auto'} width={'100%'} margin={'1.5rem'} src={ImgDP203} alt={dp203Title} />
-                    <StyledImageBox height={'auto'} width={'100%'} margin={'1.5rem'} src={ImgAPlus} alt={aPlusTitle} />
+                    <StyledReveal keyframes={imageAnimation}>
+                        <StyledImageBox height={'20rem'} width={'auto'} margin={'1.5rem 0 0 0'} src={ImgPersonalPhoto} alt={import.meta.env.VITE_APP_NAME} />
+                    </StyledReveal>
+                    <StyledReveal keyframes={imageAnimation}>
+                        <StyledImageBox height={'auto'} width={'100%'} margin={'1.5rem'} src={ImgDP203} alt={dp203Title} />
+                    </StyledReveal>
+                    <StyledReveal keyframes={imageAnimation}>
+                        <StyledImageBox height={'auto'} width={'100%'} margin={'1.5rem'} src={ImgAPlus} alt={aPlusTitle} />
+                    </StyledReveal>
                 </StyledPaper>
             </GradientBox>
         </ThemeProvider>
