@@ -1,30 +1,50 @@
 import React from 'react';
-import { Button, Typography } from '@mui/material';
+import { Button, Typography, type TypographyProps } from '@mui/material';
 import type { PortfolioItemType } from '../types/Portfolio.Types';
-import './HeadButton.css';
+import styled from '@emotion/styled';
+
+const StyledButton = styled(Button)({
+    width: '100%',
+    marginBottom: '1rem',
+    textTransform: 'none',
+    justifyContent: 'flex-start',
+    padding: '1rem',
+    borderRadius: '1rem',
+    fontSize: '1.3rem',
+});
+
+const StyledTypographyDiv = styled((props: TypographyProps<'div'>) => (
+    <Typography component="div" {...props} />
+))({
+    flexGrow: 1,
+    fontSize: '1.3rem !important',
+    textTransform: 'none',
+});
+
+
+const StyledTypography = styled(Typography)({
+    fontSize: '1.3rem !important',
+    textTransform: 'none',
+});
 
 export const HeadButton: React.FC<PortfolioItemType> = (item: PortfolioItemType) => {
-
     const handleClick = () => {
         window.open(item.url, '_blank');
     };
 
     return (
-        <div>
-            <Button
-                variant="contained"
-                color="success"
-                startIcon={item.image}
-                onClick={handleClick}
-                className='head-button'
-            >
-                <Typography variant="h6" component="div" sx={{ flexGrow: 1 }} color='text.primary'>
-                    <Typography display="block" fontWeight={'bold'}>{item.title}</Typography>
-                    {item.description && (
-                        <Typography display="block" fontWeight={'normal'}>{item.description}</Typography>
-                    )}
-                </Typography>
-            </Button>
-        </div>
+        <StyledButton
+            variant="contained"
+            color="success"
+            startIcon={item.image}
+            onClick={handleClick}
+        >
+            <StyledTypographyDiv variant="h6" color="text.primary">
+                <StyledTypography display="block" fontWeight={"bold"}>{item.title}</StyledTypography>
+                {item.description && (
+                    <StyledTypography display="block" fontWeight={"normal"}>{item.description}</StyledTypography>
+                )}
+            </StyledTypographyDiv>
+        </StyledButton>
     );
 }

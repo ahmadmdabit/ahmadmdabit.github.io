@@ -5,6 +5,8 @@ import imgMail from '../assets/mail.png';
 import imgMC from '../assets/mc.png';
 import imgPhone from '../assets/telephone.png';
 import imgWhatsApp from '../assets/whatsapp.png';
+import './portfolioItems.css';
+
 
 export const portfolioItems = [
     {
