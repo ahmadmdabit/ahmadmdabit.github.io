@@ -7,14 +7,34 @@ import { HeadButton } from '../components/HeadButton';
 import type { PortfolioItemType } from '../types/Portfolio.Types';
 import { portfolioItems } from '../data/portfolioItems';
 import styled from '@emotion/styled';
-import Box from '@mui/material/Box';
+import Box, { type BoxProps } from '@mui/material/Box';
 import ImgSD from './../../public/SD.png';
 import ImgTR from './../../public/TR.png';
 import ImgPersonalPhotoCircle from './../../public/PersonalPhoto.png';
 import ImgPersonalPhoto from './../../public/data/Personal-Photo.jpg';
 import ImgDP203 from './../../public/data/Certificate_DP-203.png';
 import ImgAPlus from './../../public/data/Certificate_A+.jpg';
+import { css } from '@emotion/react';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 
+
+const theme = createTheme({
+    palette: {
+        primary: {
+            main: '#198754',
+        },
+        secondary: {
+            main: '#176F28',
+        },
+        background: {
+            default: '#F5F5F5',
+        },
+        text: {
+            primary: '#000000',
+            secondary: '#4F4F4F',
+        },
+    },
+});
 
 const GradientBox = styled('div')<{
     gradientBg: string;
@@ -53,6 +73,56 @@ const StyledDivider = styled(Divider)({
     width: '100%',
 });
 
+const hoverEffect = css`
+  &:hover {
+    transform: scale(1.05);
+  }
+`;
+
+const StyledImageBoxIcon = styled((props: BoxProps<'img'>) => (
+    <Box component="img" {...props} />
+))({
+    borderRadius: '0.6rem',
+    backgroundColor: 'rgba(255, 255, 255, 1.0)',
+    boxShadow: '0px 1px 3px rgba(0, 0, 0, 0.2)',
+    transitionProperty: 'transform, box-shadow',
+    transitionDuration: '0.3s',
+    transitionTimingFunction: 'ease-in-out',
+    '&:hover': {
+        transform: 'scale(1.05)',
+        boxShadow: '0px 1px 8px rgba(0, 0, 0, 0.8)',
+    },
+});
+
+const StyledImageBox = styled((props: BoxProps<'img'>) => (
+    <Box component="img" {...props} />
+))({
+    borderRadius: '2rem',
+    border: '0.5rem solid rgba(0, 0, 0, 1.0)',
+    boxShadow: '0px 1px 3px rgba(0, 0, 0, 0.2)',
+    transitionProperty: 'transform, box-shadow',
+    transitionDuration: '0.3s',
+    transitionTimingFunction: 'ease-in-out',
+    '&:hover': {
+        transform: 'scale(1.05)',
+        boxShadow: '0px 1px 8px rgba(0, 0, 0, 0.8)',
+    },
+});
+
+const StyledTypography = styled(Typography)`
+  text-align: center;
+  letter-spacing: 2px;
+  font-weight: bold;
+  color:rgb(25, 135, 43);
+`;
+
+const StyledGridItem = styled(Grid)`
+  display: flex;
+  justify-content: center;
+  transition: transform 0.3s ease-in-out;
+  ${hoverEffect}
+`;
+
 
 
 export const Portfolio: React.FC = () => {
@@ -68,36 +138,38 @@ export const Portfolio: React.FC = () => {
     const aPlusTitle = 'A+ (CompTIA) - 2010';
 
     return (
-        <GradientBox gradientBg={gradientBg}>
-            <StyledPaper paperBg={paperBg}>
-                <Grid container justifyContent="center" alignItems="center" spacing={80}>
-                    <Grid size={{ xs: 6, sm: 4 }} display="flex" justifyContent="center">
-                        <Box component="img" height={56} width={56} borderRadius={3} bgcolor="white" src={ImgSD} alt="SD" />
+        <ThemeProvider theme={theme}>
+            <GradientBox gradientBg={gradientBg}>
+                <StyledPaper paperBg={paperBg}>
+                    <Grid container justifyContent="center" alignItems="center" spacing={80}>
+                        <StyledGridItem size={{ xs: 6, sm: 4 }}>
+                            <StyledImageBoxIcon height={56} width={56} src={ImgSD} alt="SD" />
+                        </StyledGridItem>
+                        <StyledGridItem size={{ xs: 6, sm: 4 }}>
+                            <StyledImageBoxIcon height={56} width={56} src={ImgTR} alt="TR" />
+                        </StyledGridItem>
                     </Grid>
-                    <Grid size={{ xs: 6, sm: 4 }} display="flex" justifyContent="center">
-                        <Box component="img" height={56} width={56} borderRadius={3} bgcolor="white" src={ImgTR} alt="TR" />
-                    </Grid>
-                </Grid>
-                <Typography variant="h3" color="success" fontWeight={700} gutterBottom sx={{ letterSpacing: 2, textAlign: 'center' }}>
-                    Ahmet Fatihoğlu
-                </Typography>
-                <Typography variant="h5" color="success.dark" fontWeight={500} gutterBottom sx={{ textAlign: 'center' }}>
-                    Senior Software Developer
-                </Typography>
-                <Box component="img" height={128} width={128} borderRadius={'50%'} src={ImgPersonalPhotoCircle} alt={import.meta.env.VITE_APP_NAME} />
-                <StyledDivider />
-                <StyledGridContainer container spacing={3} justifyContent="center" alignItems="center">
-                    {portfolioItems.map((item: PortfolioItemType) => (
-                        <Grid size={{ xs: 12, sm: 10, md: 8 }} key={item.id} display="flex" justifyContent="center">
-                            <HeadButton {...item} />
-                        </Grid>
-                    ))}
-                </StyledGridContainer>
-                <Box component="img" height={'20rem'} width={'auto'} borderRadius={10} border={"0.5rem solid #000000"} margin={'1.5rem'} src={ImgPersonalPhoto} alt={import.meta.env.VITE_APP_NAME} />
-                <Box component="img" height={'auto'} width={'100%'} borderRadius={10} border={"0.5rem solid #000000"} margin={'1.5rem'} src={ImgDP203} alt={dp203Title} />
-                <Box component="img" height={'auto'} width={'100%'} borderRadius={10} border={"0.5rem solid #000000"} margin={'1.5rem'} src={ImgAPlus} alt={aPlusTitle} />
-            </StyledPaper>
-        </GradientBox>
+                    <StyledTypography variant="h3" gutterBottom>
+                        Ahmet Fatihoğlu
+                    </StyledTypography>
+                    <Typography variant="h5" color="text.secondary" gutterBottom>
+                        Senior Software Developer
+                    </Typography>
+                    <Box component="img" height={128} width={128} borderRadius={'50%'} src={ImgPersonalPhotoCircle} alt={import.meta.env.VITE_APP_NAME} />
+                    <StyledDivider />
+                    <StyledGridContainer container spacing={3} justifyContent="center" alignItems="center">
+                        {portfolioItems.map((item: PortfolioItemType) => (
+                            <StyledGridItem size={{ xs: 12, sm: 10, md: 8 }} key={item.id}>
+                                <HeadButton {...item} />
+                            </StyledGridItem>
+                        ))}
+                    </StyledGridContainer>
+                    <StyledImageBox height={'20rem'} width={'auto'} margin={'1.5rem 0 0 0'} src={ImgPersonalPhoto} alt={import.meta.env.VITE_APP_NAME} />
+                    <StyledImageBox height={'auto'} width={'100%'} margin={'1.5rem'} src={ImgDP203} alt={dp203Title} />
+                    <StyledImageBox height={'auto'} width={'100%'} margin={'1.5rem'} src={ImgAPlus} alt={aPlusTitle} />
+                </StyledPaper>
+            </GradientBox>
+        </ThemeProvider>
     );
 };
 
