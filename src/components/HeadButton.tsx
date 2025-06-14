@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 
 const StyledButton = styled(Button)({
     width: '100%',
-    marginBottom: '1rem',
+    marginBottom: '0rem',
     textTransform: 'none',
     justifyContent: 'flex-start',
     padding: '1rem',

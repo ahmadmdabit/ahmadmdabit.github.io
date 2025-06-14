@@ -5,6 +5,7 @@ import imgMail from '../assets/mail.png';
 import imgMC from '../assets/mc.png';
 import imgPhone from '../assets/telephone.png';
 import imgWhatsApp from '../assets/whatsapp.png';
+import imgCV from '../assets/cv.png';
 import './portfolioItems.css';
 
 
@@ -57,5 +58,12 @@ export const portfolioItems = [
         "description": "Azure Data Engineer Associate - 2023",
         "url": "https://bit.ly/AF-DP203",
         "image": <img src={imgMC} alt="Microsoft Certified" className="head-button-icon" />,
+    },
+    {
+        "id": 8,
+        "title": "CV",
+        "description": `English - 13.06.2025 - ATS Compliant`,
+        "url": `/data/Ahmet-FATIHOGLU_Resume_EN_2025-06-13.pdf`,
+        "image": <img src={imgCV} alt={`${import.meta.env.VITE_APP_NAME} CV - English - 13.06.2025`} className="head-button-icon" />,
     }
 ];
