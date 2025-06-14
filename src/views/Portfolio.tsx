@@ -3,7 +3,6 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { useTheme } from '@mui/material/styles';
 import { HeadButton } from '../components/HeadButton';
 import type { PortfolioItemType } from '../types/Portfolio.Types';
 import { portfolioItems } from '../data/portfolioItems';
@@ -49,7 +48,6 @@ const StyledDivider = styled(Divider)({
 
 
 export const Portfolio: React.FC = () => {
-    const theme = useTheme();
     const isDark = useMediaQuery('(prefers-color-scheme: dark)');
     const paperBg = isDark
         ? 'rgba(34, 34, 34, 0.95)'
