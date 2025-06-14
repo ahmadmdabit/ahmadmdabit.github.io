@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import reactLogo from './../assets/react.svg'
 import viteLogo from '/vite.svg'
-import './Default.css'
+import './DefaultView.css'
 
-function Default() {
+function DefaultView() {
   const [count, setCount] = useState(0)
 
   return (
@@ -32,4 +32,4 @@ function Default() {
   )
 }
 
-export default Default
+export default DefaultView

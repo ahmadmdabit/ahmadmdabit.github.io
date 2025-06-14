@@ -1,10 +1,10 @@
-import Default from './views/Default'
+// import DefaultView from './views/DefaultView'
 import Portfolio from './views/Portfolio'
 
 function App() {
   return (
     <>
-      {/* <Default /> */}
+      {/* <DefaultView /> */}
       <Portfolio />
     </>
   )

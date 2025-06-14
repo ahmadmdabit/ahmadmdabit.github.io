@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Card, CardHeader, Typography } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import type { PortfolioItemType } from '../types/Portfolio.Types';
 
 export const HeadButton: React.FC<PortfolioItemType> = (item: PortfolioItemType) => {
@@ -17,8 +17,8 @@ export const HeadButton: React.FC<PortfolioItemType> = (item: PortfolioItemType)
                 onClick={handleClick}
                 sx={{ margin: '16px' }}
             >
-                <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                    <span style={{"display": "block"}}>{item.title}</span>
+                <Typography variant="h6" component="div" sx={{ flexGrow: 1 }} color='text.primary'>
+                    <Typography display="block" fontWeight={'bold'}>{item.title}</Typography>
                     {item.description}
                 </Typography>
             </Button>
