@@ -17,7 +17,7 @@ export const Portfolio: React.FC = () => {
                 Senior Software Developer
             </Typography>
 
-            <Grid container>
+            <Grid container className="portfolio-items-container">
                 {portfolioItems.map((item: PortfolioItemType) => (
                     <Grid size={12} key={item.id}>
                         <HeadButton {...item} />

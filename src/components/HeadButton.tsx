@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, Typography } from '@mui/material';
 import type { PortfolioItemType } from '../types/Portfolio.Types';
+import './HeadButton.css';
 
 export const HeadButton: React.FC<PortfolioItemType> = (item: PortfolioItemType) => {
 
@@ -15,11 +16,13 @@ export const HeadButton: React.FC<PortfolioItemType> = (item: PortfolioItemType)
                 color="success"
                 startIcon={item.image}
                 onClick={handleClick}
-                sx={{ margin: '16px' }}
+                className='head-button'
             >
                 <Typography variant="h6" component="div" sx={{ flexGrow: 1 }} color='text.primary'>
                     <Typography display="block" fontWeight={'bold'}>{item.title}</Typography>
-                    {item.description}
+                    {item.description && (
+                        <Typography display="block" fontWeight={'normal'}>{item.description}</Typography>
+                    )}
                 </Typography>
             </Button>
         </div>
