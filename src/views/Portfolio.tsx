@@ -21,9 +21,6 @@ import { Reveal } from "react-awesome-reveal";
 import { keyframes } from "@emotion/react";
 import imgCV from '../assets/cv.png';
 import Card from '@mui/material/Card';
-import Paper from '@mui/material/Paper';
-import CardHeader from '@mui/material/CardHeader';
-import CardContent from '@mui/material/CardContent';
 
 
 const textAnimation = keyframes`
