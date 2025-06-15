@@ -21,6 +21,8 @@ import { Reveal } from "react-awesome-reveal";
 import { keyframes } from "@emotion/react";
 import imgCV from '../assets/cv.png';
 import Card from '@mui/material/Card';
+import { useTranslation } from 'react-i18next';
+import LanguageSwitcher from '../components/LanguageSwitcher';
 
 
 const textAnimation = keyframes`
@@ -95,6 +97,7 @@ const GradientBox = styled('div')<{
 const StyledPaper = styled('div')<{
     paperBg: string;
 }>(({ paperBg }) => ({
+    position: 'relative',
     boxShadow: '0 8px 32px 0 rgba(31, 135, 54, 0.15)',
     padding: '2rem',
     borderRadius: '2rem',
@@ -181,9 +184,16 @@ const StyledGridItem = styled(Grid)`
   ${hoverEffect}
 `;
 
+const StyledImg = styled('img')({
+    width: '3rem',
+    height: '3rem',
+    verticalAlign: 'middle',
+});
 
 
 export const Portfolio: React.FC = () => {
+    const { t } = useTranslation();
+
     const isDark = useMediaQuery('(prefers-color-scheme: dark)');
     const paperBg = isDark
         ? 'rgba(34, 34, 34, 0.95)'
@@ -199,6 +209,7 @@ export const Portfolio: React.FC = () => {
         <ThemeProvider theme={theme}>
             <GradientBox gradientBg={gradientBg}>
                 <StyledPaper paperBg={paperBg}>
+                    <LanguageSwitcher />
                     <Grid container justifyContent="center" alignItems="center" spacing={80}>
                         <StyledGridItem size={{ xs: 6, sm: 4 }}>
                             <StyledImageBoxIcon height={56} width={56} src={ImgSD} alt="SD" />
@@ -209,12 +220,12 @@ export const Portfolio: React.FC = () => {
                     </Grid>
                     <Reveal keyframes={textAnimation}>
                         <StyledTypography variant="h3" gutterBottom>
-                            Ahmet Fatihoğlu
+                            {t('portfolio.fullName')}
                         </StyledTypography>
                     </Reveal>
                     <Reveal keyframes={textAnimation} delay={500}>
                         <Typography variant="h5" color="text.secondary" gutterBottom>
-                            Senior Software Developer
+                            {t('portfolio.role')}
                         </Typography>
                     </Reveal>
                     <StyledReveal keyframes={imageAnimation} delay={300}>
@@ -222,7 +233,7 @@ export const Portfolio: React.FC = () => {
                     </StyledReveal>
                     <StyledDivider />
                     <StyledGridContainer container spacing={3} justifyContent="center" alignItems="center">
-                        {portfolioItems.map((item: PortfolioItemType) => (
+                        {portfolioItems().map((item: PortfolioItemType) => (
                             <StyledGridItem size={{ xs: 12, sm: 10, md: 8 }} key={item.id}>
                                 <Reveal keyframes={buttonAnimation}>
                                     <HeadButton {...item} />
@@ -234,26 +245,26 @@ export const Portfolio: React.FC = () => {
                     <StyledReveal keyframes={imageAnimation}>
                         <StyledCard>
                             <Typography variant="h5" color="success" gutterBottom>
-                                CV - <Typography variant='caption' fontSize='inherit' fontWeight='bold'>ATS Compliant</Typography> (13.06.2025)
+                                {t('portfolio.cv')} - <Typography variant='caption' fontSize='inherit' fontWeight='bold'>{t('portfolio.aTSCompliant')}</Typography> (13.06.2025)
                             </Typography>
                             <StyledDivider />
                             <StyledGridContainer container spacing={3} justifyContent="center" alignItems="center">
                                 <StyledGridItem size={{ xs: 6, sm: 6, md: 6 }}>
                                     <IconButton {...{
                                         "id": 1,
-                                        "title": "TR",
+                                        "title": t('portfolio.turkish'),
                                         "description": ``,
                                         "url": `/data/Ahmet-FATIHOGLU_Resume_TR_2025-06-13.pdf`,
-                                        "image": <img src={imgCV} alt={`${import.meta.env.VITE_APP_NAME} CV - Turkish - 13.06.2025`} className="head-button-icon" />,
+                                        "image": <StyledImg src={imgCV} alt={`${import.meta.env.VITE_APP_NAME} ${t('portfolio.cv')} - ${t('portfolio.turkish')} - 13.06.2025`} />,
                                     }} />
                                 </StyledGridItem>
                                 <StyledGridItem size={{ xs: 6, sm: 6, md: 6 }}>
                                     <IconButton {...{
                                         "id": 2,
-                                        "title": "EN",
+                                        "title": t('portfolio.english'),
                                         "description": ``,
                                         "url": `/data/Ahmet-FATIHOGLU_Resume_EN_2025-06-13.pdf`,
-                                        "image": <img src={imgCV} alt={`${import.meta.env.VITE_APP_NAME} CV - English - 13.06.2025`} className="head-button-icon" />,
+                                        "image": <StyledImg src={imgCV} alt={`${import.meta.env.VITE_APP_NAME} ${t('portfolio.cv')} - ${t('portfolio.english')} - 13.06.2025`} />,
                                     }} />
                                 </StyledGridItem>
                             </StyledGridContainer>
