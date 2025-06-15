@@ -4,6 +4,7 @@ import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { HeadButton } from '../components/HeadButton';
+import { IconButton } from '../components/IconButton';
 import type { PortfolioItemType } from '../types/Portfolio.Types';
 import { portfolioItems } from '../data/portfolioItems';
 import styled from '@emotion/styled';
@@ -18,6 +19,11 @@ import { css } from '@emotion/react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { Reveal } from "react-awesome-reveal";
 import { keyframes } from "@emotion/react";
+import imgCV from '../assets/cv.png';
+import Card from '@mui/material/Card';
+import Paper from '@mui/material/Paper';
+import CardHeader from '@mui/material/CardHeader';
+import CardContent from '@mui/material/CardContent';
 
 
 const textAnimation = keyframes`
@@ -103,6 +109,13 @@ const StyledPaper = styled('div')<{
     flexDirection: 'column',
     alignItems: 'center',
 }));
+
+const StyledCard = styled(Card)({
+    boxShadow: '0 8px 32px 0 rgba(31, 135, 54, 0.15)',
+    padding: '2rem',
+    borderRadius: '2rem',
+    backgroundColor: 'rgba(0, 0, 0, 0.10)',
+});
 
 const StyledReveal = styled(Reveal)({
     margin: '0 auto',
@@ -220,6 +233,38 @@ export const Portfolio: React.FC = () => {
                             </StyledGridItem>
                         ))}
                     </StyledGridContainer>
+                    <StyledDivider />
+                    <StyledReveal keyframes={imageAnimation}>
+                        <StyledCard>
+                            <Typography variant="h5" color="success" gutterBottom>
+                                CV
+                            </Typography>
+                            <Typography variant="body2" color="text.secondary" gutterBottom>
+                                Download my latest CV in Turkish and English - <Typography variant='span' fontWeight='bold'>ATS Compliant</Typography> (13.06.2025).
+                            </Typography>
+                            <StyledDivider />
+                            <StyledGridContainer container spacing={3} justifyContent="center" alignItems="center">
+                                <StyledGridItem size={{ xs: 6, sm: 6, md: 6 }}>
+                                    <IconButton {...{
+                                        "id": 1,
+                                        "title": "TR",
+                                        "description": ``,
+                                        "url": `/data/Ahmet-FATIHOGLU_Resume_TR_2025-06-13.pdf`,
+                                        "image": <img src={imgCV} alt={`${import.meta.env.VITE_APP_NAME} CV - Turkish - 13.06.2025`} className="head-button-icon" />,
+                                    }} />
+                                </StyledGridItem>
+                                <StyledGridItem size={{ xs: 6, sm: 6, md: 6 }}>
+                                    <IconButton {...{
+                                        "id": 2,
+                                        "title": "EN",
+                                        "description": ``,
+                                        "url": `/data/Ahmet-FATIHOGLU_Resume_EN_2025-06-13.pdf`,
+                                        "image": <img src={imgCV} alt={`${import.meta.env.VITE_APP_NAME} CV - English - 13.06.2025`} className="head-button-icon" />,
+                                    }} />
+                                </StyledGridItem>
+                            </StyledGridContainer>
+                        </StyledCard>
+                    </StyledReveal>
                     <StyledReveal keyframes={imageAnimation}>
                         <StyledImageBox height={'20rem'} width={'auto'} margin={'1.5rem 0 0 0'} src={ImgPersonalPhoto} alt={import.meta.env.VITE_APP_NAME} />
                     </StyledReveal>
