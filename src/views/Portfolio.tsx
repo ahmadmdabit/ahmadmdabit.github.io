@@ -101,8 +101,9 @@ const StyledPaper = styled('div')<{
     boxShadow: '0 8px 32px 0 rgba(31, 135, 54, 0.15)',
     padding: '2rem',
     borderRadius: '2rem',
+    minWidth: 240,
     maxWidth: 700,
-    width: '100%',
+    width: 'calc(100% - 8rem)',
     background: paperBg,
     margin: '0 auto',
     display: 'flex',
@@ -209,12 +210,15 @@ export const Portfolio: React.FC = () => {
         <ThemeProvider theme={theme}>
             <GradientBox gradientBg={gradientBg}>
                 <StyledPaper paperBg={paperBg}>
-                    <LanguageSwitcher />
-                    <Grid container justifyContent="center" alignItems="center" spacing={80}>
-                        <StyledGridItem size={{ xs: 6, sm: 4 }}>
+                    
+                    <Grid container justifyContent="space-between" alignItems="center" width="100%" minWidth="212px">
+                        <StyledGridItem>
                             <StyledImageBoxIcon height={56} width={56} src={ImgSD} alt="SD" />
                         </StyledGridItem>
-                        <StyledGridItem size={{ xs: 6, sm: 4 }}>
+                        <StyledGridItem>
+                            <LanguageSwitcher />
+                        </StyledGridItem>
+                        <StyledGridItem>
                             <StyledImageBoxIcon height={56} width={56} src={ImgTR} alt="TR" />
                         </StyledGridItem>
                     </Grid>

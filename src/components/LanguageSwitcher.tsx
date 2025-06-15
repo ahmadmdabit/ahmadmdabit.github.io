@@ -5,10 +5,10 @@ import { useTranslation } from "react-i18next";
 import styled from '@emotion/styled';
 
 const StyledDiv = styled('div')({
-    position: 'absolute',
-    top: '2.3rem',
-    left: '50%',
-    transform: 'translateX(-50%)',
+    // position: 'absolute',
+    // top: '2.3rem',
+    // left: '50%',
+    // transform: 'translateX(-50%)',
     background: '#2e7d32',
     borderRadius: '0.5rem',
 });
