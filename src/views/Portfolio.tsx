@@ -237,10 +237,7 @@ export const Portfolio: React.FC = () => {
                     <StyledReveal keyframes={imageAnimation}>
                         <StyledCard>
                             <Typography variant="h5" color="success" gutterBottom>
-                                CV
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary" gutterBottom>
-                                Download my latest CV in Turkish and English - <Typography variant='span' fontWeight='bold'>ATS Compliant</Typography> (13.06.2025).
+                                CV - <Typography variant='caption' fontSize='inherit' fontWeight='bold'>ATS Compliant</Typography> (13.06.2025)
                             </Typography>
                             <StyledDivider />
                             <StyledGridContainer container spacing={3} justifyContent="center" alignItems="center">
