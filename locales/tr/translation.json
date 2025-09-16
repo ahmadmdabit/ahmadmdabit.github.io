@@ -1,0 +1,469 @@
+{
+  "portfolio": {
+    "fullName": "Ahmet FATİHOĞLU",
+    "role": "Kıdemli Yazılım Geliştirici"
+  },
+  "ui": {
+    "headings": {
+      "professionalSummary": "Profesyonel Özet",
+      "technicalSkills": "Teknik Beceriler",
+      "professionalExperience": "İş Deneyimi",
+      "projects": "Projeler",
+      "education": "Eğitim",
+      "certifications": "Sertifikalar",
+      "languages": "Diller",
+      "contactInformation": "İletişim Bilgileri",
+      "reference": "Referans"
+    },
+    "form": {
+      "fullName": "Tam Adınız",
+      "emailAddress": "E-posta Adresiniz",
+      "message": "Mesajınız",
+      "sendMessage": "Mesajı Gönder",
+      "sending": "Gönderiliyor..."
+    },
+    "chat": {
+      "aiAssistant": "Yapay Zeka Asistanı",
+      "initialMessage": "Merhaba! Bu özellik yakında kullanıma sunulacaktır.",
+      "placeholder": "Bana her şeyi sorabilirsiniz"
+    },
+    "misc": {
+      "rightsReserved": "Tüm Hakları Saklıdır"
+    },
+    "buttons": {
+      "downloadCV": "Özgeçmişimi indir",
+      "downloadCVDescription": "ATS Uyumlu"
+    },
+    "languages": {
+      "turkish": "Türkçe",
+      "english": "İngilizce"
+    },
+    "pages": {
+      "about": "Hakkımda",
+      "experience": "Deneyim",
+      "projects": "Projeler",
+      "skills": "Beceriler",
+      "education": "Eğitim",
+      "certifications": "Sertifikalar",
+      "languages": "Diller",
+      "contact": "İletişim"
+    },
+    "meta": {
+      "title": "Ahmet FATİHOĞLU - Kıdemli Yazılım Geliştirici",
+      "description": "Ahmet FATİHOĞLU - Kıdemli Yazılım Geliştirici Portföy. C# .NET, React ve bulut teknolojilerindeki uzmanlığıyla tam yığın web, masaüstü ve mobil geliştirme projelerini sergiliyor.",
+      "author": "Ahmet FATİHOĞLU",
+      "keywords": "Ahmet FATİHOĞLU, Kıdemli Yazılım Geliştirici, C#, VB.NET, PHP, JavaScript, TypeScript, Kotlin, Java, C, C++, Laravel, React, Vue, Angular, ASP.NET Core, ASP.NET MVC, .NET Framework, .NET Core, Web API, REST API, WCF, gRPC, Mikroservisler, n-Katmanlı Mimari, Microsoft SQL Server, MySQL, SQLite, MongoDB, Cassandra, Redis, Microsoft Azure, Azure Sanal Makineleri, Azure Depolama, Azure İşlevleri, Azure Blob'ları, Azure Dosya Paylaşımı, Azure Tabloları, Heroku, Docker, VirtualBox"
+    }
+  },
+  "resume": {
+    "contactInfo": {
+      "name": "Ahmet FATİHOĞLU",
+      "title": "Kıdemli Yazılım Geliştirici",
+      "email": "ahmet.fatihoglu.89@gmail.com",
+      "address": "ÇEKMEKÖY, İSTANBUL, TÜRKİYE",
+      "website": "https://ahmadmdabit.github.io",
+      "github": "https://github.com/ahmadmdabit",
+      "linkedin": "https://www.linkedin.com/in/ahmetfatihoglu"
+    },
+    "summary": {
+      "main": "Full-stack web, masaüstü ve mobil geliştirme alanında 9+ yıllık deneyime sahip Kıdemli Yazılım Geliştirici.",
+      "highlights": [
+        "C# .NET ekosisteminde uzmanlaşmış, ölçeklenebilir ERP mimarileri ve mikroservisler oluşturma konusunda deneyimli.",
+        "TypeScript, React.js, Vue.js ve Dart/Flutter ile platformlar arası mobil geliştirme konularında yetkin.",
+        "Microsoft Sertifikası: Azure Data Engineer Associate - 2023.",
+        "Temiz, sürdürülebilir yazılım çözümleri sunma, karmaşık teknik sorunları çözme ve etkili, ölçeklenebilir sistemler uygulama konusunda kanıtlanmış başarı geçmişi."
+      ]
+    },
+    "skills": [
+      {
+        "category": "Programlama Dilleri",
+        "items": [
+          "C#",
+          "VB.NET",
+          "PHP",
+          "JavaScript",
+          "TypeScript",
+          "Kotlin",
+          "Java",
+          "C",
+          "C++"
+        ]
+      },
+      {
+        "category": "Framework'ler ve Kütüphaneler",
+        "items": [
+          "Laravel",
+          "React",
+          "Vue",
+          "Angular",
+          "ASP.NET Core",
+          "ASP.NET MVC",
+          ".NET Framework",
+          ".NET Core"
+        ]
+      },
+      {
+        "category": "Arka Uç (Backend) Teknolojileri",
+        "items": [
+          "Web API",
+          "REST API",
+          "WCF",
+          "gRPC",
+          "Microservices",
+          "n-Tier Architecture"
+        ]
+      },
+      {
+        "category": "Veritabanları",
+        "items": [
+          "Microsoft SQL Server",
+          "MySQL",
+          "SQLite",
+          "MongoDB",
+          "Cassandra",
+          "Redis"
+        ]
+      },
+      {
+        "category": "Bulut ve DevOps",
+        "items": [
+          "Microsoft Azure",
+          "Azure Virtual Machines",
+          "Azure Storage",
+          "Azure Functions",
+          "Azure Blobs",
+          "Azure File Share",
+          "Azure Tables",
+          "Heroku",
+          "Docker",
+          "VirtualBox"
+        ]
+      },
+      {
+        "category": "Web Sunucuları ve Altyapı",
+        "items": [
+          "Microsoft IIS",
+          "Apache HTTP Server",
+          "Microsoft Server",
+          "Ubuntu Server",
+          "CI/CD",
+          "Git",
+          "SVN",
+          "GitHub"
+        ]
+      },
+      {
+        "category": "Web Teknolojileri",
+        "items": [
+          "HTML5",
+          "CSS3",
+          "Sass",
+          "jQuery",
+          "Bootstrap",
+          "Vite.js",
+          "Gulp.js",
+          "WebPack"
+        ]
+      },
+      {
+        "category": "Mobil Geliştirme",
+        "items": [
+          "Ionic",
+          "Android",
+          "Flutter",
+          "Dart"
+        ]
+      },
+      {
+        "category": "Masaüstü Geliştirme",
+        "items": [
+          "WinForms",
+          "WPF",
+          "Electron.js",
+          "Flutter Desktop"
+        ]
+      },
+      {
+        "category": "Arama ve Yapay Zeka Araçları",
+        "items": [
+          "ElasticSearch",
+          "Lucene",
+          "GitHub Copilot",
+          "Cline",
+          "OpenRouter",
+          "Ollama",
+          "Prompt Engineering"
+        ]
+      },
+      {
+        "category": "Proje Yönetim Araçları",
+        "items": [
+          "Slack",
+          "Asana",
+          "Jira"
+        ]
+      }
+    ],
+    "experience": [
+      {
+        "role": "Yazılım Geliştirici",
+        "company": "HİTİT BİLGİ TEKNOLOJİLERİ",
+        "duration": "01/2024 – 07/2025",
+        "location": "İstanbul, Türkiye, Hibrit",
+        "tasks": [
+          "İş birliğine dayalı bir yazılım geliştirme ekibinin parçası olarak şirketin temel ERP uygulamasının ve diğer iç sistemlerinin geliştirilmesine ve bakımına katkıda bulunuldu.",
+          "ASP.NET MVC, Web Services (WCF), ASP.NET Core, RESTful API, WinForms, DevExpress, MS SQL Server, React.js ve Flutter kullanılarak geliştirme yapıldı."
+        ]
+      },
+      {
+        "role": "Yazılım Geliştirici",
+        "company": "Freelancer",
+        "duration": "11/2023 – 01/2024",
+        "location": "İstanbul, Türkiye, Uzaktan",
+        "tasks": [
+          "En iyi pratikler takip edilerek WPF ve Konsol platformları kullanılarak C# .NET uygulamaları geliştirildi.",
+          "MVC deseni kullanılarak PHP Laravel ve Lumen framework'leri ile RESTful servisler ve web uygulamaları oluşturuldu.",
+          "MySQL ile veritabanı çözümleri tasarlandı ve yönetildi."
+        ]
+      },
+      {
+        "role": "Yazılım Geliştirici",
+        "company": "Getron TR",
+        "duration": "01/2023 – 11/2023",
+        "location": "İstanbul, Türkiye, Uzaktan",
+        "tasks": [
+          "Windows Servisleri, WPF, Konsol uygulamaları ve n-Tier mimari projeleri dahil olmak üzere .NET Core ve .NET Framework kullanılarak C# .NET uygulamaları geliştirildi.",
+          "n-Tier mimarisi takip edilerek ASP.NET MVC web uygulamaları oluşturuldu.",
+          "Bulut tabanlı çözümler için Blobs, File Share, Tables ve MS SQL gibi Azure hizmetleri uygulandı."
+        ]
+      },
+      {
+        "role": "Full-Stack Mühendisi",
+        "company": "Freelancer",
+        "duration": "04/2020 – 12/2022",
+        "location": "İstanbul, Türkiye, Uzaktan",
+        "tasks": [
+          "n-Tier ve Mikroservis mimarileri takip edilerek ASP.NET Core, MVC, WinForms, WPF ve Konsol platformları kullanılarak C# .NET uygulamaları geliştirildi.",
+          "MVC deseni kullanılarak PHP Laravel ve Lumen framework'leri ile RESTful servisler ve web uygulamaları oluşturuldu.",
+          "MS SQL ve MySQL ile veritabanı çözümleri tasarlandı ve yönetildi."
+        ]
+      },
+      {
+        "role": "Yazılım Geliştirici",
+        "company": "SETCARD",
+        "duration": "08/2018 – 03/2020",
+        "location": "İstanbul, Türkiye, Yerinde",
+        "tasks": [
+          "İş birliğine dayalı bir yazılım geliştirme ekibinin parçası olarak şirketin temel ERP web uygulamasının ve diğer iç sistemlerinin geliştirilmesine ve bakımına katkıda bulunuldu.",
+          "ASP.NET WebForms, DevExpress ve MS SQL Server (Stored Procedure) kullanılarak geliştirme yapıldı."
+        ]
+      },
+      {
+        "role": "Full-Stack Geliştirici",
+        "company": "Freelancer",
+        "duration": "10/2017 – 08/2018",
+        "location": "İstanbul, Uzaktan",
+        "tasks": [
+          "Geliştirme yaşam döngüsünün tüm aşamalarında tam kapsamlı (full-stack) uygulamalar oluşturuldu ve bakımı yapıldı.",
+          "Duyarlı, tarayıcılar arası uyumlu web arayüzleri oluşturuldu.",
+          "Otomatik dağıtım için Heroku ve Azure gibi CI araçları kullanıldı.",
+          "BT desteği ve yazılım geliştirme danışmanlık hizmetleri sağlandı."
+        ]
+      },
+      {
+        "role": "Yazılım Geliştirici",
+        "company": "Verisun Bilişim",
+        "duration": "09/2015 – 10/2017",
+        "location": "İstanbul, Türkiye, Yerinde",
+        "tasks": [
+          "Tam kapsamlı (full-stack) uygulamalar tasarlandı, analiz edildi, geliştirildi, test edildi, hataları ayıklandı ve bakımı yapıldı.",
+          "Projeye özgü teknolojiler kullanılarak standartlara uygun ve istenen işlevselliği sağlayan kodlar yazıldı.",
+          "Duyarlı, tarayıcılar arası uyumlu web arayüzleri oluşturuldu.",
+          "Entegre, ölçeklenebilir çözümler sunmak için Git, Slack, Asana ve Jira kullanılarak ekip üyeleriyle iş birliği yapıldı.",
+          "Sistem mühendisleri, geliştiriciler, proje yöneticileri ve analistlerle çalışıldı.",
+          "Proje gereksinimleri doğrultusunda gerekli dokümantasyon hazırlandı.",
+          "Web sunucularındaki sorunlar giderildi, yapılandırıldı ve gerekli modül ve eklentilerle genişletildi.",
+          "Uygulama veritabanları tasarlandı, modellendi, geliştirildi, yönetildi, yedeklendi ve dağıtıldı.",
+          "Yedekleme ve kurtarma stratejileri uygulandı.",
+          "Sanal makineler kuruldu, yapılandırıldı ve yönetildi.",
+          "İşletim sistemleri ve gerekli yazılımlar kuruldu, yapılandırıldı ve güncellendi.",
+          "Photoshop ve Illustrator görüntüleri HTML5 uygulamalarına dönüştürüldü.",
+          "Soruları yanıtlayarak ve teknik sorunları çözerek müşteri desteği sağlandı.",
+          "Uygulama işlevselliğini geliştirmek ve kullanıcı deneyimini optimize etmek için yenilikçi fikirlere katkıda bulunuldu."
+        ]
+      }
+    ],
+    "projects": [
+      {
+        "name": "RepoAIfy",
+        "url": "https://github.com/ahmadmdabit/RepoAIfy",
+        "technologies": [
+          "C#",
+          ".NET 9",
+          "WPF",
+          "MVVM",
+          ".NET Class Library",
+          ".NET CLI",
+          "JSON",
+          "Git",
+          "Markdown"
+        ],
+        "description": [
+          "Geniş kod tabanlarını analiz etmek ve belgelemek amacıyla, sorumlulukların net bir şekilde ayrılmasını sağlayan MVVM desenini kullanarak çift arayüzlü (.NET 9 WPF & CLI) bir çözüm tasarladım ve geliştirdim.",
+          "Duyarlı ve sorunsuz bir kullanıcı deneyimi için, interaktif bir ağaç görünümü ve iptal edilebilir görevler içeren dinamik, gerçek zamanlı bir dosya filtreleme sistemi uyguladım.",
+          "Büyük kod analizlerini yönetilebilir Markdown dosyalarına bölmek için, yapay zeka modelleri tarafından tüketilmesini ve incelenmesini optimize eden otomatik bir çıktı parçalama (chunking) özelliği tasarladım."
+        ]
+      },
+      {
+        "name": "AI Utils Extension",
+        "url": "https://github.com/ahmadmdabit/ai-utils-extension",
+        "technologies": [
+          "React 19",
+          "TypeScript",
+          "Tailwind CSS",
+          "Vite",
+          "Vitest",
+          "Chrome Manifest V3",
+          "Google Gemini AI"
+        ],
+        "description": [
+          "Tarayıcı sekmeleri üzerinde özetleme, çeviri ve özel veri çıkarma gibi karmaşık işlemleri gerçekleştirmek amacıyla Google Gemini AI kullanan çok adımlı bir yapay zeka işlem hattına (pipeline) sahip bir Chrome eklentisi geliştirdim.",
+          "React 19 ve Tailwind CSS ile, gerçek zamanlı görev durumu güncellemeleri ve birden çok sekmeden gelen verileri tek bir çıktıda birleştirme yeteneği sunan modern ve duyarlı bir kullanıcı arayüzü tasarladım.",
+          "Katı bir test çatısı (Vitest, React Testing Library) ve ESLint, Prettier ve Husky git kancaları kullanılarak otomatikleştirilmiş kod kalitesi kontrolleri ile profesyonel ve ölçeklenebilir bir geliştirme ortamı oluşturdum."
+        ]
+      },
+      {
+        "name": "E-Store",
+        "url": "https://github.com/ahmadmdabit/e-store",
+        "technologies": [
+          ".NET 6",
+          "ASP.NET Core",
+          "RESTful API",
+          "N-Tier Architecture",
+          "JWT",
+          "Entity Framework Core",
+          "SQL Server",
+          "MVC"
+        ],
+        "description": [
+          ".NET 6 üzerinde, Veri Erişim (DAL), İş Mantığı (BLL) ve API katmanlarını net bir şekilde ayıran ölçeklenebilir bir N-Tier tasarımı uygulayarak tam kapsamlı (full-stack) bir e-ticaret uygulamasının mimarisini oluşturdum.",
+          "Kullanıcı verilerini korumak ve uygulama erişimini yönetmek için JWT tabanlı kimlik doğrulama özelliğine sahip, Swagger ile tamamen belgelenmiş güvenli bir RESTful backend API'si uyguladım.",
+          "Ürün kataloğu, alışveriş sepeti ve sipariş yönetimi gibi temel e-ticaret özelliklerini entegre ederek, ASP.NET Core MVC ve Razor Views kullanarak eksiksiz bir kullanıcı arayüzü uygulaması geliştirdim."
+        ]
+      },
+      {
+        "name": "Notification System",
+        "url": "https://github.com/ahmadmdabit/NotificationSystem",
+        "technologies": [
+          ".NET Core",
+          "Microservices Architecture",
+          "Ocelot API Gateway",
+          "Dapper",
+          "SQL Server",
+          "RESTful API"
+        ],
+        "description": [
+          "Kullanıcı ve bildirim işlevlerini bağımsız, ölçeklenebilir servislere ayıran bir mikroservis mimarisi kullanarak dağıtık bir sistem tasarladım ve uyguladım.",
+          "Frontend için tek ve birleşik bir giriş noktası sağlamak, istek yönlendirmeyi merkezileştirmek ve servis keşfini basitleştirmek amacıyla Ocelot kullanarak bir API Gateway yapılandırdım.",
+          "Servisler ve veritabanı arasında verimli iletişim sağlamak amacıyla, doğrudan SQL sorgu yürütme için Dapper ORM kullanarak yüksek performanslı bir veri erişim katmanı oluşturdum."
+        ]
+      },
+      {
+        "name": "Sinav Oluşturma (Sınav Yönetim Sistemi)",
+        "url": "https://github.com/ahmadmdabit/SinavOlusturma",
+        "technologies": [
+          ".NET Core",
+          "ASP.NET Core",
+          "N-Tier Architecture",
+          "RESTful API",
+          "JWT",
+          "Dapper",
+          "SQLite",
+          "HtmlAgilityPack"
+        ],
+        "description": [
+          "API backend, iş mantığı ve veri erişim katmanlarını mantıksal olarak ayırmak için temiz bir N-Tier mimarisi kullanarak tam kapsamlı (full-stack) bir sınav yönetim sistemi geliştirdim.",
+          "Yönetici (Admin) ve standart Kullanıcı (User) rolleri için farklı izinler ve uygulama görünümleri sağlamak amacıyla JWT ile güvenli, rol tabanlı bir kimlik doğrulama sistemi uyguladım.",
+          "Sınav oluşturma için dinamik olarak içerik çıkarmak ve içe aktarmak amacıyla HtmlAgilityPack kullanarak bir web scraping modülü entegre ettim; bu, pratik veri çıkarma becerilerini göstermektedir."
+        ]
+      },
+      {
+        "name": "Exchange (Gerçek Zamanlı Döviz Kuru Takipçisi)",
+        "url": "https://github.com/ahmadmdabit/Exchange",
+        "technologies": [
+          ".NET Core",
+          "ASP.NET Core",
+          "WebSockets",
+          "Redis",
+          "Vue.js",
+          "MySQL",
+          "JWT",
+          "RESTful API"
+        ],
+        "description": [
+          ".NET Core backend'den duyarlı bir Vue.js istemcisine canlı döviz güncellemelerini akıtmak için WebSockets kullanarak gerçek zamanlı bir veri işlem hattı tasarladım.",
+          "Veritabanı yükünü önemli ölçüde azaltan ve yüksek frekanslı, düşük gecikmeli veri güncellemelerini sağlayan yüksek performanslı bellek içi önbellekleme için Redis'i uyguladım.",
+          "JWT kimlik doğrulamalı güvenli bir RESTful API ve piyasa veri dalgalanmalarını simüle etmek için ayrı bir arka plan hizmeti içeren çok bileşenli bir sistem geliştirdim."
+        ]
+      },
+      {
+        "name": "Market (Müşteri Yönetim Sistemi)",
+        "url": "https://github.com/ahmadmdabit/market",
+        "technologies": [
+          ".NET Core",
+          "Angular 11",
+          "TypeScript",
+          "N-Tier Architecture",
+          "NHibernate",
+          "SQL Server",
+          "RESTful API",
+          "ag-Grid"
+        ],
+        "description": [
+          "Sağlam, nesne yönelimli veri erişimi için NHibernate ORM'den yararlanarak, temiz bir N-Tier mimarisi kullanarak tam kapsamlı bir müşteri yönetimi uygulaması geliştirdim.",
+          "ag-Grid ile etkileşimli veri tabloları da dahil olmak üzere kapsamlı veri yönetimi için Angular 11 ile zengin özelliklere sahip ve duyarlı bir tek sayfalı uygulama (SPA) oluşturdum.",
+          "Angular frontend ve .NET backend arasında sorunsuz CRUD işlemlerini sağlamak için iletişim katmanı olarak hizmet veren temiz bir RESTful API tasarladım ve uyguladım."
+        ]
+      }
+    ],
+    "education": [
+      {
+        "degree": "Elektrik ve Elektronik Mühendisliği Lisans Derecesi - Bilgisayar Mühendisliği",
+        "duration": "01/2007 – 01/2014",
+        "institution": "Halep Üniversitesi, Elektrik ve Elektronik Mühendisliği Fakültesi, Halep, Suriye."
+      }
+    ],
+    "certifications": [
+      {
+        "name": "Azure Data Engineer Associate",
+        "issuer": "Microsoft",
+        "year": "2023",
+        "reference": "https://learn.microsoft.com/en-us/users/ahmetfatiholu-7655/credentials/9c26f4cb26082be7"
+      },
+      {
+        "name": "A+",
+        "issuer": "CompTIA",
+        "year": "2010"
+      }
+    ],
+    "languages": [
+      {
+        "name": "Türkçe",
+        "proficiency": "Profesyonel"
+      },
+      {
+        "name": "İngilizce",
+        "proficiency": "Profesyonel"
+      },
+      {
+        "name": "Arapça",
+        "proficiency": "Anadil"
+      }
+    ],
+    "reference": {
+      "name": "Uğur Kolcu Bey",
+      "title": "Hitit Bilgi Teknolojileri'nde Müdür",
+      "contact": "+90 541 567 22 17 - ugur.kolcu@hititbt.com - İstanbul, Türkiye"
+    }
+  }
+}
