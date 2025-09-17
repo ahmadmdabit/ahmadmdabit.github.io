@@ -8,8 +8,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "hash-locales": "node scripts/hash-locale.mjs",
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && yarn hash-locales && vite build",
     "build:lint": "yarn lint:fix && yarn build",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",

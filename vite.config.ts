@@ -19,7 +19,8 @@ export default defineConfig({
         //   }
         // },
         chunkFileNames: 'chunks/[name].[hash].js',
-        entryFileNames: 'entries/[name].[hash].js'
+        entryFileNames: 'entries/[name].[hash].js',
+        assetFileNames: 'assets/[name].[hash].[ext]',
       }
     }
   }

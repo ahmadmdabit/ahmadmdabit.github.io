@@ -19,7 +19,7 @@ export const AboutSection: React.FC<AboutSectionProps> = memo(({ summary }) => {
   const { t } = useTranslation();
 
   const handleDownloadCV = (language: "en" | "tr") => {
-    const cvFileName = language === "tr" ? "Resume_TR.pdf" : "Resume_EN.pdf";
+    const cvFileName = language === "tr" ? `Resume_TR.pdf?v=${import.meta.env.VITE_PUBLIC_ASSETS_HASH}` : `Resume_EN.pdf?v=${import.meta.env.VITE_PUBLIC_ASSETS_HASH}`;
 
     // Create a temporary link and trigger download
     const link = document.createElement("a");

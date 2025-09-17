@@ -90,11 +90,11 @@ const HomePageMetaDemo: React.FC<HomePageMetaDemoProps> = memo(({ active }) => {
       <meta property="og:description" content={t("ui.meta.description")} />
       <meta property="og:type" content="website" />
       <meta property="og:url" content="https://ahmadmdabit.github.io" />
-      <meta property="og:image" content="https://ahmadmdabit.github.io/PersonalPhoto.png" />
+      <meta property="og:image" content={`https://ahmadmdabit.github.io/PersonalPhoto.png?v=${import.meta.env.VITE_PUBLIC_ASSETS_HASH}`} />
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={t("ui.meta.title")} />
       <meta name="twitter:description" content={t("ui.meta.description")} />
-      <meta name="twitter:image" content="https://ahmadmdabit.github.io/PersonalPhoto.png" />
+      <meta name="twitter:image" content={`https://ahmadmdabit.github.io/PersonalPhoto.png?v=${import.meta.env.VITE_PUBLIC_ASSETS_HASH}`} />
     </>
   );
 });
