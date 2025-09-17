@@ -73,6 +73,8 @@ const translation = {
       privacyNoticeConfirmError: "",
       privacyNoticeConfirmIntroductory: "",
       privacyNoticeConfirmIntroductorySub: "",
+      microsoftCertified: "",
+      microsoftCertification: "",
     },
   },
   resume: {

@@ -35,7 +35,9 @@
       "privacyNoticeConfirm": "I have read and agree to the Privacy Notice, and I consent to the processing of my personal data as described.",
       "privacyNoticeConfirmError": "Privacy Notice confirmation required.",
       "privacyNoticeConfirmIntroductory": "Please read our Privacy Notice carefully before submitting the form.",
-      "privacyNoticeConfirmIntroductorySub": "By checking the box below, you confirm that you have read and understood the Privacy Notice and agree to the processing of your personal data as described."
+      "privacyNoticeConfirmIntroductorySub": "By checking the box below, you confirm that you have read and understood the Privacy Notice and agree to the processing of your personal data as described.",
+      "microsoftCertified": "Microsoft Certified",
+      "microsoftCertification": "Azure Data Engineer Associate - 2023"
     },
     "buttons": {
       "downloadCV": "Download my CV",

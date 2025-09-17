@@ -7,9 +7,11 @@ import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Button from "@mui/material/Button";
+import Avatar from "@mui/material/Avatar";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import DownloadIcon from "@mui/icons-material/Download";
 import { BoldedKeyword } from "@/atoms/BoldedKeyword";
+import mcIcon from "@/assets/MC.png"; // Import for bundling (Vite handles hashing)
 
 interface AboutSectionProps {
   summary: { main: string; highlights: string[] };
@@ -35,9 +37,7 @@ export const AboutSection: React.FC<AboutSectionProps> = memo(({ summary }) => {
       <Typography variant="h4" component="h2" gutterBottom>
         {t("ui.headings.professionalSummary")}
       </Typography>
-      <Typography variant="body1" paragraph>
-        {summary.main}
-      </Typography>
+      <Typography variant="body1">{summary.main}</Typography>
       <List>
         {summary.highlights.map((highlight, index) => (
           <ListItem key={index} disableGutters>
@@ -49,71 +49,110 @@ export const AboutSection: React.FC<AboutSectionProps> = memo(({ summary }) => {
         ))}
       </List>
 
-      <Box
-        sx={{
-          display: "flex",
-          justifySelf: "center",
-          mt: 3,
-          p: 2,
-          flexFlow: "column",
-          alignItems: "center",
-          border: 1,
-          borderColor: "success.main",
-          borderRadius: 2,
-        }}
-      >
-        <Box sx={{ textAlign: "center" }}>
-          <Typography variant="h5">{t("ui.buttons.downloadCV")}</Typography>
-          <Typography variant="h5" color="secondary">
-            {t("ui.buttons.downloadCVDescription")}
-          </Typography>
+      <Box display={"flex"} flexDirection={"row"} gap={2} justifyContent={"center"} flexWrap={"wrap"}>
+        <Box
+          sx={{
+            display: "flex",
+            flexFlow: "column",
+            alignItems: "center",
+            justifySelf: "center",
+            mt: 3,
+            p: 2,
+            border: 1,
+            borderColor: "success.main",
+            borderRadius: 2,
+          }}
+        >
+          <Box sx={{ textAlign: "center" }}>
+            <Typography variant="h5">{t("ui.buttons.downloadCV")}</Typography>
+            <Typography variant="h5" color="secondary">
+              {t("ui.buttons.downloadCVDescription")}
+            </Typography>
+          </Box>
+
+          <Box sx={{ display: "flex", gap: 2, mt: 3, flexFlow: "row", justifyContent: "center" }}>
+            <Button
+              variant="outlined"
+              color="primary"
+              startIcon={<DownloadIcon />}
+              onClick={() => handleDownloadCV("tr")}
+              sx={{
+                flex: 1,
+                fontSize: "1.1rem",
+                textTransform: "none",
+                borderRadius: 2,
+                px: 3,
+                py: 1.5,
+                boxShadow: 3,
+                "&:hover": {
+                  boxShadow: 6,
+                  transform: "translateY(-2px)",
+                  transition: "all 0.2s ease-in-out",
+                },
+              }}
+            >
+              {t("ui.languages.turkish")}
+            </Button>
+            <Button
+              variant="outlined"
+              color="primary"
+              startIcon={<DownloadIcon />}
+              onClick={() => handleDownloadCV("en")}
+              sx={{
+                flex: 1,
+                fontSize: "1.1rem",
+                textTransform: "none",
+                borderRadius: 2,
+                px: 3,
+                py: 1.5,
+                boxShadow: 3,
+                "&:hover": {
+                  boxShadow: 6,
+                  transform: "translateY(-2px)",
+                  transition: "all 0.2s ease-in-out",
+                },
+              }}
+            >
+              {t("ui.languages.english")}
+            </Button>
+          </Box>
         </Box>
 
-        <Box sx={{ display: "flex", gap: 2, mt: 3, flexFlow: "row", justifyContent: "center" }}>
-          <Button
-            variant="outlined"
-            color="primary"
-            startIcon={<DownloadIcon />}
-            onClick={() => handleDownloadCV("tr")}
+        {/* Microsoft Certification Badge */}
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            mt: 3,
+            p: 2,
+            borderRadius: 2,
+            border: "1px solid",
+            borderColor: "primary.main",
+            boxShadow: 1,
+          }}
+        >
+          <Avatar
+            src={mcIcon}
+            alt={t("ui.misc.microsoftCertification")}
+            variant="rounded"
             sx={{
-              flex: 1,
-              fontSize: "1.1rem",
-              textTransform: "none",
-              borderRadius: 2,
-              px: 3,
-              py: 1.5,
-              boxShadow: 3,
-              "&:hover": {
-                boxShadow: 6,
-                transform: "translateY(-2px)",
-                transition: "all 0.2s ease-in-out",
-              },
+              width: 96,
+              height: 96,
+              mr: 3,
+              border: "2px solid",
+              borderColor: "primary.main",
+              bgcolor: "primary.main",
             }}
-          >
-            {t("ui.languages.turkish")}
-          </Button>
-          <Button
-            variant="outlined"
-            color="primary"
-            startIcon={<DownloadIcon />}
-            onClick={() => handleDownloadCV("en")}
-            sx={{
-              flex: 1,
-              fontSize: "1.1rem",
-              textTransform: "none",
-              borderRadius: 2,
-              px: 3,
-              py: 1.5,
-              boxShadow: 3,
-              "&:hover": {
-                boxShadow: 6,
-                transform: "translateY(-2px)",
-                transition: "all 0.2s ease-in-out",
-              },
-            }}
-          >
-            {t("ui.languages.english")}
-          </Button>
+            aria-label={`${t("ui.misc.microsoftCertified")} Badge`}
+          />
+          <Box sx={{ flex: 1 }}>
+            <Typography variant="h5" fontWeight="bold" color="primary.main">
+              <BoldedKeyword text={t("ui.misc.microsoftCertified")} />
+            </Typography>
+            <Typography variant="h6" color="text.secondary">
+              {t("ui.misc.microsoftCertification")}
+            </Typography>
+          </Box>
         </Box>
       </Box>
     </Box>
