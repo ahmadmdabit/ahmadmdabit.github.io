@@ -28,7 +28,14 @@
       "placeholder": "Bana her şeyi sorabilirsiniz"
     },
     "misc": {
-      "rightsReserved": "Tüm Hakları Saklıdır"
+      "returnToHomePage": "Ana Sayfaya Dön",
+      "error": "Hata",
+      "errorMessage": "Beklenmeyen bir hata oluştu.",
+      "rightsReserved": "Tüm Hakları Saklıdır",
+      "privacyNoticeConfirm": "Gizlilik Bildirimi’ni okudum, anladım ve kişisel verilerimin belirtilen şekilde işlenmesine onay veriyorum.",
+      "privacyNoticeConfirmError": "Gizlilik Bildirimi onayı gerekli.",
+      "privacyNoticeConfirmIntroductory": "Lütfen formu göndermeden önce Gizlilik Bildirimimizi dikkatlice okuyunuz.",
+      "privacyNoticeConfirmIntroductorySub": "Aşağıdaki kutucuğu işaretleyerek, Gizlilik Bildirimini okuduğunuzu, anladığınızı ve kişisel verilerinizin belirtilen şekilde işlenmesini kabul ettiğinizi onaylamış olursunuz."
     },
     "buttons": {
       "downloadCV": "Özgeçmişimi indir",
@@ -46,7 +53,8 @@
       "education": "Eğitim",
       "certifications": "Sertifikalar",
       "languages": "Diller",
-      "contact": "İletişim"
+      "contact": "İletişim",
+      "privacy": "Gizlilik"
     },
     "meta": {
       "title": "Ahmet FATİHOĞLU - Kıdemli Yazılım Geliştirici",
@@ -465,5 +473,47 @@
       "title": "Hitit Bilgi Teknolojileri'nde Müdür",
       "contact": "+90 541 567 22 17 - ugur.kolcu@hititbt.com - İstanbul, Türkiye"
     }
+  },
+  "privacy": {
+    "title": "Gizlilik Bildirimi",
+    "updateDate": "Son güncelleme",
+    "sections": [
+      {
+        "title": "1. Biz Kimiz",
+        "content": "Bu web sitesi (“biz”, “bize”, “bizim”), [Adınız / Şirket Adınız] tarafından, [Ülkeniz] merkezli olarak işletilmektedir.  \nTürkiye için, 6698 sayılı Kişisel Verilerin Korunması Kanunu (“KVKK”) kapsamında **Veri Sorumlusu** sıfatına sahibiz.  \nAB/AEA için, Genel Veri Koruma Tüzüğü (“GDPR”) kapsamında **Veri Sorumlusu**yuz."
+      },
+      {
+        "title": "2. Hangi Verileri Topluyoruz",
+        "content": "Web sitemizdeki formu gönderdiğinizde, tarafımıza ilettiğiniz bilgiler toplanır. Bu bilgiler şunları içerebilir:\n\n- Adınız\n- E-posta adresiniz\n- Mesaj alanında paylaştığınız diğer bilgiler\n\nBu web sitesinde çerez veya izleme teknolojileri kullanılmamaktadır."
+      },
+      {
+        "title": "3. Verilerinizi Nasıl Kullanıyoruz",
+        "content": "Topladığımız bilgileri yalnızca şu amaçlarla kullanırız:\n\n- Taleplerinize yanıt vermek\n- Talep ettiğiniz hizmet veya bilgileri sağlamak\n- İletişim kayıtlarımızı tutmak"
+      },
+      {
+        "title": "4. Verileriniz Nasıl İşlenir",
+        "content": "Form gönderimleriniz güvenli bir şekilde **Getform** adlı üçüncü taraf form altyapı hizmetine iletilir ve orada işlenir.  \nGetform, gönderim verilerinizi kendi sunucularında saklar ve kendi [Gizlilik Politikası](https://getform.io/legal/privacy-policy) uyarınca işleyebilir.  \nGetform, sektör standartlarında güvenlik uygulamalarına uygun olarak seçilmiştir."
+      },
+      {
+        "title": "5. İşleme Hukuki Dayanağı",
+        "content": "- **GDPR (AB/AEA)**: İşleme, açık rızanıza (Madde 6(1)(a)) ve/veya talebinize yanıt verme konusundaki meşru menfaatimize (Madde 6(1)(f)) dayanmaktadır.\n- **KVKK (Türkiye)**: İşleme, açık rızanıza ve/veya talebinizi yerine getirme gerekliliğine (Madde 5(2)) dayanmaktadır."
+      },
+      {
+        "title": "6. Veri Saklama Süresi",
+        "content": "Kişisel verilerinizi yalnızca yukarıda belirtilen amaçlar için gerekli olduğu süre boyunca saklarız; yasal olarak daha uzun süre saklama zorunluluğu olmadıkça verileriniz silinir."
+      },
+      {
+        "title": "7. Haklarınız",
+        "content": "Bulunduğunuz yere bağlı olarak aşağıdaki haklara sahip olabilirsiniz:\n\n- Hakkınızda tuttuğumuz verilere erişim talep etme\n- Verilerinizin düzeltilmesini veya silinmesini talep etme\n- Rızanızı istediğiniz zaman geri çekme\n- İşlemeye itiraz etme veya kısıtlama talep etme\n- İlgili veri koruma otoritesine şikayette bulunma\n\nTürkiye’de, **KVKK Madde 11** kapsamındaki haklarınızı [İletişim E-postanız] adresinden bize ulaşarak kullanabilirsiniz."
+      },
+      {
+        "title": "8. Uluslararası Veri Aktarımları",
+        "content": "Verileriniz, Getform’un sunucularının bulunabileceği Amerika Birleşik Devletleri dahil olmak üzere, bulunduğunuz ülke dışındaki ülkelere aktarılabilir ve işlenebilir.  \nBu tür aktarımların yürürlükteki veri koruma yasalarına uygun olmasını sağlarız."
+      },
+      {
+        "title": "9. İletişim",
+        "content": "Bu Gizlilik Bildirimi veya verilerinizi nasıl işlediğimiz hakkında sorularınız varsa bizimle iletişime geçebilirsiniz:  \n[Adınız / Şirket Adınız]  \nE-posta: [İletişim E-postanız]  \nAdres: [Adresiniz]"
+      }
+    ]
   }
 }
