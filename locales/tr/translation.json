@@ -35,7 +35,9 @@
       "privacyNoticeConfirm": "Gizlilik Bildirimi’ni okudum, anladım ve kişisel verilerimin belirtilen şekilde işlenmesine onay veriyorum.",
       "privacyNoticeConfirmError": "Gizlilik Bildirimi onayı gerekli.",
       "privacyNoticeConfirmIntroductory": "Lütfen formu göndermeden önce Gizlilik Bildirimimizi dikkatlice okuyunuz.",
-      "privacyNoticeConfirmIntroductorySub": "Aşağıdaki kutucuğu işaretleyerek, Gizlilik Bildirimini okuduğunuzu, anladığınızı ve kişisel verilerinizin belirtilen şekilde işlenmesini kabul ettiğinizi onaylamış olursunuz."
+      "privacyNoticeConfirmIntroductorySub": "Aşağıdaki kutucuğu işaretleyerek, Gizlilik Bildirimini okuduğunuzu, anladığınızı ve kişisel verilerinizin belirtilen şekilde işlenmesini kabul ettiğinizi onaylamış olursunuz.",
+      "microsoftCertified": "Microsoft Sertifikalı",
+      "microsoftCertification": "Azure Veri Mühendisi Ortağı - 2023"
     },
     "buttons": {
       "downloadCV": "Özgeçmişimi indir",
