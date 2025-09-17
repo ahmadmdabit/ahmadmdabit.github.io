@@ -9,7 +9,7 @@ import ListItemText from "@mui/material/ListItemText";
 import Button from "@mui/material/Button";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import DownloadIcon from "@mui/icons-material/Download";
-import { BoldedText } from "@/atoms/BoldedText";
+import { BoldedKeyword } from "@/atoms/BoldedKeyword";
 
 interface AboutSectionProps {
   summary: { main: string; highlights: string[] };
@@ -44,7 +44,7 @@ export const AboutSection: React.FC<AboutSectionProps> = memo(({ summary }) => {
             <ListItemIcon sx={{ minWidth: 32 }}>
               <CheckCircleOutlineIcon color="primary" fontSize="small" />
             </ListItemIcon>
-            <ListItemText primary={<BoldedText text={highlight} />} />
+            <ListItemText primary={<BoldedKeyword text={highlight} />} />
           </ListItem>
         ))}
       </List>

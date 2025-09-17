@@ -1,5 +1,7 @@
 import { memo, useState, type FormEvent } from "react";
 import { useTranslation } from "react-i18next";
+import { Outlet } from "react-router";
+import { useTheme } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import List from "@mui/material/List";
@@ -18,6 +20,13 @@ import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ErrorIcon from "@mui/icons-material/Error";
 import type { ContactInfo } from "@/types/Resume.types";
+import Checkbox from "@mui/material/Checkbox";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormGroup from "@mui/material/FormGroup";
+import Accordion from "@mui/material/Accordion";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 interface ContactSectionProps {
   contact: ContactInfo;
@@ -25,13 +34,24 @@ interface ContactSectionProps {
 
 export const ContactSection: React.FC<ContactSectionProps> = memo(({ contact }) => {
   const { t } = useTranslation();
+  const theme = useTheme();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [submissionStatus, setSubmissionStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+  const [expand, setExpand] = useState(false);
+  const [privacyNoticeConfirm, setPrivacyNoticeConfirm] = useState(false);
+  const [privacyNoticeConfirmError, setPrivacyNoticeConfirmError] = useState(false);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!privacyNoticeConfirm) {
+      console.warn("Privacy Notice Confirmation Required.");
+      setPrivacyNoticeConfirmError(true);
+      return;
+    }
+
     setSubmissionStatus("sending");
 
     const formData = new FormData(e.currentTarget);
@@ -50,6 +70,9 @@ export const ContactSection: React.FC<ContactSectionProps> = memo(({ contact }) 
         setName("");
         setEmail("");
         setMessage("");
+        setPrivacyNoticeConfirm(false);
+        setPrivacyNoticeConfirmError(false);
+        setExpand(false);
       } else {
         throw new Error("Form submission failed");
       }
@@ -92,11 +115,50 @@ export const ContactSection: React.FC<ContactSectionProps> = memo(({ contact }) 
           </ListItem>
         ))}
       </List>
-      <Box component="form" onSubmit={handleSubmit} sx={{ mt: 4 }}>
+      <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
         <Stack spacing={2}>
           <TextField label={t("ui.form.fullName")} variant="outlined" name="name" value={name} onChange={(e) => setName(e.target.value)} required />
           <TextField label={t("ui.form.emailAddress")} variant="outlined" name="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-          <TextField label={t("ui.form.message")} variant="outlined" name="message" multiline rows={4} value={message} onChange={(e) => setMessage(e.target.value)} required />
+          <TextField label={t("ui.form.message")} variant="outlined" name="message" multiline rows={3} value={message} onChange={(e) => setMessage(e.target.value)} required />
+
+          <Box pt={1}>
+            <Accordion sx={{ borderRadius: 2 }} expanded={expand} onChange={() => setExpand((p) => !p)}>
+              <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1-content" id="panel1-header">
+                <Typography component="span">{t("ui.misc.privacyNoticeConfirmIntroductory")}</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <Outlet />
+                <FormGroup sx={{ background: theme.palette.background.paper, padding: 2, borderRadius: 2 }}>
+                  <Typography variant="subtitle1">{t("ui.misc.privacyNoticeConfirmIntroductorySub")}</Typography>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={privacyNoticeConfirm}
+                        onChange={(e) => {
+                          setPrivacyNoticeConfirm(e.target.checked);
+                          setPrivacyNoticeConfirmError(!e.target.checked);
+                          setExpand(false);
+                        }}
+                        slotProps={{
+                          input: { "aria-label": t("ui.misc.privacyNoticeConfirm") },
+                        }}
+                      />
+                    }
+                    label={t("ui.misc.privacyNoticeConfirm")}
+                  />
+                </FormGroup>
+              </AccordionDetails>
+            </Accordion>
+
+            <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+              {privacyNoticeConfirmError && (
+                <Typography color="error" sx={{ display: "flex", alignItems: "center" }}>
+                  <ErrorIcon sx={{ mr: 1 }} /> {t('ui.misc.privacyNoticeConfirmError')}
+                </Typography>
+              )}
+            </Box>
+          </Box>
+
           {/* Honeypot field for spam prevention */}
           <Box sx={{ display: "none" }}>
             <input type="hidden" name="_gotcha" />

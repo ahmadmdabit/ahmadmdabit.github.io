@@ -36,6 +36,7 @@ const translation = {
       certifications: "",
       languages: "",
       contact: "",
+      privacy: "",
     },
     buttons: {
       downloadCV: "",
@@ -64,7 +65,14 @@ const translation = {
       placeholder: "",
     },
     misc: {
+      returnToHomePage: "",
+      error: "",
+      errorMessage: "",
       rightsReserved: "",
+      privacyNoticeConfirm: "",
+      privacyNoticeConfirmError: "",
+      privacyNoticeConfirmIntroductory: "",
+      privacyNoticeConfirmIntroductorySub: "",
     },
   },
   resume: {
@@ -130,6 +138,16 @@ const translation = {
       title: "",
       contact: "",
     },
+  },
+  privacy: {
+    title: "",
+    updateDate: "",
+    sections: [
+      {
+        title: "",
+        content: ""
+      },
+    ]
   },
 };
 

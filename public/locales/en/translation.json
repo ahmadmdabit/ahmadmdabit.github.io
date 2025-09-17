@@ -28,7 +28,14 @@
       "placeholder": "Ask me anything"
     },
     "misc": {
-      "rightsReserved": "All Rights Reserved"
+      "returnToHomePage": "Return To Home Page",
+      "error": "Error",
+      "errorMessage": "An unexpected error has occurred.",
+      "rightsReserved": "All Rights Reserved",
+      "privacyNoticeConfirm": "I have read and agree to the Privacy Notice, and I consent to the processing of my personal data as described.",
+      "privacyNoticeConfirmError": "Privacy Notice confirmation required.",
+      "privacyNoticeConfirmIntroductory": "Please read our Privacy Notice carefully before submitting the form.",
+      "privacyNoticeConfirmIntroductorySub": "By checking the box below, you confirm that you have read and understood the Privacy Notice and agree to the processing of your personal data as described."
     },
     "buttons": {
       "downloadCV": "Download my CV",
@@ -46,7 +53,8 @@
       "education": "Education",
       "certifications": "Certifications",
       "languages": "Languages",
-      "contact": "Contact"
+      "contact": "Contact",
+      "privacy": "Privacy"
     },
     "meta": {
       "title": "Ahmet FATIHOGLU - Senior Software Developer",
@@ -465,5 +473,47 @@
       "title": "Manager at Hitit Bilgi Teknolojileri",
       "contact": "+90 541 567 22 17 - ugur.kolcu@hititbt.com - Istanbul, Turkey"
     }
+  },
+  "privacy": {
+    "title": "Privacy Notice",
+    "updateDate": "Last updated",
+    "sections": [
+      {
+        "title": "1. Who We Are",
+        "content": "This website (“we”, “our”, “us”) is operated by [Your Name / Company Name], based in [Your Country].  \nFor Turkey, we are the **Data Controller** under Law No. 6698 on the Protection of Personal Data (KVKK).  \nFor the EU/EEA, we are the **Data Controller** under the General Data Protection Regulation (GDPR)."
+      },
+      {
+        "title": "2. What Data We Collect",
+        "content": "When you submit a form on our website, we collect the information you provide, which may include:\n\n- Name\n- Email address\n- Any other details you choose to share in the message field\n\nWe do **not** use cookies or tracking technologies on this website."
+      },
+      {
+        "title": "3. How We Use Your Data",
+        "content": "We use your submitted information solely to:\n\n- Respond to your inquiries\n- Provide the services or information you requested\n- Maintain records of our communications"
+      },
+      {
+        "title": "4. How Your Data is Processed",
+        "content": "Form submissions are securely transmitted to and processed by **Getform**, a third-party form backend service.  \nGetform stores your submission data on its servers and may process it in accordance with its own [Privacy Policy](https://getform.io/legal/privacy-policy).  \nWe have chosen Getform because it complies with industry-standard security practices."
+      },
+      {
+        "title": "5. Legal Basis for Processing",
+        "content": "- **GDPR (EU/EEA)**: Processing is based on your consent (Article 6(1)(a)) and/or our legitimate interest in responding to your request (Article 6(1)(f)).\n- **KVKK (Turkey)**: Processing is based on your explicit consent and/or the necessity to fulfill your request under Article 5(2)."
+      },
+      {
+        "title": "6. Data Retention",
+        "content": "We retain your personal data only as long as necessary to fulfill the purposes outlined above, unless a longer retention period is required by law."
+      },
+      {
+        "title": "7. Your Rights",
+        "content": "Depending on your location, you may have the right to:\n\n- Access the personal data we hold about you\n- Request correction or deletion of your data\n- Withdraw your consent at any time\n- Object to processing or request restriction of processing\n- File a complaint with the relevant data protection authority\n\nFor Turkey, you may exercise your rights under **KVKK Article 11** by contacting us at [Your Contact Email]."
+      },
+      {
+        "title": "8. International Data Transfers",
+        "content": "Your data may be transferred to and processed in countries outside your own, including the United States, where Getform’s servers may be located.  \nWe ensure such transfers comply with applicable data protection laws."
+      },
+      {
+        "title": "9. Contact Us",
+        "content": "If you have any questions about this Privacy Notice or how we handle your data, please contact:  \n[Your Name / Company Name]  \nEmail: [Your Contact Email]  \nAddress: [Your Address]"
+      }
+    ]
   }
 }

@@ -6,6 +6,7 @@ const darkTheme = createTheme({
     primary: { main: "#00EE00" },
     secondary: { main: "#008100" },
     success: { main: "#00EE00" },
+    error: { main: "#ad3737" },
     background: { default: "#000000", paper: "#0D1711" },
     grey: {
       50: "#F0F7F2",

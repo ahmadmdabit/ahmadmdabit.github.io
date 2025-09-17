@@ -31,10 +31,12 @@
     "react": "^19.1.1",
     "react-awesome-reveal": "^4.3.1",
     "react-dom": "^19.1.1",
-    "react-i18next": "^15.7.3"
+    "react-i18next": "^15.7.3",
+    "react-router": "^7.9.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.35.0",
+    "@react-router/dev": "^7.9.1",
     "@types/react": "^19.1.13",
     "@types/react-dom": "^19.1.9",
     "@vitejs/plugin-react": "^5.0.2",
