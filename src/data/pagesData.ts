@@ -1,17 +1,6 @@
 import { type Pages } from "@/types/Pages.types";
 import type { TFunction } from "i18next";
 
-export const getPagesData = (t: TFunction): Pages => ({
-  about: getPageData('about', t),
-  experience: getPageData('experience', t),
-  projects: getPageData('projects', t),
-  skills: getPageData('skills', t),
-  education: getPageData('education', t),
-  certifications: getPageData('certifications', t),
-  languages: getPageData('languages', t),
-  contact: getPageData('contact', t),
-});
-
 export const getPageData = (page: keyof Pages, t: TFunction): string => {
   switch (page) {
     case "about": return t('ui.pages.about');

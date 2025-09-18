@@ -3,14 +3,11 @@ import { useTranslation } from "react-i18next";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Chip from "@mui/material/Chip";
-import type { Skill } from "@/types/Resume.types";
 
-interface SkillsSectionProps {
-  skills: Skill[];
-}
-
-export const SkillsSection: React.FC<SkillsSectionProps> = memo(({ skills }) => {
+export const SkillsSection: React.FC = memo(() => {
   const { t } = useTranslation();
+  const skills = t('resume.skills', { returnObjects: true });
+  
   return (
     <Box>
       <Typography variant="h4" component="h2" gutterBottom>

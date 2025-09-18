@@ -1,7 +1,7 @@
 import { memo, useCallback } from "react";
 
 // List of keywords to make bold
-const KEYWORDS = ["C#", ".NET", "ERP", "microservices", "mikroservisler", "TypeScript", "React.js", "Vue.js", "Dart/Flutter", "Microsoft Certified: Azure Data Engineer Associate - 2023", "MicMicrosoft Sertifikası: Azure Data Engineer Associate - 2023", "clean, maintainable software", "Temiz, sürdürülebilir yazılım", "scalable systems", "ölçeklenebilir sistemler"];
+const KEYWORDS = ["C#", ".NET", "ERP", "microservices", "mikroservisler", "TypeScript", "React.js", "Vue.js", "Dart/Flutter", "Microsoft Certified: Azure Data Engineer Associate - 2023", "Microsoft Sertifikası: Azure Data Engineer Associate - 2023", "clean, maintainable software", "Temiz, sürdürülebilir yazılım", "scalable systems", "ölçeklenebilir sistemler"];
 
 // Create a regex pattern from the keywords
 const regex = new RegExp(`(${KEYWORDS.join("|")})`, "gi");

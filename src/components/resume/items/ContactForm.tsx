@@ -7,7 +7,7 @@ import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ErrorIcon from "@mui/icons-material/Error";
-import { PrivacyAccordion } from "./PrivacyAccordion";
+import { PrivacyAccordion } from "@/components/resume/items/PrivacyAccordion";
 
 
 export const ContactForm: React.FC = memo(() => {

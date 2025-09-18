@@ -1,4 +1,5 @@
 import React, { memo, useCallback } from "react";
+import { NavLink } from "react-router";
 import { useTranslation } from "react-i18next";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
@@ -6,7 +7,7 @@ import IconButton from "@mui/material/IconButton";
 import { styled } from "@mui/material/styles";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
-import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
+import ChatAssistantIcon from "@/atoms/ChatAssistantIcon";
 import PersonIcon from "@mui/icons-material/Person";
 import WorkIcon from "@mui/icons-material/Work";
 import CodeIcon from "@mui/icons-material/Code";
@@ -16,10 +17,10 @@ import MailIcon from "@mui/icons-material/Mail";
 import CardMembershipIcon from "@mui/icons-material/CardMembership";
 import TranslateIcon from "@mui/icons-material/Translate";
 import { type Pages } from "@/types/Pages.types";
-import { getPagesData } from "@/data/pagesData";
 import { ActivityButton } from "@/atoms/ActivityButton";
 import { PersonPhoto } from "@/atoms/PersonPhoto";
 import { LanguageSelector } from "@/molecules/LanguageSelector";
+import { getPageData } from "@/data/pagesData";
 
 const icons: Record<keyof Pages, React.ElementType> = {
   about: PersonIcon,
@@ -51,20 +52,13 @@ const StyledChatIconButton = styled(IconButton)(() => ({
 }));
 
 export interface ActivityBarProps {
-  active: string;
   isChatOpen: boolean;
   language: string;
-  onNav: (page: keyof Pages) => void;
   onToggleChat: () => void;
 }
 
-export const ActivityBar: React.FC<ActivityBarProps> = memo(({ active, isChatOpen, language, onNav, onToggleChat }) => {
+export const ActivityBar: React.FC<ActivityBarProps> = memo(({ isChatOpen, language, onToggleChat }) => {
   const { t } = useTranslation();
-  const pagesData = getPagesData(t);
-
-  const handleNav = useCallback((page: keyof Pages) => {
-    return () => onNav(page);
-  }, [onNav]);
 
   const handleToggleChat = useCallback(() => {
     onToggleChat();
@@ -79,11 +73,12 @@ export const ActivityBar: React.FC<ActivityBarProps> = memo(({ active, isChatOpe
       {Object.keys(icons).map((key) => {
         const currentIconKey = key as keyof typeof icons;
         const currentIcon = icons[currentIconKey];
+        const toPath = key === "about" ? "/" : `/${key}`;
         return (
-          <Tooltip key={key} title={pagesData[currentIconKey]}>
-            <ActivityButton selected={active === key} onClick={handleNav(currentIconKey)}>
-              {React.createElement(currentIcon)}
-            </ActivityButton>
+          <Tooltip key={key} title={getPageData(currentIconKey, t)}>
+            <NavLink to={toPath} style={{ textDecoration: "none" }}>
+              {({ isActive }) => <ActivityButton selected={isActive}>{React.createElement(currentIcon)}</ActivityButton>}
+            </NavLink>
           </Tooltip>
         );
       })}
@@ -92,10 +87,10 @@ export const ActivityBar: React.FC<ActivityBarProps> = memo(({ active, isChatOpe
 
       <Tooltip title={t("ui.chat.aiAssistant")}>
         <StyledChatIconButton className={isChatOpen ? "toggle" : ""} onClick={handleToggleChat}>
+          <ChatAssistantIcon fontSize="small" color="primary" />
           <Typography variant="body1" color="primary" fontSize={"1.2rem"} marginRight={0.5}>
             AI
           </Typography>
-          <ChatBubbleOutlineIcon fontSize="small" color="primary" />
         </StyledChatIconButton>
       </Tooltip>
     </Stack>

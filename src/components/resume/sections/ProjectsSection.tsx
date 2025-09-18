@@ -3,19 +3,16 @@ import { useTranslation } from "react-i18next";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import type { Project } from "@/types/Resume.types";
 import { ProjectCard } from "@/components/resume/items/ProjectCard";
 
-interface ProjectsSectionProps {
-  projects: Project[];
-}
-
-export const ProjectsSection: React.FC<ProjectsSectionProps> = memo(({ projects }) => {
+export const ProjectsSection: React.FC = memo(() => {
   const { t } = useTranslation();
+  const projects = t('resume.projects', { returnObjects: true });
+
   return (
     <Box>
       <Typography variant="h4" component="h2" gutterBottom>
-        {t('ui.headings.projects')}
+        {t("ui.headings.projects")}
       </Typography>
       <Grid container spacing={2}>
         {projects.map((project) => (

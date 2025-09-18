@@ -74,13 +74,13 @@ if (existsSync(envPath)) {
 }
 
 const envLines = envContent.split("\n").filter((line) => line.trim());
-const localesLine = `VITE_LOCALES_HASH=${localesHash}`;
-const assetsLine = `VITE_PUBLIC_ASSETS_HASH=${assetsHash}`;
-let updatedLines = envLines.filter((line) => !line.startsWith("VITE_LOCALES_HASH=") && !line.startsWith("VITE_PUBLIC_ASSETS_HASH="));
+const localesLine = `VITE_LOCALE_HASH=${localesHash}`;
+const assetsLine = `VITE_ASSET_HASH=${assetsHash}`;
+let updatedLines = envLines.filter((line) => !line.startsWith("VITE_LOCALE_HASH=") && !line.startsWith("VITE_ASSET_HASH="));
 updatedLines.unshift(localesLine, assetsLine);
 
 // Write back
 writeFileSync(envPath, updatedLines.join("\n") + "\n");
 console.log("\nUpdated .env:");
-console.log(`VITE_LOCALES_HASH=${localesHash}`);
-console.log(`VITE_PUBLIC_ASSETS_HASH=${assetsHash}`);
+console.log(`VITE_LOCALE_HASH=${localesHash}`);
+console.log(`VITE_ASSET_HASH=${assetsHash}`);

@@ -1,7 +1,7 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { RouterProvider } from 'react-router'
-import router from './router'
+import { RouterProvider } from "react-router";
+import router from "@/router";
 import { CacheProvider } from "@emotion/react";
 import createCache from "@emotion/cache";
 import "@/i18n/index.ts";

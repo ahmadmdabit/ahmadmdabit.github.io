@@ -27,7 +27,7 @@ export const LanguageSelector: React.FC<LanguageSelectorProps> = ({ language }) 
         <ActivityButton onClick={handleEnClick} selected={isTR} sx={{ ml: isTR ? 0 : "-2.524rem !important", transition: "margin 0.2s ease-in-out" }}>
           <Avatar
             variant="rounded"
-            src={`/TR.png?v=${import.meta.env.VITE_PUBLIC_ASSETS_HASH}`}
+            src={`/TR.png?v=${import.meta.env.VITE_ASSET_HASH}`}
             sx={{
               width: 32,
               height: 32,
@@ -39,7 +39,7 @@ export const LanguageSelector: React.FC<LanguageSelectorProps> = ({ language }) 
         <ActivityButton onClick={handleTrClick} selected={!isTR}>
           <Avatar
             variant="rounded"
-            src={`/EN.png?v=${import.meta.env.VITE_PUBLIC_ASSETS_HASH}`}
+            src={`/EN.png?v=${import.meta.env.VITE_ASSET_HASH}`}
             sx={{
               width: 32,
               height: 32,

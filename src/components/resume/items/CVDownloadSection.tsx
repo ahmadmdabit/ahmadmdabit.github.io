@@ -3,7 +3,6 @@ import { useTranslation } from "react-i18next";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import DownloadIcon from "@mui/icons-material/Download";
 
 interface CVDownloadSectionProps {
   onDownload: (language: "en" | "tr") => void;
@@ -37,7 +36,6 @@ export const CVDownloadSection: React.FC<CVDownloadSectionProps> = memo(({ onDow
         <Button
           variant="outlined"
           color="primary"
-          startIcon={<DownloadIcon />}
           onClick={() => onDownload("tr")}
           sx={{
             flex: 1,
@@ -59,7 +57,6 @@ export const CVDownloadSection: React.FC<CVDownloadSectionProps> = memo(({ onDow
         <Button
           variant="outlined"
           color="primary"
-          startIcon={<DownloadIcon />}
           onClick={() => onDownload("en")}
           sx={{
             flex: 1,

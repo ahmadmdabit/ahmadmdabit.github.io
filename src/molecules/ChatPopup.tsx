@@ -130,7 +130,7 @@ export const ChatPopup: React.FC<{ open: boolean; onClose: () => void }> = memo(
           slotProps={{
             input: {
               disableUnderline: true,
-              sx: { backgroundColor: "grey.800", borderRadius: 0 },
+              sx: { backgroundColor: "white", borderRadius: 0 },
             },
           }}
           placeholder={t('ui.chat.placeholder')}

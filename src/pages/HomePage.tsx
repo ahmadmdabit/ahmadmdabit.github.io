@@ -1,4 +1,5 @@
-import { useState, memo, useCallback } from "react";
+import { memo, useCallback, useState } from "react";
+import { Routes, Route, useLocation } from "react-router";
 import { useTranslation } from "react-i18next";
 import { keyframes } from "@emotion/react";
 import Container from "@mui/material/Container";
@@ -6,12 +7,10 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import { styled } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
+import { type Pages } from "@/types/Pages.types";
 import { ActivityBar } from "@/molecules/ActivityBar";
 import { ChatPopup } from "@/molecules/ChatPopup";
 import { StatusBar } from "@/molecules/StatusBar";
-import { getResumeData } from "@/data/resumeData";
-import { getPageData, getPagesData } from "@/data/pagesData";
-import { type Pages } from "@/types/Pages.types";
 import { AboutSection } from "@/components/resume/sections/AboutSection";
 import { SkillsSection } from "@/components/resume/sections/SkillsSection";
 import { ExperienceSection } from "@/components/resume/sections/ExperienceSection";
@@ -20,6 +19,7 @@ import { EducationSection } from "@/components/resume/sections/EducationSection"
 import { CertificationsSection } from "@/components/resume/sections/CertificationsSection";
 import { LanguagesSection } from "@/components/resume/sections/LanguagesSection";
 import { ContactSection } from "@/components/resume/sections/ContactSection";
+import { getPageData } from "@/data/pagesData";
 
 const draw = keyframes`
   100% {
@@ -69,13 +69,14 @@ const AnimatedBorderBoxWrapper = styled(Box)(({ theme }) => ({
 }));
 
 interface HomePageMetaDemoProps {
-  active: string;
+  pathname: string;
 }
-const HomePageMetaDemo: React.FC<HomePageMetaDemoProps> = memo(({ active }) => {
+const HomePageMetaDemo: React.FC<HomePageMetaDemoProps> = memo(({ pathname }) => {
   const { t } = useTranslation();
+  const active = (pathname.split("/")[1] as keyof Pages) || "about";
   let pageTitle = t("ui.meta.title");
   try {
-    pageTitle += " - " + getPageData(active as keyof Pages, t);
+    pageTitle += " - " + getPageData(active, t);
   } catch (error) {
     console.warn(error);
   }
@@ -89,61 +90,37 @@ const HomePageMetaDemo: React.FC<HomePageMetaDemoProps> = memo(({ active }) => {
       <meta property="og:title" content={t("ui.meta.title")} />
       <meta property="og:description" content={t("ui.meta.description")} />
       <meta property="og:type" content="website" />
-      <meta property="og:url" content="https://ahmadmdabit.github.io" />
-      <meta property="og:image" content={`https://ahmadmdabit.github.io/PersonalPhoto.png?v=${import.meta.env.VITE_PUBLIC_ASSETS_HASH}`} />
+      <meta property="og:url" content={`https://ahmadmdabit.github.io${pathname}`} />
+      <meta property="og:image" content={`https://ahmadmdabit.github.io/PersonalPhoto.png?v=${import.meta.env.VITE_ASSET_HASH}`} />
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={t("ui.meta.title")} />
       <meta name="twitter:description" content={t("ui.meta.description")} />
-      <meta name="twitter:image" content={`https://ahmadmdabit.github.io/PersonalPhoto.png?v=${import.meta.env.VITE_PUBLIC_ASSETS_HASH}`} />
+      <meta name="twitter:image" content={`https://ahmadmdabit.github.io/PersonalPhoto.png?v=${import.meta.env.VITE_ASSET_HASH}`} />
     </>
   );
 });
 
 export const HomePage: React.FC = () => {
   const { t, i18n } = useTranslation();
-  const resumeData = getResumeData(t);
-  const pagesData = getPagesData(t);
-  const [active, setActive] = useState<keyof Pages>("about");
+  const location = useLocation();
+  const contactInfo = t("resume.contactInfo", { returnObjects: true });
+
   const [chatOpen, setChatOpen] = useState(false);
+  const pathname = location.pathname;
+  const active = (pathname.split("/")[1] as keyof Pages) || "about";
 
   const handleToggleChat = useCallback(() => {
     setChatOpen((prev) => !prev);
   }, []);
 
-  const renderActiveSection = useCallback(() => {
-    switch (active) {
-      case "about":
-        return <AboutSection summary={resumeData.summary} />;
-      case "skills":
-        return <SkillsSection skills={resumeData.skills} />;
-      case "experience":
-        return <ExperienceSection experience={resumeData.experience} />;
-      case "projects":
-        return <ProjectsSection projects={resumeData.projects} />;
-      case "education":
-        return <EducationSection education={resumeData.education} />;
-      case "certifications":
-        return <CertificationsSection certifications={resumeData.certifications} />;
-      case "languages":
-        return <LanguagesSection languages={resumeData.languages} />;
-      case "contact":
-        return <ContactSection contact={resumeData.contactInfo} />;
-        // case "reference":
-        //   return <ReferenceSection reference={resumeData.reference} />;
-        // _
-      default:
-        return null;
-    }
-  }, [active, resumeData]);
-
   return (
     <>
-      <HomePageMetaDemo active={active} />
+      <HomePageMetaDemo pathname={pathname} />
       <Container maxWidth={false} sx={{ flex: 1, display: "flex", flexDirection: "column", px: 0 }}>
-        <ActivityBar active={active} onNav={setActive} onToggleChat={handleToggleChat} isChatOpen={chatOpen} language={i18n.language} />
+        <ActivityBar onToggleChat={handleToggleChat} isChatOpen={chatOpen} language={i18n.language} />
 
         <Box sx={{ position: "relative", overflow: "hidden" }}>
-          <StatusBar page={pagesData[active]} name={resumeData.contactInfo.name} title={resumeData.contactInfo.title} />
+          <StatusBar page={getPageData(active, t)} name={contactInfo.name} title={contactInfo.title} />
 
           <Paper
             sx={{
@@ -166,7 +143,18 @@ export const HomePage: React.FC = () => {
               flexDirection: "column",
             }}
           >
-            <Box sx={{ p: 2, flex: 1 }}>{renderActiveSection()}</Box>
+            <Box sx={{ p: 2, flex: 1 }}>
+              <Routes>
+                <Route index element={<AboutSection />} />
+                <Route path="skills" element={<SkillsSection />} />
+                <Route path="experience" element={<ExperienceSection />} />
+                <Route path="projects" element={<ProjectsSection />} />
+                <Route path="education" element={<EducationSection />} />
+                <Route path="certifications" element={<CertificationsSection />} />
+                <Route path="languages" element={<LanguagesSection />} />
+                <Route path="contact" element={<ContactSection />} />
+              </Routes>
+            </Box>
           </Paper>
 
           <AnimatedBorderBoxWrapper />

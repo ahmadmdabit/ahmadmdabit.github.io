@@ -9,17 +9,13 @@ import ListItemText from "@mui/material/ListItemText";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import { BoldedKeyword } from "@/atoms/BoldedKeyword";
 import { AnimatedBadgeComponent } from "@/atoms/AnimatedBadge";
-import { CVDownloadSection } from "../items/CVDownloadSection";
+import { CVDownloadSection } from "@/components/resume/items/CVDownloadSection";
 
-interface AboutSectionProps {
-  summary: { main: string; highlights: string[] };
-}
-
-export const AboutSection: React.FC<AboutSectionProps> = memo(({ summary }) => {
+export const AboutSection: React.FC = memo(() => {
   const { t } = useTranslation();
 
   const handleDownloadCV = (language: "en" | "tr") => {
-    const cvFileName = language === "tr" ? `Resume_TR.pdf?v=${import.meta.env.VITE_PUBLIC_ASSETS_HASH}` : `Resume_EN.pdf?v=${import.meta.env.VITE_PUBLIC_ASSETS_HASH}`;
+    const cvFileName = language === "tr" ? `Resume_TR.pdf?v=${import.meta.env.VITE_ASSET_HASH}` : `Resume_EN.pdf?v=${import.meta.env.VITE_ASSET_HASH}`;
 
     // Create a temporary link and trigger download
     const link = document.createElement("a");
@@ -30,21 +26,25 @@ export const AboutSection: React.FC<AboutSectionProps> = memo(({ summary }) => {
     document.body.removeChild(link);
   };
 
-  const SummaryContent = memo(({ summary }: { summary: AboutSectionProps["summary"] }) => (
-    <Box sx={{ flexGrow: 1, maxWidth: { xs: "100%", sm: "70%" } }}>
-      <Typography variant="body1">{summary.main}</Typography>
-      <List>
-        {summary.highlights.map((highlight, index) => (
-          <ListItem key={index} disableGutters>
-            <ListItemIcon sx={{ minWidth: 32 }}>
-              <CheckCircleOutlineIcon color="primary" fontSize="small" />
-            </ListItemIcon>
-            <ListItemText primary={<BoldedKeyword text={highlight} />} />
-          </ListItem>
-        ))}
-      </List>
-    </Box>
-  ));
+  const SummaryContent = memo(() => {
+    const summary = { main: t("resume.summary.main"), highlights: t("resume.summary.highlights", { returnObjects: true }) };
+
+    return (
+      <Box sx={{ flexGrow: 1, maxWidth: { xs: "100%", sm: "70%" } }}>
+        <Typography variant="body1">{summary.main}</Typography>
+        <List>
+          {summary.highlights.map((highlight, index) => (
+            <ListItem key={index} disableGutters>
+              <ListItemIcon sx={{ minWidth: 32 }}>
+                <CheckCircleOutlineIcon color="primary" fontSize="small" />
+              </ListItemIcon>
+              <ListItemText primary={<BoldedKeyword text={highlight} />} />
+            </ListItem>
+          ))}
+        </List>
+      </Box>
+    );
+  });
 
   return (
     <Box>
@@ -53,7 +53,7 @@ export const AboutSection: React.FC<AboutSectionProps> = memo(({ summary }) => {
       </Typography>
 
       <Box display={"flex"} flexDirection={"row"} gap={2} justifyContent={"center"} flexWrap={"wrap"} alignItems={"flex-start"}>
-        <SummaryContent summary={summary} />
+        <SummaryContent />
 
         <Box>
           <Box
@@ -62,10 +62,7 @@ export const AboutSection: React.FC<AboutSectionProps> = memo(({ summary }) => {
               alignItems: "center",
             }}
           >
-            <AnimatedBadgeComponent
-              alt={t("ui.misc.microsoftCertification")}
-              aria-label={`${t("ui.misc.microsoftCertified")} Badge`}
-            />
+            <AnimatedBadgeComponent alt={t("ui.misc.microsoftCertification")} aria-label={`${t("ui.misc.microsoftCertified")} Badge`} />
           </Box>
 
           <CVDownloadSection onDownload={handleDownloadCV} />

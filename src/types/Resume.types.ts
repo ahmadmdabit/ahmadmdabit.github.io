@@ -1,3 +1,8 @@
+export interface Summary {
+  main: string;
+  highlights: string[];
+}
+
 export interface ContactInfo {
   name: string;
   title: string;
@@ -54,7 +59,7 @@ export interface Reference {
 
 export interface ResumeData {
   contactInfo: ContactInfo;
-  summary: { main: string; highlights: string[] };
+  summary: Summary;
   skills: Skill[];
   experience: Experience[];
   projects: Project[];
