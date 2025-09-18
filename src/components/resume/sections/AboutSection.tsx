@@ -6,12 +6,10 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import Button from "@mui/material/Button";
-import Avatar from "@mui/material/Avatar";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
-import DownloadIcon from "@mui/icons-material/Download";
 import { BoldedKeyword } from "@/atoms/BoldedKeyword";
-import mcIcon from "@/assets/MC.png"; // Import for bundling (Vite handles hashing)
+import { AnimatedBadgeComponent } from "@/atoms/AnimatedBadge";
+import { CVDownloadSection } from "../items/CVDownloadSection";
 
 interface AboutSectionProps {
   summary: { main: string; highlights: string[] };
@@ -32,11 +30,8 @@ export const AboutSection: React.FC<AboutSectionProps> = memo(({ summary }) => {
     document.body.removeChild(link);
   };
 
-  return (
-    <Box>
-      <Typography variant="h4" component="h2" gutterBottom>
-        {t("ui.headings.professionalSummary")}
-      </Typography>
+  const SummaryContent = memo(({ summary }: { summary: AboutSectionProps["summary"] }) => (
+    <Box sx={{ flexGrow: 1, maxWidth: { xs: "100%", sm: "70%" } }}>
       <Typography variant="body1">{summary.main}</Typography>
       <List>
         {summary.highlights.map((highlight, index) => (
@@ -48,111 +43,32 @@ export const AboutSection: React.FC<AboutSectionProps> = memo(({ summary }) => {
           </ListItem>
         ))}
       </List>
+    </Box>
+  ));
 
-      <Box display={"flex"} flexDirection={"row"} gap={2} justifyContent={"center"} flexWrap={"wrap"}>
-        <Box
-          sx={{
-            display: "flex",
-            flexFlow: "column",
-            alignItems: "center",
-            justifySelf: "center",
-            mt: 3,
-            p: 2,
-            border: 1,
-            borderColor: "success.main",
-            borderRadius: 2,
-          }}
-        >
-          <Box sx={{ textAlign: "center" }}>
-            <Typography variant="h5">{t("ui.buttons.downloadCV")}</Typography>
-            <Typography variant="h5" color="secondary">
-              {t("ui.buttons.downloadCVDescription")}
-            </Typography>
-          </Box>
+  return (
+    <Box>
+      <Typography variant="h4" component="h2" gutterBottom>
+        {t("ui.headings.professionalSummary")}
+      </Typography>
 
-          <Box sx={{ display: "flex", gap: 2, mt: 3, flexFlow: "row", justifyContent: "center" }}>
-            <Button
-              variant="outlined"
-              color="primary"
-              startIcon={<DownloadIcon />}
-              onClick={() => handleDownloadCV("tr")}
-              sx={{
-                flex: 1,
-                fontSize: "1.1rem",
-                textTransform: "none",
-                borderRadius: 2,
-                px: 3,
-                py: 1.5,
-                boxShadow: 3,
-                "&:hover": {
-                  boxShadow: 6,
-                  transform: "translateY(-2px)",
-                  transition: "all 0.2s ease-in-out",
-                },
-              }}
-            >
-              {t("ui.languages.turkish")}
-            </Button>
-            <Button
-              variant="outlined"
-              color="primary"
-              startIcon={<DownloadIcon />}
-              onClick={() => handleDownloadCV("en")}
-              sx={{
-                flex: 1,
-                fontSize: "1.1rem",
-                textTransform: "none",
-                borderRadius: 2,
-                px: 3,
-                py: 1.5,
-                boxShadow: 3,
-                "&:hover": {
-                  boxShadow: 6,
-                  transform: "translateY(-2px)",
-                  transition: "all 0.2s ease-in-out",
-                },
-              }}
-            >
-              {t("ui.languages.english")}
-            </Button>
-          </Box>
-        </Box>
+      <Box display={"flex"} flexDirection={"row"} gap={2} justifyContent={"center"} flexWrap={"wrap"} alignItems={"flex-start"}>
+        <SummaryContent summary={summary} />
 
-        {/* Microsoft Certification Badge */}
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            mt: 3,
-            p: 2,
-            borderRadius: 2,
-            border: "1px solid",
-            borderColor: "primary.main",
-            boxShadow: 1,
-          }}
-        >
-          <Avatar
-            src={mcIcon}
-            alt={t("ui.misc.microsoftCertification")}
-            variant="rounded"
+        <Box>
+          <Box
             sx={{
-              width: 96,
-              height: 96,
-              mr: 3,
-              border: "2px solid",
-              borderColor: "primary.main",
-              bgcolor: "primary.main",
+              display: "flex",
+              alignItems: "center",
             }}
-            aria-label={`${t("ui.misc.microsoftCertified")} Badge`}
-          />
-          <Box sx={{ flex: 1 }}>
-            <Typography variant="h5" fontWeight="bold" color="primary.main">
-              <BoldedKeyword text={t("ui.misc.microsoftCertified")} />
-            </Typography>
-            <Typography variant="h6" color="text.secondary">
-              {t("ui.misc.microsoftCertification")}
-            </Typography>
+          >
+            <AnimatedBadgeComponent
+              alt={t("ui.misc.microsoftCertification")}
+              aria-label={`${t("ui.misc.microsoftCertified")} Badge`}
+            />
           </Box>
+
+          <CVDownloadSection onDownload={handleDownloadCV} />
         </Box>
       </Box>
     </Box>

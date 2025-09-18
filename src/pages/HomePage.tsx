@@ -44,9 +44,9 @@ const AnimatedBorderBoxWrapper = styled(Box)(({ theme }) => ({
   "&::before": {
     position: "absolute",
     content: '""',
-    backgroundImage: `conic-gradient(${theme.palette.success.main} 100deg, transparent 0deg)`,
+    backgroundImage: `conic-gradient(transparent 190deg, ${theme.palette.success.main} 360deg)`,
     width: "150%",
-    height: "10%",
+    height: "3%",
     left: "-25%",
     top: "50%",
     transformOrigin: "center center",
