@@ -9,6 +9,10 @@ export default defineConfig({
   build: {
     sourcemap: false,
     rollupOptions: {
+      input: {
+        main: './index.html',     // Original entry
+        '404': './404.html',      // Add 404 as second entry
+      },
       output: {
         // NOTE: manualChunks disabled for now. There is an issue related to it.
         // manualChunks: (id) => {
