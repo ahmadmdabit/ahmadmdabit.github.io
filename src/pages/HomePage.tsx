@@ -1,5 +1,5 @@
 import { memo, useCallback, useState } from "react";
-import { Routes, Route, useLocation } from "react-router";
+import { useLocation, Outlet } from "react-router";
 import { useTranslation } from "react-i18next";
 import { keyframes } from "@emotion/react";
 import Container from "@mui/material/Container";
@@ -11,14 +11,6 @@ import { type Pages } from "@/types/Pages.types";
 import { ActivityBar } from "@/molecules/ActivityBar";
 import { ChatPopup } from "@/molecules/ChatPopup";
 import { StatusBar } from "@/molecules/StatusBar";
-import { AboutSection } from "@/components/resume/sections/AboutSection";
-import { SkillsSection } from "@/components/resume/sections/SkillsSection";
-import { ExperienceSection } from "@/components/resume/sections/ExperienceSection";
-import { ProjectsSection } from "@/components/resume/sections/ProjectsSection";
-import { EducationSection } from "@/components/resume/sections/EducationSection";
-import { CertificationsSection } from "@/components/resume/sections/CertificationsSection";
-import { LanguagesSection } from "@/components/resume/sections/LanguagesSection";
-import { ContactSection } from "@/components/resume/sections/ContactSection";
 import { getPageData } from "@/data/pagesData";
 
 const draw = keyframes`
@@ -144,16 +136,7 @@ export const HomePage: React.FC = () => {
             }}
           >
             <Box sx={{ p: 2, flex: 1 }}>
-              <Routes>
-                <Route index element={<AboutSection />} />
-                <Route path="skills" element={<SkillsSection />} />
-                <Route path="experience" element={<ExperienceSection />} />
-                <Route path="projects" element={<ProjectsSection />} />
-                <Route path="education" element={<EducationSection />} />
-                <Route path="certifications" element={<CertificationsSection />} />
-                <Route path="languages" element={<LanguagesSection />} />
-                <Route path="contact" element={<ContactSection />} />
-              </Routes>
+              <Outlet />
             </Box>
           </Paper>
 

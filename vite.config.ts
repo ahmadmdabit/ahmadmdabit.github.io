@@ -4,8 +4,10 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: '/',
   plugins: [react(), tsconfigPaths()],
   build: {
+    sourcemap: false,
     rollupOptions: {
       output: {
         // NOTE: manualChunks disabled for now. There is an issue related to it.

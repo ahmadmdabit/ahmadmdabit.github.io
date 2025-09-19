@@ -40,25 +40,31 @@ const router = createBrowserRouter([
           },
           {
             path: "education",
-            element: <EducationSection  />,
+            element: <EducationSection />,
           },
           {
             path: "certifications",
-            element: <CertificationsSection  />,
+            element: <CertificationsSection />,
           },
           {
             path: "languages",
-            element: <LanguagesSection  />,
+            element: <LanguagesSection />,
           },
           {
             path: "contact",
             element: <ContactSection />,
+            children: [
+              {
+                path: "",
+                element: <PrivacyPage isPlainText={true}  />,
+              },
+            ],
           },
         ],
       },
       {
         path: "privacy",
-        element: <PrivacyPage />,
+        element: <PrivacyPage isPlainText={false} />,
       },
     ],
   },

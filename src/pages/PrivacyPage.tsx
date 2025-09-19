@@ -5,6 +5,8 @@ import { useTranslation } from "react-i18next";
 import Chip from "@mui/material/Chip";
 import { BoldedText } from "@/atoms/BoldedText";
 import Link from "@mui/material/Link";
+import Container from "@mui/material/Container";
+import Paper from "@mui/material/Paper";
 
 interface ContentRendererProps {
   content: string;
@@ -58,7 +60,11 @@ const ContentRenderer: React.FC<ContentRendererProps> = memo(({ content, replace
   );
 });
 
-export const PrivacyPage: React.FC = memo(() => {
+interface PrivacyPageProps {
+  isPlainText: boolean;
+}
+
+export const PrivacyPage: React.FC<PrivacyPageProps> = memo(({ isPlainText }) => {
   const { t } = useTranslation();
   const sections = t("privacy.sections", { returnObjects: true });
   const address = t("resume.contactInfo.address").split(" ");
@@ -74,16 +80,36 @@ export const PrivacyPage: React.FC = memo(() => {
   };
 
   return (
-    <>
-      <Typography variant="h5" pt={1} pb={2}>
-        {t("privacy.title")}
-      </Typography>
-      <Chip label={`${t("privacy.updateDate")}: 17-09-2025`} sx={{ mb: 2 }} />
-      {sections.map((section, k1) => (
-        <Box key={k1}>
-          <Typography variant="h6">{section.title}</Typography>
-          <Typography variant="body1" pt={1} pb={2}>
-            {/* 
+    <Container maxWidth={false} sx={{ flex: 1, display: "flex", flexDirection: "column", px: 0, my: 3 }}>
+      <Box sx={{ position: "relative", overflow: "hidden" }}>
+        <Paper
+          sx={{
+            flex: 1,
+            backgroundColor: "black",
+            color: "grey.200",
+            borderRadius: "0.6rem",
+            borderStyle: "solid",
+            borderWidth: "0.13rem",
+            borderColor: "success.main",
+            overflowY: "auto",
+            fontFamily: "SF Mono, Consolas, monospace",
+            fontSize: 14,
+            mb: 0.2,
+            mx: 0.2,
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <Box sx={{ p: 2, flex: 1 }}>
+            <Typography variant="h5" pt={1} pb={2}>
+              {t("privacy.title")}
+            </Typography>
+            <Chip label={`${t("privacy.updateDate")}: 17-09-2025`} sx={{ mb: 2 }} />
+            {sections.map((section, k1) => (
+              <Box key={k1}>
+                <Typography variant="h6">{section.title}</Typography>
+                <Typography variant="body1" pt={1} pb={2}>
+                  {/* 
               {section.content.split("\n").map((line, k2) => (
                 <React.Fragment key={k2}>
                   {line}
@@ -91,10 +117,17 @@ export const PrivacyPage: React.FC = memo(() => {
                 </React.Fragment>
               ))} 
             */}
-            {<ContentRenderer content={section.content} replacements={replacements} />}
-          </Typography>
-        </Box>
-      ))}
-    </>
+                  {<ContentRenderer content={section.content} replacements={replacements} />}
+                </Typography>
+              </Box>
+            ))}
+          </Box>
+        </Paper>
+      </Box>
+
+      {!isPlainText && <Typography variant="caption" color="grey.400" align="center" paddingTop={1}>
+        All Rights Reserved &copy; 2025
+      </Typography>}
+    </Container>
   );
 });
