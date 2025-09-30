@@ -7,7 +7,7 @@
 
 ## PROFESSIONAL SUMMARY
 
-Senior Software Developer with 9+ years of experience in full-stack web, desktop, and mobile development.
+Senior Software Developer (Architect) with 9+ years of experience in full-stack web, desktop, and mobile development.
 
 - Specializes in C# .NET ecosystem, building scalable ERP architectures and microservices.
 - Proficient in TypeScript, React.js, Vue.js, and cross-platform mobile development with Dart/Flutter.
@@ -16,26 +16,35 @@ Senior Software Developer with 9+ years of experience in full-stack web, desktop
 
 ## TECHNICAL SKILLS
 
-- **Programming Languages:** C#, VB.NET, PHP, JavaScript, TypeScript, Kotlin, Java, C, C++
-- **Frameworks & Libraries:** Laravel, React, Vue, Angular, ASP.NET Core, ASP.NET MVC, .NET Framework, .NET Core
-- **Backend Technologies:** Web API, REST API, WCF, gRPC, Microservices, n-Tier Architecture
-- **Databases:** Microsoft SQL Server, MySQL, SQLite, MongoDB, Cassandra, Redis
-- **Cloud & DevOps:** Microsoft Azure, Azure Virtual Machines, Azure Storage, Azure Functions, Azure Blobs, Azure File Share, Azure Tables, Heroku, Docker, VirtualBox
-- **Web Servers & Infrastructure:** Microsoft IIS, Apache HTTP Server, Microsoft Server, Ubuntu Server, CI/CD, Git, SVN, GitHub
-- **Web Technologies:** HTML5, CSS3, Sass, jQuery, Bootstrap, Vite.js, Gulp.js, WebPack
-- **Mobile Development:** Ionic, Android, Flutter, Dart
-- **Desktop Development:** WinForms, WPF, Electron.js, Flutter Desktop
-- **Search and AI Tools:** ElasticSearch, Lucene, GitHub Copilot, Cline, OpenRouter, Ollama, Prompt Engineering
-- **Project Management Tools:** Slack, Asana, Jira
+- **Programming Languages:** C#, TypeScript, JavaScript, Kotlin, Java, PHP, C, C++, VB.NET
+- **Architectures & Patterns:** Microservices, Clean Architecture, Domain-Driven Design (DDD), CQRS, N-Tier, MVVM
+- **.NET Ecosystem:** ASP.NET Core, .NET Framework, ASP.NET MVC, Web API Entity Framework Core, WCF, WPF, WinForms, AutoMapper, MediatR, Polly, FluentValidation, CommunityToolkit.Mvvm
+- **Web & Frontend:** React, Vue, Angular, Node.js, Laravel, HTML5, CSS3, Tailwind CSS, MUI, Sass, Bootstrap, jQuery, Vite.js, WebPack, Gulp.js
+- **Backend & APIs:** RESTful API, gRPC, MassTransit, RabbitMQ, Ocelot (API Gateway), Swagger, JWT, Refit, JsonSchema.Net
+- **Databases & Cache:** Microsoft SQL Server, PostgreSQL, MySQL, SQLite, MongoDB, Cassandra, Redis
+- **Cloud, DevOps & Infrastructure:** Microsoft Azure (Virtual Machines, Storage, Functions, Blobs, File Share, Tables), Docker, Heroku, CI/CD, Git, GitHub, SVN, Microsoft IIS, Apache HTTP Server, Microsoft Server, Ubuntu Server, Serilog, OpenTelemetry, VirtualBox
+- **Testing & Quality Assurance (QA):** xUnit, Vitest, coverlet.collector, Bogus, WireMock.Net, ESLint, Prettier, Husky
+- **AI, Search & API Integration:** Google Gemini AI, YouTube API, GitHub Copilot, Ollama, OpenRouter, ElasticSearch, Lucene, Chrome Extensions, Prompt Engineering, Cline
+- **Mobile & Desktop:** Flutter, Dart, Ionic, Android, Electron.js
+- **Project Management:** Jira, Asana, Slack
 
 ## PROFESSIONAL EXPERIENCE
+
+### Senior Software Developer (Architect) - Freelancer, Istanbul, Turkey, Online
+
+**07/2025 – Present**
+
+- Architected and delivered end-to-end software solutions, leading projects from initial concept and system design through to full-stack implementation, cloud deployment, and release management.
+- Engineered scalable backend systems using a microservices architecture with .NET, DDD, MassTransit and RabbitMQ, and RESTful APIs secured by JWT and routed through an Ocelot API Gateway.
+- Developed modern, responsive user interfaces and browser extensions using React.js, TypeScript, MUI, and Tailwind CSS, ensuring high-quality code with a robust testing framework featuring Vite and Vitest and by integrating third-party services such as the Google Gemini AI and YouTube Data APIs.
+- Established and automated a complete DevOps lifecycle, implementing CI/CD pipelines, containerization with Docker, and observability with OpenTelemetry and Serilog.
 
 ### Software Developer - HİTİT BİLGİ TEKNOLOJİLERİ, Istanbul, Turkey, Hybrid
 
 **01/2024 – 07/2025**
 
 - Contributed to the development and maintenance of the company's core ERP application and other internal systems as part of a collaborative software development team.
-- Developed using ASP.NET MVC, Web Services (WCF), ASP.NET Core, RESTful API, WinForms, DevExpress, MS SQL Server, React.js and Flutter.
+- Developed using ASP.NET MVC, Web Services (WCF), ASP.NET Core, DDD, CQRS, RESTful API, WinForms, DevExpress, MS SQL Server, React.js and Flutter.
 
 ### Software Developer - Freelancer, Istanbul, Turkey, Online
 

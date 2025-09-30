@@ -1,7 +1,7 @@
 {
   "portfolio": {
     "fullName": "Ahmet FATIHOGLU",
-    "role": "Senior Software Developer"
+    "role": "Senior Software Developer (Architect)"
   },
   "ui": {
     "headings": {
@@ -59,24 +59,25 @@
       "privacy": "Privacy"
     },
     "meta": {
-      "title": "Ahmet FATIHOGLU - Senior Software Developer",
-      "description": "Ahmet FATIHOGLU - Senior Software Developer Portfolio. Showcasing full-stack web, desktop, and mobile development projects with expertise in C# .NET, React, and cloud technologies.",
+      "title": "Ahmet FATIHOGLU - Senior Software Developer (Architect)",
+      "description": "Ahmet FATIHOGLU - Senior Software Developer (Architect) Portfolio. Showcasing full-stack web, desktop, and mobile development projects with expertise in C# .NET, React, and cloud technologies.",
       "author": "Ahmet FATIHOGLU",
-      "keywords": "Ahmet FATIHOGLU, Senior Software Developer, C#, VB.NET, PHP, JavaScript, TypeScript, Kotlin, Java, C, C++, Laravel, React, Vue, Angular, ASP.NET Core, ASP.NET MVC, .NET Framework, .NET Core, Web API, REST API, WCF, gRPC, Microservices, n-Tier Architecture, Microsoft SQL Server, MySQL, SQLite, MongoDB, Cassandra, Redis, Microsoft Azure, Azure Virtual Machines, Azure Storage, Azure Functions, Azure Blobs, Azure File Share, Azure Tables, Heroku, Docker, VirtualBox"
+      "keywords": "Ahmet FATIHOGLU, Senior Software Developer, Architect, C#, TypeScript, JavaScript, Kotlin, Java, PHP, C, C++, VB.NET, .NET Ecosystem, ASP.NET Core, ASP.NET MVC, .NET Framework, Web API, Entity Framework Core, WCF, WPF, WinForms, Domain-Driven Design, DDD, CQRS, Microservices, Clean Architecture, React, Vue, Angular, Node.js, Laravel, HTML5, CSS3, Tailwind CSS, MUI, RESTful API, gRPC, MassTransit, RabbitMQ, Ocelot API Gateway, Swagger, JWT, PostgreSQL, MongoDB, Cassandra, Redis, Microsoft Azure, Docker, CI/CD, Git, GitHub, xUnit, Vitest, ESLint, Prettier, Google Gemini AI, YouTube API, Flutter, Dart, Ionic, Android"
     }
   },
   "resume": {
     "contactInfo": {
       "name": "Ahmet FATIHOGLU",
-      "title": "Senior Software Developer",
+      "title": "Senior Software Developer (Architect)",
       "email": "ahmet.fatihoglu.89@gmail.com",
+      "phone": "+90 543 838 0942",
       "address": "CEKMEKOY, ISTANBUL, TURKEY",
       "website": "https://ahmadmdabit.github.io",
       "github": "https://github.com/ahmadmdabit",
       "linkedin": "https://www.linkedin.com/in/ahmetfatihoglu"
     },
     "summary": {
-      "main": "Senior Software Developer with 9+ years of experience in full-stack web, desktop, and mobile development.",
+      "main": "Senior Software Developer (Architect) with 9+ years of experience in full-stack web, desktop, and mobile development.",
       "highlights": [
         "Specializes in C# .NET ecosystem, building scalable ERP architectures and microservices.",
         "Proficient in TypeScript, React.js, Vue.js, and cross-platform mobile development with Dart/Flutter.",
@@ -89,44 +90,84 @@
         "category": "Programming Languages",
         "items": [
           "C#",
-          "VB.NET",
-          "PHP",
-          "JavaScript",
           "TypeScript",
+          "JavaScript",
           "Kotlin",
           "Java",
+          "PHP",
           "C",
-          "C++"
+          "C++",
+          "VB.NET"
         ]
       },
       {
-        "category": "Frameworks & Libraries",
+        "category": "Architectures & Patterns",
         "items": [
-          "Laravel",
+          "Microservices",
+          "Clean Architecture",
+          "Domain-Driven Design (DDD)",
+          "CQRS",
+          "N-Tier",
+          "MVVM"
+        ]
+      },
+      {
+        "category": ".NET Ecosystem",
+        "items": [
+          "ASP.NET Core",
+          ".NET Framework",
+          "ASP.NET MVC",
+          "Web API",
+          "Entity Framework Core",
+          "WCF",
+          "WPF",
+          "WinForms",
+          "AutoMapper",
+          "MediatR",
+          "Polly",
+          "FluentValidation",
+          "CommunityToolkit.Mvvm"
+        ]
+      },
+      {
+        "category": "Web & Frontend",
+        "items": [
           "React",
           "Vue",
           "Angular",
-          "ASP.NET Core",
-          "ASP.NET MVC",
-          ".NET Framework",
-          ".NET Core"
+          "Node.js",
+          "Laravel",
+          "HTML5",
+          "CSS3",
+          "Tailwind CSS",
+          "MUI",
+          "Sass",
+          "Bootstrap",
+          "jQuery",
+          "Vite.js",
+          "WebPack",
+          "Gulp.js"
         ]
       },
       {
-        "category": "Backend Technologies",
+        "category": "Backend & APIs",
         "items": [
-          "Web API",
-          "REST API",
-          "WCF",
+          "RESTful API",
           "gRPC",
-          "Microservices",
-          "n-Tier Architecture"
+          "MassTransit",
+          "RabbitMQ",
+          "Ocelot (API Gateway)",
+          "Swagger",
+          "JWT",
+          "Refit",
+          "JsonSchema.Net"
         ]
       },
       {
-        "category": "Databases",
+        "category": "Databases & Cache",
         "items": [
           "Microsoft SQL Server",
+          "PostgreSQL",
           "MySQL",
           "SQLite",
           "MongoDB",
@@ -135,7 +176,7 @@
         ]
       },
       {
-        "category": "Cloud & DevOps",
+        "category": "Cloud, DevOps & Infrastructure",
         "items": [
           "Microsoft Azure",
           "Azure Virtual Machines",
@@ -144,77 +185,81 @@
           "Azure Blobs",
           "Azure File Share",
           "Azure Tables",
-          "Heroku",
           "Docker",
-          "VirtualBox"
-        ]
-      },
-      {
-        "category": "Web Servers & Infrastructure",
-        "items": [
+          "Heroku",
+          "CI/CD",
+          "Git",
+          "GitHub",
+          "SVN",
           "Microsoft IIS",
           "Apache HTTP Server",
           "Microsoft Server",
           "Ubuntu Server",
-          "CI/CD",
-          "Git",
-          "SVN",
-          "GitHub"
+          "Serilog",
+          "OpenTelemetry",
+          "VirtualBox"
         ]
       },
       {
-        "category": "Web Technologies",
+        "category": "Testing & Quality Assurance (QA)",
         "items": [
-          "HTML5",
-          "CSS3",
-          "Sass",
-          "jQuery",
-          "Bootstrap",
-          "Vite.js",
-          "Gulp.js",
-          "WebPack"
+          "xUnit",
+          "Vitest",
+          "coverlet.collector",
+          "Bogus",
+          "WireMock.Net",
+          "ESLint",
+          "Prettier",
+          "Husky"
         ]
       },
       {
-        "category": "Mobile Development",
+        "category": "AI, Search & API Integration",
         "items": [
-          "Ionic",
-          "Android",
-          "Flutter",
-          "Dart"
-        ]
-      },
-      {
-        "category": "Desktop Development",
-        "items": [
-          "WinForms",
-          "WPF",
-          "Electron.js",
-          "Flutter Desktop"
-        ]
-      },
-      {
-        "category": "Search and AI Tools",
-        "items": [
+          "Google Gemini AI",
+          "YouTube API",
+          "GitHub Copilot",
+          "Ollama",
+          "OpenRouter",
           "ElasticSearch",
           "Lucene",
-          "GitHub Copilot",
-          "Cline",
-          "OpenRouter",
-          "Ollama",
-          "Prompt Engineering"
+          "Chrome Extensions",
+          "Prompt Engineering",
+          "Cline"
         ]
       },
       {
-        "category": "Project Management Tools",
+        "category": "Mobile & Desktop",
         "items": [
-          "Slack",
+          "Flutter",
+          "Dart",
+          "Ionic",
+          "Android",
+          "Electron.js"
+        ]
+      },
+      {
+        "category": "Project Management",
+        "items": [
+          "Jira",
           "Asana",
-          "Jira"
+          "Slack"
         ]
       }
     ],
     "experience": [
+      {
+        "role": "Senior Software Developer (Architect)",
+        "company": "Freelancer",
+        "duration": "07/2025 – Present",
+        "location": "Istanbul, Turkey, Online",
+        "tasks": [
+          "Architected and delivered end-to-end software solutions, leading projects from initial concept and system design through to full-stack implementation, cloud deployment, and release management.",
+          "Engineered scalable backend systems using a microservices architecture with .NET, DDD, MassTransit and RabbitMQ, and RESTful APIs secured by JWT and routed through an Ocelot API Gateway.",
+          "Developed modern, responsive user interfaces and browser extensions using React.js, TypeScript, MUI, and Tailwind CSS, ensuring high-quality code with a robust testing framework featuring Vite and Vitest and by integrating third-party services such as the Google Gemini AI and YouTube Data APIs.",
+          "Established and automated a complete DevOps lifecycle, implementing CI/CD pipelines, containerization with Docker, and observability with OpenTelemetry and Serilog."
+        ]
+      },
       {
         "role": "Software Developer",
         "company": "HİTİT BİLGİ TEKNOLOJİLERİ",
@@ -222,7 +267,7 @@
         "location": "Istanbul, Turkey, Hybrid",
         "tasks": [
           "Contributed to the development and maintenance of the company's core ERP application and other internal systems as part of a collaborative software development team.",
-          "Developed using ASP.NET MVC, Web Services (WCF), ASP.NET Core, RESTful API, WinForms, DevExpress, MS SQL Server, React.js and Flutter."
+          "Developed using ASP.NET MVC, Web Services (WCF), ASP.NET Core, DDD, CQRS, RESTful API, WinForms, DevExpress, MS SQL Server, React.js and Flutter."
         ]
       },
       {
