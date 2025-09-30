@@ -1,7 +1,7 @@
 {
   "portfolio": {
     "fullName": "Ahmet FATİHOĞLU",
-    "role": "Kıdemli Yazılım Geliştirici"
+    "role": "Kıdemli Yazılım Geliştirme Uzmanı (Mimar)"
   },
   "ui": {
     "headings": {
@@ -59,24 +59,25 @@
       "privacy": "Gizlilik"
     },
     "meta": {
-      "title": "Ahmet FATİHOĞLU - Kıdemli Yazılım Geliştirici",
-      "description": "Ahmet FATİHOĞLU - Kıdemli Yazılım Geliştirici Portföy. C# .NET, React ve bulut teknolojilerindeki uzmanlığıyla tam yığın web, masaüstü ve mobil geliştirme projelerini sergiliyor.",
+      "title": "Ahmet FATİHOĞLU - Kıdemli Yazılım Geliştirme Uzmanı (Mimar)",
+      "description": "Ahmet FATİHOĞLU - Kıdemli Yazılım Geliştirme Uzmanı (Mimar) Portföy. C# .NET, React ve bulut teknolojilerindeki uzmanlığıyla tam yığın web, masaüstü ve mobil geliştirme projelerini sergiliyor.",
       "author": "Ahmet FATİHOĞLU",
-      "keywords": "Ahmet FATİHOĞLU, Kıdemli Yazılım Geliştirici, C#, VB.NET, PHP, JavaScript, TypeScript, Kotlin, Java, C, C++, Laravel, React, Vue, Angular, ASP.NET Core, ASP.NET MVC, .NET Framework, .NET Core, Web API, REST API, WCF, gRPC, Mikroservisler, n-Katmanlı Mimari, Microsoft SQL Server, MySQL, SQLite, MongoDB, Cassandra, Redis, Microsoft Azure, Azure Sanal Makineleri, Azure Depolama, Azure İşlevleri, Azure Blob'ları, Azure Dosya Paylaşımı, Azure Tabloları, Heroku, Docker, VirtualBox"
+      "keywords": "Ahmet FATİHOĞLU, Kıdemli Yazılım Geliştirme Uzmanı, Mimari, C#, TypeScript, JavaScript, Kotlin, Java, PHP, C, C++, VB.NET, .NET Ekosistemi, ASP.NET Core, ASP.NET MVC, .NET Framework, Web API, Entity Framework Core, WCF, WPF, WinForms, Domain-Driven Design, DDD, CQRS, Mikroservisler, Temiz Mimari, React, Vue, Angular, Node.js, Laravel, HTML5, CSS3, Tailwind CSS, MUI, RESTful API, gRPC, MassTransit, RabbitMQ, Ocelot API Gateway, Swagger, JWT, PostgreSQL, MongoDB, Cassandra, Redis, Microsoft Azure, Docker, CI/CD, Git, GitHub, xUnit, Vitest, ESLint, Prettier, Google Gemini AI, YouTube API, Flutter, Dart, Ionic, Android"
     }
   },
   "resume": {
     "contactInfo": {
       "name": "Ahmet FATİHOĞLU",
-      "title": "Kıdemli Yazılım Geliştirici",
+      "title": "Kıdemli Yazılım Geliştirme Uzmanı (Mimar)",
       "email": "ahmet.fatihoglu.89@gmail.com",
+      "phone": "+90 543 838 0942",
       "address": "ÇEKMEKÖY, İSTANBUL, TÜRKİYE",
       "website": "https://ahmadmdabit.github.io",
       "github": "https://github.com/ahmadmdabit",
       "linkedin": "https://www.linkedin.com/in/ahmetfatihoglu"
     },
     "summary": {
-      "main": "Full-stack web, masaüstü ve mobil geliştirme alanında 9+ yıllık deneyime sahip Kıdemli Yazılım Geliştirici.",
+      "main": "Full-stack web, masaüstü ve mobil geliştirme alanında 9+ yıllık deneyime sahip Kıdemli Yazılım Geliştirme Uzmanı (Mimar).",
       "highlights": [
         "C# .NET ekosisteminde uzmanlaşmış, ölçeklenebilir ERP mimarileri ve mikroservisler oluşturma konusunda deneyimli.",
         "TypeScript, React.js, Vue.js ve Dart/Flutter ile platformlar arası mobil geliştirme konularında yetkin.",
@@ -89,44 +90,84 @@
         "category": "Programlama Dilleri",
         "items": [
           "C#",
-          "VB.NET",
-          "PHP",
-          "JavaScript",
           "TypeScript",
+          "JavaScript",
           "Kotlin",
           "Java",
+          "PHP",
           "C",
-          "C++"
+          "C++",
+          "VB.NET"
         ]
       },
       {
-        "category": "Framework'ler ve Kütüphaneler",
+        "category": "Mimari & Desenler",
         "items": [
-          "Laravel",
+          "Mikroservisler",
+          "Temiz Mimari",
+          "Domain-Driven Design (DDD)",
+          "CQRS",
+          "N-Katmanlı",
+          "MVVM"
+        ]
+      },
+      {
+        "category": ".NET Ekosistemi",
+        "items": [
+          "ASP.NET Core",
+          ".NET Framework",
+          "ASP.NET MVC",
+          "Web API",
+          "Entity Framework Core",
+          "WCF",
+          "WPF",
+          "WinForms",
+          "AutoMapper",
+          "MediatR",
+          "Polly",
+          "FluentValidation",
+          "CommunityToolkit.Mvvm"
+        ]
+      },
+      {
+        "category": "Web & Frontend",
+        "items": [
           "React",
           "Vue",
           "Angular",
-          "ASP.NET Core",
-          "ASP.NET MVC",
-          ".NET Framework",
-          ".NET Core"
+          "Node.js",
+          "Laravel",
+          "HTML5",
+          "CSS3",
+          "Tailwind CSS",
+          "MUI",
+          "Sass",
+          "Bootstrap",
+          "jQuery",
+          "Vite.js",
+          "WebPack",
+          "Gulp.js"
         ]
       },
       {
-        "category": "Arka Uç (Backend) Teknolojileri",
+        "category": "Backend & API'ler",
         "items": [
-          "Web API",
-          "REST API",
-          "WCF",
+          "RESTful API",
           "gRPC",
-          "Microservices",
-          "n-Tier Architecture"
+          "MassTransit",
+          "RabbitMQ",
+          "Ocelot (API Gateway)",
+          "Swagger",
+          "JWT",
+          "Refit",
+          "JsonSchema.Net"
         ]
       },
       {
-        "category": "Veritabanları",
+        "category": "Veritabanları & Önbellekleme",
         "items": [
           "Microsoft SQL Server",
+          "PostgreSQL",
           "MySQL",
           "SQLite",
           "MongoDB",
@@ -135,86 +176,90 @@
         ]
       },
       {
-        "category": "Bulut ve DevOps",
+        "category": "Bulut, DevOps & Altyapı",
         "items": [
           "Microsoft Azure",
-          "Azure Virtual Machines",
-          "Azure Storage",
-          "Azure Functions",
-          "Azure Blobs",
-          "Azure File Share",
-          "Azure Tables",
-          "Heroku",
+          "Azure Sanal Makineler",
+          "Azure Depolama",
+          "Azure İşlevleri",
+          "Azure Blob'ları",
+          "Azure Dosya Paylaşımı",
+          "Azure Tabloları",
           "Docker",
-          "VirtualBox"
-        ]
-      },
-      {
-        "category": "Web Sunucuları ve Altyapı",
-        "items": [
+          "Heroku",
+          "CI/CD",
+          "Git",
+          "GitHub",
+          "SVN",
           "Microsoft IIS",
           "Apache HTTP Server",
           "Microsoft Server",
           "Ubuntu Server",
-          "CI/CD",
-          "Git",
-          "SVN",
-          "GitHub"
+          "Serilog",
+          "OpenTelemetry",
+          "VirtualBox"
         ]
       },
       {
-        "category": "Web Teknolojileri",
+        "category": "Test & Kalite Güvencesi (QA)",
         "items": [
-          "HTML5",
-          "CSS3",
-          "Sass",
-          "jQuery",
-          "Bootstrap",
-          "Vite.js",
-          "Gulp.js",
-          "WebPack"
+          "xUnit",
+          "Vitest",
+          "coverlet.collector",
+          "Bogus",
+          "WireMock.Net",
+          "ESLint",
+          "Prettier",
+          "Husky"
         ]
       },
       {
-        "category": "Mobil Geliştirme",
+        "category": "Yapay Zeka, Arama & API Entegrasyonu",
         "items": [
-          "Ionic",
-          "Android",
-          "Flutter",
-          "Dart"
-        ]
-      },
-      {
-        "category": "Masaüstü Geliştirme",
-        "items": [
-          "WinForms",
-          "WPF",
-          "Electron.js",
-          "Flutter Desktop"
-        ]
-      },
-      {
-        "category": "Arama ve Yapay Zeka Araçları",
-        "items": [
+          "Google Gemini AI",
+          "YouTube API",
+          "GitHub Copilot",
+          "Ollama",
+          "OpenRouter",
           "ElasticSearch",
           "Lucene",
-          "GitHub Copilot",
-          "Cline",
-          "OpenRouter",
-          "Ollama",
-          "Prompt Engineering"
+          "Chrome Eklentileri",
+          "Prompt Engineering",
+          "Cline"
         ]
       },
       {
-        "category": "Proje Yönetim Araçları",
+        "category": "Mobil & Masaüstü",
         "items": [
-          "Slack",
+          "Flutter",
+          "Dart",
+          "Ionic",
+          "Android",
+          "Electron.js"
+        ]
+      },
+      {
+        "category": "Proje Yönetimi",
+        "items": [
+          "Jira",
           "Asana",
-          "Jira"
+          "Slack"
         ]
       }
     ],
     "experience": [
+      {
+        "role": "Kıdemli Yazılım Geliştirme Uzmanı (Mimar)",
+        "company": "Freelancer",
+        "duration": "07/2025 – Halen",
+        "location": "İstanbul, Türkiye, Uzaktan",
+        "tasks": [
+          "Proje yaşam döngüsünün tüm aşamalarında, başlangıçtaki kavramsal tasarım ve sistem tasarımı aşamasından, full-stack uygulama, bulut dağıtımı ve sürüm yönetimi aşamasına kadar uçtan uca yazılım çözümleri geliştirdim.",
+          "DDD, MassTransit ve RabbitMQ ile .NET tabanlı mikroservis mimarisi kullanarak ölçeklenebilir backend sistemleri geliştirdim; JWT ile korunan ve Ocelot API Gateway ile yönlendirilen RESTful API'ler oluşturdum.",
+          "React.js, TypeScript, MUI ve Tailwind CSS kullanarak modern, duyarlı kullanıcı arayüzleri ve tarayıcı eklentileri geliştirdim; Vite ve Vitest içeren katı bir test çatısıyla yüksek kaliteli kod sağladım ve Google Gemini AI ve YouTube Veri API'leri gibi üçüncü taraf servislerle entegrasyon gerçekleştirdim.",
+          "CI/CD pipeline'ları, Docker ile konteynerleştirme ve OpenTelemetry ve Serilog ile gözlemlenebilirlik içeren eksiksiz bir DevOps yaşam döngüsü kurdum ve otomatikleştirdim."
+        ]
+      },
       {
         "role": "Yazılım Geliştirici",
         "company": "HİTİT BİLGİ TEKNOLOJİLERİ",
@@ -222,7 +267,7 @@
         "location": "İstanbul, Türkiye, Hibrit",
         "tasks": [
           "İş birliğine dayalı bir yazılım geliştirme ekibinin parçası olarak şirketin temel ERP uygulamasının ve diğer iç sistemlerinin geliştirilmesine ve bakımına katkıda bulunuldu.",
-          "ASP.NET MVC, Web Services (WCF), ASP.NET Core, RESTful API, WinForms, DevExpress, MS SQL Server, React.js ve Flutter kullanılarak geliştirme yapıldı."
+          "ASP.NET MVC, Web Services (WCF), ASP.NET Core, DDD, CQRS, RESTful API, WinForms, DevExpress, MS SQL Server, React.js ve Flutter kullanılarak geliştirme yapıldı."
         ]
       },
       {

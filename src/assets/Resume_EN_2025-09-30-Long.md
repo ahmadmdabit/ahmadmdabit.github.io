@@ -4,6 +4,8 @@
 **Phone:** +90 543 838 0942  
 **Address:** CEKMEKOY, ISTANBUL, TURKEY  
 **Website:** https://ahmadmdabit.github.io
+**GitHub:** https://github.com/ahmadmdabit
+**LinkedIn:** https://www.linkedin.com/in/ahmetfatihoglu
 
 ## PROFESSIONAL SUMMARY
 
@@ -141,6 +143,20 @@ Senior Software Developer (Architect) with 9+ years of experience in full-stack 
 *   Developed a full-stack exam management system using a clean N-Tier architecture to logically separate the API backend, business logic, and data access layers.
 *   Implemented a secure, role-based authentication system with JWT to provide distinct permissions and application views for Admin and standard User roles.
 *   Integrated a web scraping module using HtmlAgilityPack to dynamically extract and import content for exam creation, demonstrating practical data extraction skills.
+
+### Exchange (Real-time Exchange Rate Tracker) - [github.com/ahmadmdabit/Exchange](https://github.com/ahmadmdabit/Exchange)
+
+*   **Technologies:** .NET Core, ASP.NET Core, WebSockets, Redis, Vue.js, MySQL, JWT, RESTful API
+*   Engineered a real-time data pipeline using WebSockets to stream live currency updates from a .NET Core backend to a responsive Vue.js client.
+*   Implemented Redis for high-performance in-memory caching, dramatically reducing database load and enabling high-frequency, low-latency data updates.
+*   Developed a multi-component system including a secure RESTful API with JWT authentication and a separate background service to simulate market data fluctuations.
+
+### Market (Customer Management System) - [github.com/ahmadmdabit/market](https://github.com/ahmadmdabit/market)
+
+*   **Technologies:** .NET Core, Angular 11, TypeScript, N-Tier Architecture, NHibernate, SQL Server, RESTful API, ag-Grid
+*   Developed a full-stack customer management application using a clean N-Tier architecture, leveraging the NHibernate ORM for robust, object-oriented data access.
+*   Built a feature-rich and responsive single-page application (SPA) with Angular 11 for comprehensive data management, including interactive data grids with ag-Grid.
+*   Designed and implemented a clean RESTful API to serve as the communication layer between the Angular frontend and the .NET backend, ensuring seamless CRUD operations.
 
 ## EDUCATION
 

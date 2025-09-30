@@ -5,7 +5,7 @@
   "author": "Ahmet Fatihoglu",
   "license": "SEE LICENSE IN LICENSE.txt",
   "homepage": "https://ahmadmdabit.github.io/",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "hash-locales": "node scripts/hash-locale.mjs",

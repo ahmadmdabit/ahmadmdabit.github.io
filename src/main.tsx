@@ -4,6 +4,7 @@ import { RouterProvider } from "react-router";
 import { CacheProvider, ThemeProvider } from "@emotion/react";
 import createCache from "@emotion/cache";
 import CssBaseline from "@mui/material/CssBaseline";
+import ErrorBoundary from "@/components/ErrorBoundary";
 import "@/i18n/index.ts";
 import "@fontsource/cascadia-code/200.css";
 import "@fontsource/cascadia-code/300.css";
@@ -21,8 +22,10 @@ createRoot(document.getElementById("root")!).render(
     <CacheProvider value={cache}>
       <ThemeProvider theme={darkTheme}>
         <CssBaseline />
-        {/* <App /> */}
-        <RouterProvider router={router} />
+        <ErrorBoundary>
+          {/* <App /> */}
+          <RouterProvider router={router} />
+        </ErrorBoundary>
       </ThemeProvider>
     </CacheProvider>
   </StrictMode>
