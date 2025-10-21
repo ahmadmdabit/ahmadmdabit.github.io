@@ -18,12 +18,12 @@ Senior Software Developer (Architect) with 9+ years of experience in full-stack 
 
 - **Programming Languages:** C#, TypeScript, JavaScript, Kotlin, Java, PHP, C, C++, VB.NET
 - **Architectures & Patterns:** Microservices, Clean Architecture, Domain-Driven Design (DDD), CQRS, N-Tier, MVVM
-- **.NET Ecosystem:** ASP.NET Core, .NET Framework, ASP.NET MVC, Web API Entity Framework Core, WCF, WPF, WinForms, AutoMapper, MediatR, Polly, FluentValidation, CommunityToolkit.Mvvm
-- **Web & Frontend:** React, Vue, Angular, Node.js, Laravel, HTML5, CSS3, Tailwind CSS, MUI, Sass, Bootstrap, jQuery, Vite.js, WebPack, Gulp.js
+- **.NET Ecosystem:** ASP.NET Core, .NET Framework, ASP.NET MVC, Web API, Entity Framework Core, WCF, WPF, WinForms, AutoMapper, MediatR, Polly, FluentValidation, CommunityToolkit.Mvvm, Hangfire
+- **Web & Frontend:** React, Vue, Angular, RxJS, Node.js, Laravel, HTML5, CSS3, Tailwind CSS, MUI, SASS, Bootstrap, jQuery, Vite.js, WebPack, Gulp.js, Hyperscript
 - **Backend & APIs:** RESTful API, gRPC, MassTransit, RabbitMQ, Ocelot (API Gateway), Swagger, JWT, Refit, JsonSchema.Net
 - **Databases & Cache:** Microsoft SQL Server, PostgreSQL, MySQL, SQLite, MongoDB, Cassandra, Redis
-- **Cloud, DevOps & Infrastructure:** Microsoft Azure (Virtual Machines, Storage, Functions, Blobs, File Share, Tables), Docker, Heroku, CI/CD, Git, GitHub, SVN, Microsoft IIS, Apache HTTP Server, Microsoft Server, Ubuntu Server, Serilog, OpenTelemetry, VirtualBox
-- **Testing & Quality Assurance (QA):** xUnit, Vitest, coverlet.collector, Bogus, WireMock.Net, ESLint, Prettier, Husky
+- **Cloud, DevOps & Infrastructure:** Microsoft Azure (Virtual Machines, Storage, Functions, Blobs, File Share, Tables), Docker, MinIO, Heroku, CI/CD, Git, GitHub, SVN, Microsoft IIS, Apache HTTP Server, Microsoft Server, Ubuntu Server, Serilog, OpenTelemetry, VirtualBox
+- **Testing & Quality Assurance (QA):** NUnit, xUnit, Moq, FluentAssertions, Testcontainers, coverlet.collector, Bogus, WireMock.Net, Karma, Jasmine, Vitest, ESLint, Prettier, Husky
 - **AI, Search & API Integration:** Google Gemini AI, YouTube API, GitHub Copilot, Ollama, OpenRouter, ElasticSearch, Lucene, Chrome Extensions, Prompt Engineering, Cline
 - **Mobile & Desktop:** Flutter, Dart, Ionic, Android, Electron.js
 - **Project Management:** Jira, Asana, Slack
@@ -107,6 +107,14 @@ Senior Software Developer (Architect) with 9+ years of experience in full-stack 
 
 ## PROJECTS
 
+### Meeting System - [github.com/ahmadmdabit/MeetingSystem](https://github.com/ahmadmdabit/MeetingSystem)
+
+*   **Technologies:** .NET 9, Angular 20+, Clean Architecture, Docker, MinIO, Hangfire, Testcontainers, RxJS
+*   Architected a full-stack, containerized meeting management system using .NET 9 Clean Architecture for the backend and Angular 20+ Standalone Components for the frontend.
+*   Implemented a complete DevOps environment using Docker Compose, integrating services like MinIO for object storage and Hangfire for background job processing.
+*   Developed a reactive frontend with RxJS, managing component state declaratively to create a responsive and predictable user experience.
+*   Established a robust testing strategy for the backend using Testcontainers to run integration tests against a real SQL Server instance, ensuring high reliability.
+
 ### RepoAIfy - [github.com/ahmadmdabit/RepoAIfy](https://github.com/ahmadmdabit/RepoAIfy)
 
 *   **Technologies:** C#, .NET 9, WPF, MVVM, .NET Class Library, .NET CLI, JSON, Git, Markdown
@@ -134,13 +142,6 @@ Senior Software Developer (Architect) with 9+ years of experience in full-stack 
 *   Designed and implemented a distributed system using a microservices architecture, separating user and notification functionalities into independent, scalable services.
 *   Configured an API Gateway using Ocelot to provide a single, unified entry point, centralizing request routing and simplifying service discovery for the frontend.
 *   Built a high-performance data access layer using the Dapper ORM for direct SQL query execution, ensuring efficient communication between services and the database.
-
-### Sinav Oluşturma (Exam Management System) - [github.com/ahmadmdabit/SinavOlusturma](https://github.com/ahmadmdabit/SinavOlusturma)
-
-*   **Technologies:** .NET Core, ASP.NET Core, N-Tier Architecture, RESTful API, JWT, Dapper, SQLite, HtmlAgilityPack
-*   Developed a full-stack exam management system using a clean N-Tier architecture to logically separate the API backend, business logic, and data access layers.
-*   Implemented a secure, role-based authentication system with JWT to provide distinct permissions and application views for Admin and standard User roles.
-*   Integrated a web scraping module using HtmlAgilityPack to dynamically extract and import content for exam creation, demonstrating practical data extraction skills.
 
 ## EDUCATION
 

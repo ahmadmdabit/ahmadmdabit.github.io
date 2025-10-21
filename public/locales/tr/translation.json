@@ -126,7 +126,8 @@
           "MediatR",
           "Polly",
           "FluentValidation",
-          "CommunityToolkit.Mvvm"
+          "CommunityToolkit.Mvvm",
+          "Hangfire"
         ]
       },
       {
@@ -135,6 +136,7 @@
           "React",
           "Vue",
           "Angular",
+          "RxJS",
           "Node.js",
           "Laravel",
           "HTML5",
@@ -146,7 +148,8 @@
           "jQuery",
           "Vite.js",
           "WebPack",
-          "Gulp.js"
+          "Gulp.js",
+          "Hyperscript"
         ]
       },
       {
@@ -186,6 +189,7 @@
           "Azure Dosya Paylaşımı",
           "Azure Tabloları",
           "Docker",
+          "MinIO",
           "Heroku",
           "CI/CD",
           "Git",
@@ -203,11 +207,17 @@
       {
         "category": "Test & Kalite Güvencesi (QA)",
         "items": [
+          "NUnit",
           "xUnit",
-          "Vitest",
+          "Moq",
+          "FluentAssertions",
+          "Testcontainers",
           "coverlet.collector",
           "Bogus",
           "WireMock.Net",
+          "Karma",
+          "Jasmine",
+          "Vitest",
           "ESLint",
           "Prettier",
           "Husky"
@@ -349,6 +359,44 @@
       }
     ],
     "projects": [
+      {
+        "name": "Aided",
+        "url": "https://github.com/ahmadmdabit/aided",
+        "technologies": [
+          "JavaScript",
+          "TypeScript",
+          "Hyperscript",
+          "Fine-Grained Reactivity",
+          "Reactivity",
+          "Vitest"
+        ],
+        "description": [
+          "SolidJS'ten esinlenerek, Virtual DOM kullanmadan kullanıcı arayüzleri oluşturmak için minimal bir JavaScript kütüphanesi geliştirildi ve yayınlandı.",
+          "Durum değişikliklerinin hassas ve cerrahi DOM güncellemeleriyle sonuçlanmasını sağlamak amacıyla signals, effects ve memos kullanılarak sıfırdan temel bir reaktivite sistemi tasarlandı.",
+          "Binlerce veya milyonlarca öğe içeren listeleri verimli bir şekilde render etmek için, geleneksel map etme tekniklerinden önemli ölçüde daha iyi performans gösteren, yüksek performanslı ve headless bir liste sanallaştırıcı (VirtualFor) geliştirildi.",
+          "Saf JavaScript ile JSX benzeri bir geliştirici deneyimi sunan, hyperscript fonksiyonu (h) kullanılarak deklaratif bir kullanıcı arayüzü oluşturma yöntemi geliştirildi."
+        ]
+      },
+      {
+        "name": "Meeting System",
+        "url": "https://github.com/ahmadmdabit/MeetingSystem",
+        "technologies": [
+          ".NET 9",
+          "Angular 20+",
+          "Clean Architecture",
+          "Docker",
+          "MinIO",
+          "Hangfire",
+          "Testcontainers",
+          "RxJS"
+        ],
+        "description": [
+          "Backend için .NET 9 Clean Architecture ve frontend için Angular 20+ Standalone Components kullanılarak full-stack ve konteynerize edilmiş bir toplantı yönetim sistemi tasarlandı.",
+          "Nesne depolama (object storage) için MinIO ve arka plan görevlerinin (background jobs) işlenmesi için Hangfire gibi servisler entegre edilerek, Docker Compose kullanılarak eksiksiz bir DevOps ortamı kuruldu.",
+          "Duyarlı ve öngörülebilir bir kullanıcı deneyimi oluşturmak amacıyla, bileşen durumunu (component state) deklaratif olarak yöneten, RxJS ile reaktif bir frontend geliştirildi.",
+          "Yüksek güvenilirlik sağlamak amacıyla, gerçek bir SQL Server örneği üzerinde entegrasyon testleri çalıştırmak için Testcontainers kullanılarak backend için sağlam bir test stratejisi oluşturuldu."
+        ]
+      },
       {
         "name": "RepoAIfy",
         "url": "https://github.com/ahmadmdabit/RepoAIfy",

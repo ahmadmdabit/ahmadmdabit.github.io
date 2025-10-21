@@ -126,7 +126,8 @@
           "MediatR",
           "Polly",
           "FluentValidation",
-          "CommunityToolkit.Mvvm"
+          "CommunityToolkit.Mvvm",
+          "Hangfire"
         ]
       },
       {
@@ -135,6 +136,7 @@
           "React",
           "Vue",
           "Angular",
+          "RxJS",
           "Node.js",
           "Laravel",
           "HTML5",
@@ -146,7 +148,8 @@
           "jQuery",
           "Vite.js",
           "WebPack",
-          "Gulp.js"
+          "Gulp.js",
+          "Hyperscript"
         ]
       },
       {
@@ -186,6 +189,7 @@
           "Azure File Share",
           "Azure Tables",
           "Docker",
+          "MinIO",
           "Heroku",
           "CI/CD",
           "Git",
@@ -203,11 +207,17 @@
       {
         "category": "Testing & Quality Assurance (QA)",
         "items": [
+          "NUnit",
           "xUnit",
-          "Vitest",
+          "Moq",
+          "FluentAssertions",
+          "Testcontainers",
           "coverlet.collector",
           "Bogus",
           "WireMock.Net",
+          "Karma",
+          "Jasmine",
+          "Vitest",
           "ESLint",
           "Prettier",
           "Husky"
@@ -349,6 +359,44 @@
       }
     ],
     "projects": [
+      {
+        "name": "Aided",
+        "url": "https://github.com/ahmadmdabit/aided",
+        "technologies": [
+          "JavaScript",
+          "TypeScript",
+          "Hyperscript",
+          "Fine-Grained Reactivity",
+          "Reactivity",
+          "Vitest"
+        ],
+        "description": [
+          "Authored and published a minimal JavaScript library for building user interfaces without a Virtual DOM, inspired by SolidJS.",
+          "Designed a core reactivity system from scratch using signals, effects, and memos to ensure that state changes result in precise, surgical DOM updates.",
+          "Engineered a high-performance, headless list virtualizer (`VirtualFor`) to efficiently render lists with thousands or millions of items, significantly outperforming traditional mapping techniques.",
+          "Developed a declarative UI creation method using a hyperscript function (`h`), providing a JSX-like developer experience with plain JavaScript."
+        ]
+      },
+      {
+        "name": "Meeting System",
+        "url": "https://github.com/ahmadmdabit/MeetingSystem",
+        "technologies": [
+          ".NET 9",
+          "Angular 20+",
+          "Clean Architecture",
+          "Docker",
+          "MinIO",
+          "Hangfire",
+          "Testcontainers",
+          "RxJS"
+        ],
+        "description": [
+          "Architected a full-stack, containerized meeting management system using .NET 9 Clean Architecture for the backend and Angular 20+ Standalone Components for the frontend.",
+          "Implemented a complete DevOps environment using Docker Compose, integrating services like MinIO for object storage and Hangfire for background job processing.",
+          "Developed a reactive frontend with RxJS, managing component state declaratively to create a responsive and predictable user experience.",
+          "Established a robust testing strategy for the backend using Testcontainers to run integration tests against a real SQL Server instance, ensuring high reliability."
+        ]
+      },
       {
         "name": "RepoAIfy",
         "url": "https://github.com/ahmadmdabit/RepoAIfy",
