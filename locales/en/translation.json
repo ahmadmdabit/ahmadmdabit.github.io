@@ -360,6 +360,25 @@
     ],
     "projects": [
       {
+        "name": "SystemProcesses",
+        "url": "https://github.com/ahmadmdabit/SystemProcesses",
+        "technologies": [
+          ".NET",
+          "WPF",
+          "MVVM",
+          "Windows API",
+          "Zero‑Allocation Patterns",
+          "Thread‑Safe Data Structures"
+        ],
+        "description": [
+          "Designed and implemented a high‑performance Windows system monitor and task manager providing hierarchical process views and real‑time resource metrics (CPU, memory, I/O, storage).",
+          "Optimized performance with zero‑allocation pathways and thread‑safe data structures, reducing GC overhead and ensuring responsive UI under heavy system load.",
+          "Integrated tray enhancements and storage statistics modules for holistic monitoring and quick access to system metrics.",
+          "Developed advanced management tools (process termination, elevation, inspection) with safeguards to maintain system stability and compliance.",
+          "Architected a modular, maintainable desktop solution using .NET WPF and MVVM, aligned with enterprise‑grade development practices and open‑sourced under MIT license."
+        ]
+      },
+      {
         "name": "Aided",
         "url": "https://github.com/ahmadmdabit/aided",
         "technologies": [

@@ -360,6 +360,25 @@
     ],
     "projects": [
       {
+        "name": "SystemProcesses",
+        "url": "https://github.com/ahmadmdabit/SystemProcesses",
+        "technologies": [
+          ".NET",
+          "WPF",
+          "MVVM",
+          "Windows API",
+          "Zero‑Allocation Patterns",
+          "Thread‑Safe Data Structures"
+        ],
+        "description": [
+          "Windows için yüksek performanslı, hafif bir sistem izleme ve görev yöneticisi uygulaması tasarlayıp geliştirdim; hiyerarşik süreç görünümü ve gerçek zamanlı kaynak kullanım metrikleri (CPU, bellek, I/O, depolama) sağladım.",
+          "Zero‑allocation yöntemleri ve thread‑safe veri yapıları ile performansı optimize ederek GC yükünü azalttım ve yoğun sistem yükünde dahi duyarlı bir kullanıcı arayüzü elde ettim.",
+          "Sistem tepsisi entegrasyonları ve depolama istatistikleri modülleri ekleyerek kapsamlı izleme ve hızlı erişim sağladım.",
+          "Süreç sonlandırma, yükseltme ve inceleme gibi gelişmiş yönetim araçlarını güvenlik önlemleriyle birlikte geliştirdim, sistem kararlılığını korudum.",
+          ".NET WPF ve MVVM kullanarak modüler, sürdürülebilir bir masaüstü mimarisi kurdum; kurumsal geliştirme standartlarıyla uyumlu hale getirdim ve MIT lisansı altında açık kaynak olarak yayımladım."
+        ]
+      },
+      {
         "name": "Aided",
         "url": "https://github.com/ahmadmdabit/aided",
         "technologies": [
