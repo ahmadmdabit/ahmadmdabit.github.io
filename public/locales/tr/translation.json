@@ -92,9 +92,9 @@
           "C#",
           "TypeScript",
           "JavaScript",
+          "PHP",
           "Kotlin",
           "Java",
-          "PHP",
           "C",
           "C++",
           "VB.NET"
@@ -108,7 +108,8 @@
           "Domain-Driven Design (DDD)",
           "CQRS",
           "N-Katmanlı",
-          "MVVM"
+          "MVVM",
+          "Zero-Allocation Architecture"
         ]
       },
       {
@@ -122,8 +123,11 @@
           "WCF",
           "WPF",
           "WinForms",
+          "System.CommandLine",
+          "P/Invoke / LibraryImport",
           "AutoMapper",
           "MediatR",
+          "Mediator.SourceGenerator",
           "Polly",
           "FluentValidation",
           "CommunityToolkit.Mvvm",
@@ -200,8 +204,10 @@
           "Microsoft Server",
           "Ubuntu Server",
           "Serilog",
+          "ZLogger",
           "OpenTelemetry",
-          "VirtualBox"
+          "VirtualBox",
+          "Windows Kernel API"
         ]
       },
       {
@@ -240,21 +246,11 @@
       },
       {
         "category": "Mobil & Masaüstü",
-        "items": [
-          "Flutter",
-          "Dart",
-          "Ionic",
-          "Android",
-          "Electron.js"
-        ]
+        "items": ["Flutter", "Dart", "Ionic", "Android", "Electron.js"]
       },
       {
         "category": "Proje Yönetimi",
-        "items": [
-          "Jira",
-          "Asana",
-          "Slack"
-        ]
+        "items": ["Jira", "Asana", "Slack"]
       }
     ],
     "experience": [
@@ -359,6 +355,23 @@
       }
     ],
     "projects": [
+      {
+        "name": "Distributed File Fragmentor",
+        "url": "https://github.com/ahmadmdabit/DistributedFileFragmentor",
+        "technologies": [
+          ".NET 9",
+          "Clean Architecture",
+          "CQRS",
+          "EF Core 9",
+          "System.CommandLine",
+          "Resilience Patterns"
+        ],
+        "description": [
+          ".NET 9 ve Clean Architecture kullanılarak, büyük dosyaları parçalara ayıran, bu parçaları birden fazla depolama sağlayıcısına (Dosya Sistemi, Veritabanı) dağıtan ve bütünlüğü SHA-256 ile doğrulayan dağıtık bir dosya depolama sistemi tasarlandı.",
+          "Kaynak üreten (source-generated) bir Mediator ile CQRS deseni uygulandı ve paralel işlemleri güvenli ve verimli bir şekilde yönetmek için izole DbContext kapsamlarına sahip sağlam bir toplu işleme (batch processing) sistemi geliştirildi.",
+          "Üstel geri çekilme (exponential backoff) ve devre kesici (circuit breaker) gibi ileri düzey dayanıklılık (resilience) desenleri entegre edildi ve path traversal gibi güvenlik zafiyetlerine karşı önlemler alındı."
+        ]
+      },
       {
         "name": "SystemProcesses",
         "url": "https://github.com/ahmadmdabit/SystemProcesses",

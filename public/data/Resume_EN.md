@@ -107,6 +107,15 @@ Senior Software Developer (Architect) with 9+ years of experience in full-stack 
 
 ## PROJECTS
 
+A complete portfolio of my work, including additional personal projects, is available on [my website](https://ahmadmdabit.github.io).
+
+### Distributed File Fragmentor – [github.com/ahmadmdabit/DistributedFileFragmentor](https://github.com/ahmadmdabit/DistributedFileFragmentor)
+
+*   **Technologies:** .NET 9, Clean Architecture, CQRS, EF Core 9, System.CommandLine, Resilience Patterns
+*   Architected a distributed file storage system using .NET 9 and Clean Architecture to fragment large files, distribute them across multiple storage providers (FileSystem, Database), and verify integrity with SHA-256.
+*   Implemented a CQRS pattern with a source-generated Mediator and engineered a robust batch processing system with isolated DbContext scopes to handle parallel operations safely and efficiently.
+*   Integrated advanced resilience patterns, including exponential backoff retries and circuit breakers, and implemented security measures against path traversal and symlink attacks.
+
 ### Meeting System - [github.com/ahmadmdabit/MeetingSystem](https://github.com/ahmadmdabit/MeetingSystem)
 
 *   **Technologies:** .NET 9, Angular 20+, Clean Architecture, Docker, MinIO, Hangfire, Testcontainers, RxJS
@@ -128,13 +137,6 @@ Senior Software Developer (Architect) with 9+ years of experience in full-stack 
 *   Developed a Chrome extension featuring a multi-step AI pipeline using Google's Gemini AI to perform complex operations on browser tabs, including summarization, translation, and custom data extraction.
 *   Engineered a modern, responsive user interface with React 19 and Tailwind CSS, featuring real-time task status updates and the ability to synthesize data from multiple tabs into a single output.
 *   Established a professional, scalable development environment with a strict testing framework (Vitest, React Testing Library) and automated code quality checks using ESLint, Prettier, and Husky git hooks.
-
-### E-Store - [github.com/ahmadmdabit/e-store](https://github.com/ahmadmdabit/e-store)
-
-*   **Technologies:** .NET 6, ASP.NET Core, RESTful API, N-Tier Architecture, JWT, Entity Framework Core, SQL Server, MVC
-*   Architected a full-stack e-commerce application on .NET 6, implementing a scalable N-Tier design to cleanly separate the Data Access (DAL), Business Logic (BLL), and API layers.
-*   Implemented a secure RESTful backend API featuring JWT-based authentication to protect user data and manage application access, fully documented with Swagger.
-*   Developed a complete user-facing application using ASP.NET Core MVC and Razor Views, integrating core e-commerce features like a product catalog, shopping cart, and order processing.
 
 ### Notification System - [github.com/ahmadmdabit/NotificationSystem](https://github.com/ahmadmdabit/NotificationSystem)
 
