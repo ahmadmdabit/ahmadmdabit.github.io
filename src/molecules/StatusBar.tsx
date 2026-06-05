@@ -1,7 +1,7 @@
 import { memo } from "react";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import { StatusIndicator } from "@/atoms/StatusIndicator";
+// import { StatusIndicator } from "@/atoms/StatusIndicator";
 
 export const StatusBar: React.FC<{ page: string; name: string; title: string }> = memo(({ page, name, title }) => {
   console.log(page);
@@ -26,7 +26,7 @@ export const StatusBar: React.FC<{ page: string; name: string; title: string }> 
         borderColor: "success.main",
       }}
     >
-      <StatusIndicator />
+      {/* <StatusIndicator /> */}
       <Typography variant="caption" fontSize={'1rem'}> {name} – {title}</Typography>
       {/* <Typography variant="caption" fontSize={'1rem'} sx={{ ml: "auto" }}>
         {page}
