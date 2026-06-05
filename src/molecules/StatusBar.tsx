@@ -4,6 +4,7 @@ import Typography from "@mui/material/Typography";
 import { StatusIndicator } from "@/atoms/StatusIndicator";
 
 export const StatusBar: React.FC<{ page: string; name: string; title: string }> = memo(({ page, name, title }) => {
+  console.log(page);
   return (
     <Stack
       direction="row"
@@ -27,9 +28,9 @@ export const StatusBar: React.FC<{ page: string; name: string; title: string }> 
     >
       <StatusIndicator />
       <Typography variant="caption" fontSize={'1rem'}> {name} – {title}</Typography>
-      <Typography variant="caption" fontSize={'1rem'} sx={{ ml: "auto" }}>
+      {/* <Typography variant="caption" fontSize={'1rem'} sx={{ ml: "auto" }}>
         {page}
-      </Typography>
+      </Typography> */}
     </Stack>
   );
 });
