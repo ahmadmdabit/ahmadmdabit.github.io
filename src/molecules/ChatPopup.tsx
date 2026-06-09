@@ -16,11 +16,11 @@ import { marked } from "marked";
 import { StatusIndicator } from "@/atoms/StatusIndicator";
 import { CloseButton } from "@/atoms/CloseButton";
 
-const LLMModel = "openai/gpt-oss-120b:free";
-// const LLMModel = "openai/gpt-oss-120b",
-// const LLMModel = "anthropic/claude-haiku-4-5",
-// const LLMModel = "deepseek/deepseek-v4-flash",
-// const LLMModel = "z-ai/glm-4.7-flash",
+const LLMModel = "openai/gpt-oss-120b:free"; // ContextWindow: 131K
+// const LLMModel = "openai/gpt-oss-120b", // ContextWindow: 131K
+// const LLMModel = "anthropic/claude-haiku-4-5", // ContextWindow: 200K
+// const LLMModel = "deepseek/deepseek-v4-flash", // ContextWindow: 1M
+// const LLMModel = "z-ai/glm-4.7-flash", // ContextWindow: 128K
 
 declare module "@heyputer/puter.js" {
   interface Puter {
@@ -281,10 +281,25 @@ export const ChatPopup: React.FC<{ open: boolean; onClose: () => void }> = memo(
   const [searchIndex, setSearchIndex] = useState<SearchIndex | null>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLDivElement>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
   const abortControllerRef = useRef<AbortController | null>(null);
   const apiHistoryRef = useRef<{ role: "user" | "assistant"; content: string }[]>([]);
+  // When true, the user has scrolled up away from the bottom; pause auto-scroll.
+  const isUserScrolledUpRef = useRef(false);
+
+  useEffect(() => {
+    return () => {
+      abortControllerRef.current?.abort();
+    };
+  }, []);
 
   const currentLocale = i18n.language.startsWith("tr") ? "tr" : "en";
+
+  // Keep a ref to draft so send() doesn't need draft as a dependency.
+  // Without this, send() — and handleKeyDown which depends on it — would
+  // be recreated on every keystroke.
+  const draftRef = useRef(draft);
+  draftRef.current = draft;
 
   useEffect(() => {
     if (open && !isIndexing && !searchIndex) {
@@ -318,7 +333,24 @@ export const ChatPopup: React.FC<{ open: boolean; onClose: () => void }> = memo(
   }, [messages.length, open, t]);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    const onScroll = () => {
+      // Consider "at the bottom" if within 80px of the bottom edge.
+      const distanceFromBottom = container.scrollHeight - container.scrollTop - container.clientHeight;
+      isUserScrolledUpRef.current = distanceFromBottom > 80;
+    };
+
+    container.addEventListener("scroll", onScroll, { passive: true });
+    return () => container.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // Auto-scroll when messages change — but only if the user hasn't scrolled up.
+  useEffect(() => {
+    if (!isUserScrolledUpRef.current) {
+      bottomRef.current?.scrollIntoView({ behavior: "instant" });
+    }
   }, [messages]);
 
   useEffect(() => {
@@ -353,15 +385,18 @@ export const ChatPopup: React.FC<{ open: boolean; onClose: () => void }> = memo(
   );
 
   const send = useCallback(async () => {
-    if (!draft.trim() || !searchIndex || isIndexing) return;
+    if (!draftRef.current.trim() || !searchIndex || isIndexing) return;
 
     if (abortControllerRef.current) {
       abortControllerRef.current.abort();
     }
     abortControllerRef.current = new AbortController();
 
-    const userMessage = draft.trim().slice(0, 2000);
+    const userMessage = draftRef.current.trim().slice(0, 2000);
     const history = apiHistoryRef.current;
+    // User is sending a new message — reset the scrolled-up flag so we
+    // auto-scroll to the new exchange.
+    isUserScrolledUpRef.current = false;
     setMessages((prev) => [...prev, makeMessage("user", userMessage)]);
     setDraft("");
     setIsLoading(true);
@@ -435,9 +470,13 @@ ${faqQuestions.join("\n")}`;
 
       let assistantText = "";
       let pendingToolCall: { id: string; name: string; input: { query: string; searchType: string } } | null = null;
+      let wasAborted = false;
 
       for await (const part of response) {
-        if (abortControllerRef.current?.signal.aborted) break;
+        if (abortControllerRef.current?.signal.aborted) {
+          wasAborted = true;
+          break;
+        }
 
         // Standard text stream
         if (part?.text) {
@@ -456,7 +495,7 @@ ${faqQuestions.join("\n")}`;
       }
 
       // Step 3: If LLM requested expanded search, execute it
-      if (pendingToolCall && pendingToolCall.name === "expandSearch") {
+      if (!wasAborted && pendingToolCall && pendingToolCall.name === "expandSearch") {
         const { query: expandedQuery, searchType: searchType } = pendingToolCall.input;
 
         const fuzzy = searchType === "crossLocale" ? 0.3 : 0.4;
@@ -501,7 +540,10 @@ ${faqQuestions.join("\n")}`;
         // Reset and stream the final response
         assistantText = "";
         for await (const finalPart of finalResponse) {
-          if (abortControllerRef.current?.signal.aborted) break;
+          if (abortControllerRef.current?.signal.aborted) {
+            wasAborted = true;
+            break;
+          }
           if (finalPart?.text) {
             assistantText += finalPart.text;
             setMessages((prev) => prev.map((m) => (m.id === streamingId ? { ...m, text: assistantText } : m)));
@@ -509,7 +551,14 @@ ${faqQuestions.join("\n")}`;
         }
       }
 
-      apiHistoryRef.current = [...history, { role: "user" as const, content: userMessage }, { role: "assistant" as const, content: assistantText }];
+      if (wasAborted) {
+        // Remove the empty/partial assistant bubble that was added before
+        // streaming started, so the UI doesn't show a blank message.
+        setMessages((prev) => prev.filter((m) => m.id !== streamingId));
+      } else {
+        // Persist completed turn to conversation history.
+        apiHistoryRef.current = [...history, { role: "user" as const, content: userMessage }, { role: "assistant" as const, content: assistantText }];
+      }
     } catch (error) {
       if (error instanceof Error && error.name === "AbortError") return;
       console.error("[ChatPopup] send error:", error);
@@ -517,7 +566,7 @@ ${faqQuestions.join("\n")}`;
     } finally {
       setIsLoading(false);
     }
-  }, [currentLocale, draft, isIndexing, performSearch, searchIndex, t]);
+  }, [currentLocale, isIndexing, performSearch, searchIndex, t]);
 
   const handleChange = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setDraft(e.target.value);
@@ -550,7 +599,7 @@ ${faqQuestions.join("\n")}`;
           <CloseButton onClick={onClose} />
         </Stack>
 
-        <Stack sx={{ flex: 1, overflowY: "auto", p: 2 }} spacing={2}>
+        <Stack ref={scrollContainerRef} sx={{ flex: 1, overflowY: "auto", p: 2 }} spacing={2}>
           {messages.map((m) => (
             <Box key={m.id} sx={{ alignSelf: m.role === "user" ? "flex-end" : "flex-start" }}>
               <Typography variant="caption" color="grey.400">
@@ -584,19 +633,7 @@ ${faqQuestions.join("\n")}`;
             </Box>
           )}
 
-          <TextField
-            inputRef={inputRef}
-            variant="outlined"
-            hiddenLabel
-            fullWidth
-            multiline
-            maxRows={3}
-            value={draft}
-            onChange={handleChange}
-            onKeyDown={handleKeyDown}
-            disabled={isLoading || isIndexing}
-            placeholder={isIndexing ? t("ui.chat.pleaseWaitIndexingDocuments") : isLoading ? t("ui.chat.loadingPlaceholder") : t("ui.chat.placeholder")}
-          />
+          <TextField inputRef={inputRef} variant="outlined" hiddenLabel fullWidth multiline maxRows={3} value={draft} onChange={handleChange} onKeyDown={handleKeyDown} disabled={isLoading || isIndexing} placeholder={isIndexing ? t("ui.chat.pleaseWaitIndexingDocuments") : isLoading ? t("ui.chat.loadingPlaceholder") : t("ui.chat.placeholder")} />
           {isLoading && (
             <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", mt: 1 }}>
               <Box
