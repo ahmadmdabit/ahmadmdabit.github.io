@@ -23,9 +23,19 @@
       "sending": "Gönderiliyor..."
     },
     "chat": {
+      "senderYou": "Sen",
+      "senderAssistant": "Asistan",
       "aiAssistant": "Yapay Zeka Asistanı",
-      "initialMessage": "Merhaba! Bu özellik yakında kullanıma sunulacaktır.",
-      "placeholder": "Bana her şeyi sorabilirsiniz"
+      "initialMessage": "Merhaba. Ahmet FATİHOĞLU hakkında daha fazla bilgi edinmenize yardımcı olabilirim.",
+      "placeholder": "Ahmet FATİHOĞLU hakkında ne istersen sorabilirsiniz",
+      "loadingPlaceholder": "Yapay zekanın yanıtını bekliyoruz...",
+      "loading": "Düşünme...",
+      "indexingDocuments": "Belgeler dizine ekleniyor...",
+      "pleaseWaitIndexingDocuments": "Lütfen bekleyin, dizin hazırlanıyor...",
+      "searchIndexNotReady": "Arama dizini henüz hazır değil. Lütfen bir dakika bekleyin.",
+      "noRelevantInformationFoundInTheDocuments": "Sorunuzla ilgili belgelerde bilgi bulunamadı.",
+      "encounteredError": "Üzgünüm, isteğinizi işlerken bir hata oluştu.",
+      "stop": "Durdur"
     },
     "misc": {
       "returnToHomePage": "Ana Sayfaya Dön",
@@ -62,7 +72,8 @@
       "title": "Ahmet FATİHOĞLU - Kıdemli Yazılım Geliştirme Uzmanı (Mimar)",
       "description": "Ahmet FATİHOĞLU - Kıdemli Yazılım Geliştirme Uzmanı (Mimar) Portföy. C# .NET, React ve bulut teknolojilerindeki uzmanlığıyla tam yığın web, masaüstü ve mobil geliştirme projelerini sergiliyor.",
       "author": "Ahmet FATİHOĞLU",
-      "keywords": "Ahmet FATİHOĞLU, Kıdemli Yazılım Geliştirme Uzmanı, Mimari, C#, TypeScript, JavaScript, Kotlin, Java, PHP, C, C++, VB.NET, .NET Ekosistemi, ASP.NET Core, ASP.NET MVC, .NET Framework, Web API, Entity Framework Core, WCF, WPF, WinForms, Domain-Driven Design, DDD, CQRS, Mikroservisler, Temiz Mimari, React, Vue, Angular, Node.js, Laravel, HTML5, CSS3, Tailwind CSS, MUI, RESTful API, gRPC, MassTransit, RabbitMQ, Ocelot API Gateway, Swagger, JWT, PostgreSQL, MongoDB, Cassandra, Redis, Microsoft Azure, Docker, CI/CD, Git, GitHub, xUnit, Vitest, ESLint, Prettier, Google Gemini AI, YouTube API, Flutter, Dart, Ionic, Android"
+      "keywords": "Ahmet FATİHOĞLU, Kıdemli Yazılım Geliştirme Uzmanı, Mimari, C#, TypeScript, JavaScript, Kotlin, Java, PHP, C, C++, VB.NET, .NET Ekosistemi, ASP.NET Core, ASP.NET MVC, .NET Framework, Web API, Entity Framework Core, WCF, WPF, WinForms, Domain-Driven Design, DDD, CQRS, Mikroservisler, Temiz Mimari, React, Vue, Angular, Node.js, Laravel, HTML5, CSS3, Tailwind CSS, MUI, RESTful API, gRPC, MassTransit, RabbitMQ, Ocelot API Gateway, Swagger, JWT, PostgreSQL, MongoDB, Cassandra, Redis, Microsoft Azure, Docker, CI/CD, Git, GitHub, xUnit, Vitest, ESLint, Prettier, Google Gemini AI, YouTube API, Flutter, Dart, Ionic, Android",
+      "allRightsReserved": "Tüm Hakları Saklıdır ©"
     }
   },
   "resume": {
@@ -109,7 +120,9 @@
           "CQRS",
           "N-Katmanlı",
           "MVVM",
-          "Zero-Allocation Architecture"
+          "Sıfır Tahsis Mimarisi",
+          "İnce Taneli Reaktivite",
+          "Liste Sanallaştırması"
         ]
       },
       {
@@ -147,7 +160,7 @@
           "CSS3",
           "Tailwind CSS",
           "MUI",
-          "Sass",
+          "SASS",
           "Bootstrap",
           "jQuery",
           "Vite.js",
@@ -232,6 +245,8 @@
       {
         "category": "Yapay Zeka, Arama & API Entegrasyonu",
         "items": [
+          "Claude",
+          "GPT",
           "Google Gemini AI",
           "YouTube API",
           "GitHub Copilot",
@@ -240,17 +255,29 @@
           "ElasticSearch",
           "Lucene",
           "Chrome Eklentileri",
-          "Prompt Engineering",
+          "Prompt Mühendisliği",
+          "Bağlam Mühendisliği",
+          "Yapay Zekâ Orkestrasyonu",
           "Cline"
         ]
       },
       {
         "category": "Mobil & Masaüstü",
-        "items": ["Flutter", "Dart", "Ionic", "Android", "Electron.js"]
+        "items": [
+          "Flutter",
+          "Dart",
+          "Ionic",
+          "Android",
+          "Electron.js"
+        ]
       },
       {
         "category": "Proje Yönetimi",
-        "items": ["Jira", "Asana", "Slack"]
+        "items": [
+          "Jira",
+          "Asana",
+          "Slack"
+        ]
       }
     ],
     "experience": [
@@ -389,6 +416,62 @@
           "Sistem tepsisi entegrasyonları ve depolama istatistikleri modülleri ekleyerek kapsamlı izleme ve hızlı erişim sağladım.",
           "Süreç sonlandırma, yükseltme ve inceleme gibi gelişmiş yönetim araçlarını güvenlik önlemleriyle birlikte geliştirdim, sistem kararlılığını korudum.",
           ".NET WPF ve MVVM kullanarak modüler, sürdürülebilir bir masaüstü mimarisi kurdum; kurumsal geliştirme standartlarıyla uyumlu hale getirdim ve MIT lisansı altında açık kaynak olarak yayımladım."
+        ]
+      },
+      {
+        "name": "Linguistics (Yüksek Performanslı Arapça Doğal Dil İşleme [NLP] Kütüphanesi)",
+        "url": "https://github.com/ahmadmdabit/Linguistics",
+        "technologies": [
+          "C#",
+          ".NET 10",
+          "NLP",
+          "Span<T>",
+          "stackalloc",
+          "Morphological Analysis",
+          "Stemming",
+          "NUnit"
+        ],
+        "description": [
+          "C# ile harici hiçbir bağımlılık barındırmayan, .NET 6'dan 10'a kadar olan sürümleri destekleyen sıfır bellek tahsisatlı (zero-allocation) Arapça Doğal Dil İşleme (NLP) kütüphanesi geliştirildi.",
+          "Arama dizini oluşturma (search indexing) iş yüklerinde yüksek performans elde etmek için `Span<T>`, `stackalloc` ve tamsayı paketli (integer-packed) arama tabloları kullanılarak performans kritik yollar optimize edildi.",
+          "Standart Regex tabanlı motorlara kıyasla yürütme hızını önemli ölçüde artıran gelişmiş hareke kaldırma (diacritic removal) ve regex içermeyen metin temizleme (text sanitization) algoritmaları uygulandı."
+        ]
+      },
+      {
+        "name": "App User Data Scanner (Yüksek Performanslı Dizin Tarayıcı)",
+        "url": "https://github.com/ahmadmdabit/AppUserDataScanner",
+        "technologies": [
+          "C#",
+          ".NET 10",
+          "NativeAOT",
+          "System.Threading.Channels",
+          "Producer-Consumer",
+          "ZLogger"
+        ],
+        "description": [
+          "Chromium ve Electron profillerinin hızlı bir şekilde tespit edilmesi için .NET 10 ve NativeAOT kullanılarak çok iş parçacıklı (multi-threaded) bir sistem dizini tarayıcısı geliştirildi.",
+          "Düşük kaynak tüketimiyle klasör yapılarını taramak amacıyla `System.Threading.Channels` ve `Parallel.ForEachAsync` kullanılarak bloklamayan bir producer-consumer veri yolu (pipeline) tasarlandı.",
+          "Sıfır bellek tahsisatlı (zero-allocation) kritik çalışma yollarında `ReadOnlySpan<char>`, `FrozenDictionary` ve nesne havuzu (object pooling) kullanılarak bellek ayak izini en aza indirmek için yol ayrıştırma (path parsing) süreçleri optimize edildi."
+        ]
+      },
+      {
+        "name": "Data Import/Export Viewer (WPF Tablo Veri Uygulaması)",
+        "url": "https://github.com/ahmadmdabit/DataTablesApp",
+        "technologies": [
+          "C#",
+          ".NET 10",
+          "WPF",
+          "MVVM",
+          "IAsyncEnumerable",
+          "DataGrid Virtualization",
+          "OpenXML",
+          "YamlDotNet",
+          "Result Pattern"
+        ],
+        "description": [
+          "CSV, JSON, XLSX, XML ve YAML formatlarında akış (streaming) üzerinden içe ve dışa aktarma işlemlerini destekleyen bir WPF masaüstü veri görüntüleme uygulaması geliştirildi.",
+          "`IAsyncEnumerable<T>`, OpenXmlReader ve sıfır bellek tahsisatlı span tabanlı CSV satır ayrıştırma teknikleri kullanılarak bellek dostu bir veri akışı (data streaming) uygulandı.",
+          "Büyük ölçekli tabloların sorunsuz render edilmesi için sanallaştırılmış DataGrid bileşenleri içeren, CommunityToolkit.Mvvm tabanlı, temiz ve bağımsız bir MVVM mimarisi tasarlandı."
         ]
       },
       {
@@ -594,12 +677,7 @@
         "name": "Arapça",
         "proficiency": "Anadil"
       }
-    ],
-    "reference": {
-      "name": "Uğur Kolcu Bey",
-      "title": "Hitit Bilgi Teknolojileri'nde Müdür",
-      "contact": "+90 541 567 22 17 - ugur.kolcu@hititbt.com - İstanbul, Türkiye"
-    }
+    ]
   },
   "privacy": {
     "title": "Gizlilik Bildirimi",

@@ -58,7 +58,7 @@ export const ErrorPage: React.FC = memo(() => {
       </Box>
 
       <Typography variant="caption" color="grey.400" align="center" paddingTop={1}>
-        All Rights Reserved &copy; 2025
+        {t("ui.meta.allRightsReserved")} {new Date().getFullYear()}
       </Typography>
     </Container>
   );

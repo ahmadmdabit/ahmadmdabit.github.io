@@ -5,6 +5,7 @@ import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
+import { t } from 'i18next';
 
 interface ErrorBoundaryState {
   hasError: boolean;
@@ -83,7 +84,7 @@ class ErrorBoundary extends React.Component<
             </StyledPaper>
           </Box>
           <Typography variant="caption" color="grey.400" align="center" paddingTop={1}>
-            All Rights Reserved &copy; 2025
+            {t("ui.meta.allRightsReserved")} {new Date().getFullYear()}
           </Typography>
         </Container>
       );

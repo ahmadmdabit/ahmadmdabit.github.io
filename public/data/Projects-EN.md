@@ -1,0 +1,103 @@
+## PROJECTS
+
+### Distributed File Fragmentor – [github.com/ahmadmdabit/DistributedFileFragmentor](https://github.com/ahmadmdabit/DistributedFileFragmentor)
+
+- **Technologies:** .NET 9, Clean Architecture, CQRS, EF Core 9, System.CommandLine, Resilience Patterns
+- Architected a distributed file storage system using .NET 9 and Clean Architecture to fragment large files, distribute them across multiple storage providers (FileSystem, Database), and verify integrity with SHA-256.
+- Implemented a CQRS pattern with a source-generated Mediator and engineered a robust batch processing system with isolated DbContext scopes to handle parallel operations safely and efficiently.
+- Integrated advanced resilience patterns, including exponential backoff retries and circuit breakers, and implemented security measures against path traversal and symlink attacks.
+
+### SystemProcesses – [github.com/ahmadmdabit/SystemProcesses](https://github.com/ahmadmdabit/SystemProcesses)
+
+- **Technologies:** .NET, WPF, MVVM, Windows API, Zero‑Allocation Patterns, Thread‑Safe Data Structures
+- Designed and implemented a high‑performance Windows system monitor and task manager providing hierarchical process views and real‑time resource metrics (CPU, memory, I/O, storage).
+- Optimized performance with zero‑allocation pathways and thread‑safe data structures, reducing GC overhead and ensuring responsive UI under heavy system load.
+- Integrated tray enhancements and storage statistics modules for holistic monitoring and quick access to system metrics.
+- Developed advanced management tools (process termination, elevation, inspection) with safeguards to maintain system stability and compliance.
+- Architected a modular, maintainable desktop solution using .NET WPF and MVVM, aligned with enterprise‑grade development practices and open‑sourced under MIT license.
+
+### Meeting System - [github.com/ahmadmdabit/MeetingSystem](https://github.com/ahmadmdabit/MeetingSystem)
+
+- **Technologies:** .NET 9, Angular 20+, Clean Architecture, Docker, MinIO, Hangfire, Testcontainers, RxJS
+- Architected a full-stack, containerized meeting management system using .NET 9 Clean Architecture for the backend and Angular 20+ Standalone Components for the frontend.
+- Implemented a complete DevOps environment using Docker Compose, integrating services like MinIO for object storage and Hangfire for background job processing.
+- Developed a reactive frontend with RxJS, managing component state declaratively to create a responsive and predictable user experience.
+- Established a robust testing strategy for the backend using Testcontainers to run integration tests against a real SQL Server instance, ensuring high reliability.
+
+### Linguistics (High-Performance Arabic NLP Library) - [github.com/ahmadmdabit/Linguistics](https://github.com/ahmadmdabit/Linguistics)
+
+- **Technologies:** C#, .NET 10, NLP, Span<T>, stackalloc, Morphological Analysis, Stemming, NUnit
+- Authored a zero-allocation Arabic Natural Language Processing (NLP) library in C# supporting .NET 6 to 10 with zero external dependencies.
+- Engineered performance-critical hot paths using `Span<T>`, `stackalloc`, and integer-packed lookup tables to achieve high throughput for search indexing workloads.
+- Implemented advanced diacritic removal and regex-free text sanitization algorithms, improving execution speed compared to standard Regex-based engines.
+
+### App User Data Scanner (High-Performance Directory Crawler) - [github.com/ahmadmdabit/AppUserDataScanner](https://github.com/ahmadmdabit/AppUserDataScanner)
+
+- **Technologies:** C#, .NET 10, NativeAOT, System.Threading.Channels, Producer-Consumer, ZLogger
+- Developed a multi-threaded system directory scanner using .NET 10 and NativeAOT for rapid Chromium and Electron profile identification.
+- Architected a non-blocking producer-consumer pipeline using `System.Threading.Channels` and `Parallel.ForEachAsync` to traverse folder structures with low resource overhead.
+- Optimized path parsing to minimize heap footprint by leveraging `ReadOnlySpan<char>`, `FrozenDictionary`, and object pooling for zero-allocation hot paths.
+
+### Data Import/Export Viewer (WPF Tabular Data Application) - [github.com/ahmadmdabit/DataTablesApp](https://github.com/ahmadmdabit/DataTablesApp)
+
+- **Technologies:** C#, .NET 10, WPF, MVVM, IAsyncEnumerable, DataGrid Virtualization, OpenXML, YamlDotNet, Result Pattern
+- Built a WPF desktop data viewer supporting streaming import and export operations across CSV, JSON, XLSX, XML, and YAML formats.
+- Implemented memory-efficient data streaming using `IAsyncEnumerable<T>`, OpenXmlReader, and zero-allocation span-based CSV line parsing.
+- Designed a clean, decoupled MVVM architecture using CommunityToolkit.Mvvm, featuring virtualized DataGrid elements for smooth rendering of large-scale tabular datasets.
+
+### Aided - [github.com/ahmadmdabit/aided](https://github.com/ahmadmdabit/aided)
+
+- **Technologies:** JavaScript, TypeScript, Hyperscript, Fine-Grained Reactivity, Vitest
+- Authored and published a minimal JavaScript library for building user interfaces without a Virtual DOM, inspired by SolidJS.
+- Designed a core reactivity system from scratch using signals, effects, and memos to ensure that state changes result in precise, surgical DOM updates.
+- Engineered a high-performance, headless list virtualizer (`VirtualFor`) to efficiently render lists with thousands or millions of items, significantly outperforming traditional mapping techniques.
+- Developed a declarative UI creation method using a hyperscript function (`h`), providing a JSX-like developer experience with plain JavaScript.
+
+### RepoAIfy - [github.com/ahmadmdabit/RepoAIfy](https://github.com/ahmadmdabit/RepoAIfy)
+
+- **Technologies:** C#, .NET 9, WPF, MVVM, .NET Class Library, .NET CLI, JSON, Git, Markdown
+- Architected and developed a dual-interface .NET 9 solution (WPF & CLI) to analyze and document large codebases, using the MVVM pattern to ensure a clean separation of concerns.
+- Implemented a dynamic, real-time file filtering system with an interactive tree view and cancellable tasks for a responsive and seamless user experience.
+- Engineered an automated output chunking feature to split large code analyses into manageable Markdown files, optimizing them for AI model consumption and review.
+
+### AI Utils Extension - [github.com/ahmadmdabit/ai-utils-extension](https://github.com/ahmadmdabit/ai-utils-extension)
+
+- **Technologies:** React 19, TypeScript, Tailwind CSS, Vite, Vitest, Chrome Manifest V3, Google Gemini AI
+- Developed a Chrome extension featuring a multi-step AI pipeline using Google's Gemini AI to perform complex operations on browser tabs, including summarization, translation, and custom data extraction.
+- Engineered a modern, responsive user interface with React 19 and Tailwind CSS, featuring real-time task status updates and the ability to synthesize data from multiple tabs into a single output.
+- Established a professional, scalable development environment with a strict testing framework (Vitest, React Testing Library) and automated code quality checks using ESLint, Prettier, and Husky git hooks.
+
+### e-store - [github.com/ahmadmdabit/e-store](https://github.com/ahmadmdabit/e-store)
+
+- **Technologies:** .NET 6, ASP.NET Core, RESTful API, N-Tier Architecture, JWT, Entity Framework Core, SQL Server, MVC
+- Architected a full-stack e-commerce application on .NET 6, implementing a scalable N-Tier design to cleanly separate the Data Access (DAL), Business Logic (BLL), and API layers.
+- Implemented a secure RESTful backend API featuring JWT-based authentication to protect user data and manage application access, fully documented with Swagger.
+- Developed a complete user-facing application using ASP.NET Core MVC and Razor Views, integrating core e-commerce features like a product catalog, shopping cart, and order processing.
+
+### NotificationSystem - [github.com/ahmadmdabit/NotificationSystem](https://github.com/ahmadmdabit/NotificationSystem)
+
+- **Technologies:** .NET Core, Microservices Architecture, Ocelot API Gateway, Dapper, SQL Server, RESTful API
+- Designed and implemented a distributed system using a microservices architecture, separating user and notification functionalities into independent, scalable services.
+- Configured an API Gateway using Ocelot to provide a single, unified entry point, centralizing request routing and simplifying service discovery for the frontend.
+- Built a high-performance data access layer using the Dapper ORM for direct SQL query execution, ensuring efficient communication between services and the database.
+
+### SinavOlusturma (Exam Management System) - [github.com/ahmadmdabit/SinavOlusturma](https://github.com/ahmadmdabit/SinavOlusturma)
+
+- **Technologies:** .NET Core, ASP.NET Core, N-Tier Architecture, RESTful API, JWT, Dapper, SQLite, HtmlAgilityPack
+- Developed a full-stack exam management system using a clean N-Tier architecture to logically separate the API backend, business logic, and data access layers.
+- Implemented a secure, role-based authentication system with JWT to provide distinct permissions and application views for Admin and standard User roles.
+- Integrated a web scraping module using HtmlAgilityPack to dynamically extract and import content for exam creation, demonstrating practical data extraction skills.
+
+### Exchange (Real-time Exchange Rate Tracker) - [github.com/ahmadmdabit/Exchange](https://github.com/ahmadmdabit/Exchange)
+
+- **Technologies:** .NET Core, ASP.NET Core, WebSockets, Redis, Vue.js, MySQL, JWT, RESTful API
+- Engineered a real-time data pipeline using WebSockets to stream live currency updates from a .NET Core backend to a responsive Vue.js client.
+- Implemented Redis for high-performance in-memory caching, dramatically reducing database load and enabling high-frequency, low-latency data updates.
+- Developed a multi-component system including a secure RESTful API with JWT authentication and a separate background service to simulate market data fluctuations.
+
+### Market (Customer Management System) - [github.com/ahmadmdabit/market](https://github.com/ahmadmdabit/market)
+
+- **Technologies:** .NET Core, Angular 11, TypeScript, N-Tier Architecture, NHibernate, SQL Server, RESTful API, ag-Grid
+- Developed a full-stack customer management application using a clean N-Tier architecture, leveraging the NHibernate ORM for robust, object-oriented data access.
+- Built a feature-rich and responsive single-page application (SPA) with Angular 11 for comprehensive data management, including interactive data grids with ag-Grid.
+- Designed and implemented a clean RESTful API to serve as the communication layer between the Angular frontend and the .NET backend, ensuring seamless CRUD operations.

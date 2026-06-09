@@ -125,9 +125,11 @@ export const PrivacyPage: React.FC<PrivacyPageProps> = memo(({ isPlainText }) =>
         </Paper>
       </Box>
 
-      {!isPlainText && <Typography variant="caption" color="grey.400" align="center" paddingTop={1}>
-        All Rights Reserved &copy; 2025
-      </Typography>}
+      {!isPlainText && (
+        <Typography variant="caption" color="grey.400" align="center" paddingTop={1}>
+          {t("ui.meta.allRightsReserved")} {new Date().getFullYear()}
+        </Typography>
+      )}
     </Container>
   );
 });

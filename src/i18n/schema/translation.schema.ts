@@ -51,6 +51,7 @@ const translation = {
       description: "",
       author: "",
       keywords: "",
+      allRightsReserved: "",
     },
     form: {
       fullName: "",
@@ -60,9 +61,19 @@ const translation = {
       sending: "",
     },
     chat: {
+      senderYou: "",
+      senderAssistant: "",
       aiAssistant: "",
       initialMessage: "",
       placeholder: "",
+      loadingPlaceholder: "",
+      loading: "",
+      indexingDocuments: "",
+      pleaseWaitIndexingDocuments: "",
+      searchIndexNotReady: "",
+      noRelevantInformationFoundInTheDocuments: "",
+      encounteredError: "",
+      stop: "",
     },
     misc: {
       returnToHomePage: "",

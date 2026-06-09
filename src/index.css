@@ -1,0 +1,30 @@
+:root {
+    --thumb: rgba(0, 0, 0, 0.1);
+    --track: rgba(0, 0, 0, 0.0);
+}
+
+@supports (scrollbar-width: auto) {
+    html {
+        scrollbar-width: thin;
+        scrollbar-color: var(--thumb) var(--track);
+    }
+}
+
+@supports selector(::-webkit-scrollbar) {
+    html::-webkit-scrollbar {
+        width: 12px;
+        height: 12px;
+    }
+
+    html::-webkit-scrollbar-track {
+        background: var(--track);
+    }
+
+    html::-webkit-scrollbar-thumb {
+        background: var(--thumb);
+    }
+}
+
+a {
+    color: inherit;
+}

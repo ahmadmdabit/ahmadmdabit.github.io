@@ -23,9 +23,19 @@
       "sending": "Sending..."
     },
     "chat": {
+      "senderYou": "You",
+      "senderAssistant": "Assistant",
       "aiAssistant": "AI Assistant",
-      "initialMessage": "Hi! This feature is coming soon.",
-      "placeholder": "Ask me anything"
+      "initialMessage": "Hello. I can help you know better about Ahmet FATIHOGLU",
+      "placeholder": "Ask me anything about Ahmet FATIHOGLU",
+      "loadingPlaceholder": "Waiting for AI response...",
+      "loading": "Thinking...",
+      "indexingDocuments": "Indexing documents...",
+      "pleaseWaitIndexingDocuments": "Please wait, indexing documents...",
+      "searchIndexNotReady": "Search index not ready. Please wait a moment.",
+      "noRelevantInformationFoundInTheDocuments": "No relevant information found in the documents for your query.",
+      "encounteredError": "I encountered an error processing your request.",
+      "stop": "Stop"
     },
     "misc": {
       "returnToHomePage": "Return To Home Page",
@@ -62,7 +72,8 @@
       "title": "Ahmet FATIHOGLU - Senior Software Developer (Architect)",
       "description": "Ahmet FATIHOGLU - Senior Software Developer (Architect) Portfolio. Showcasing full-stack web, desktop, and mobile development projects with expertise in C# .NET, React, and cloud technologies.",
       "author": "Ahmet FATIHOGLU",
-      "keywords": "Ahmet FATIHOGLU, Senior Software Developer, Architect, C#, TypeScript, JavaScript, Kotlin, Java, PHP, C, C++, VB.NET, .NET Ecosystem, ASP.NET Core, ASP.NET MVC, .NET Framework, Web API, Entity Framework Core, WCF, WPF, WinForms, Domain-Driven Design, DDD, CQRS, Microservices, Clean Architecture, React, Vue, Angular, Node.js, Laravel, HTML5, CSS3, Tailwind CSS, MUI, RESTful API, gRPC, MassTransit, RabbitMQ, Ocelot API Gateway, Swagger, JWT, PostgreSQL, MongoDB, Cassandra, Redis, Microsoft Azure, Docker, CI/CD, Git, GitHub, xUnit, Vitest, ESLint, Prettier, Google Gemini AI, YouTube API, Flutter, Dart, Ionic, Android"
+      "keywords": "Ahmet FATIHOGLU, Senior Software Developer, Architect, C#, TypeScript, JavaScript, Kotlin, Java, PHP, C, C++, VB.NET, .NET Ecosystem, ASP.NET Core, ASP.NET MVC, .NET Framework, Web API, Entity Framework Core, WCF, WPF, WinForms, Domain-Driven Design, DDD, CQRS, Microservices, Clean Architecture, React, Vue, Angular, Node.js, Laravel, HTML5, CSS3, Tailwind CSS, MUI, RESTful API, gRPC, MassTransit, RabbitMQ, Ocelot API Gateway, Swagger, JWT, PostgreSQL, MongoDB, Cassandra, Redis, Microsoft Azure, Docker, CI/CD, Git, GitHub, xUnit, Vitest, ESLint, Prettier, Google Gemini AI, YouTube API, Flutter, Dart, Ionic, Android",
+      "allRightsReserved": "All Rights Reserved ©"
     }
   },
   "resume": {
@@ -109,7 +120,9 @@
           "CQRS",
           "N-Tier",
           "MVVM",
-          "Zero-Allocation Architecture"
+          "Zero-Allocation Architecture",
+          "Fine-Grained Reactivity",
+          "List Virtualization"
         ]
       },
       {
@@ -147,7 +160,7 @@
           "CSS3",
           "Tailwind CSS",
           "MUI",
-          "Sass",
+          "SASS",
           "Bootstrap",
           "jQuery",
           "Vite.js",
@@ -232,6 +245,8 @@
       {
         "category": "AI, Search & API Integration",
         "items": [
+          "Claude",
+          "GPT",
           "Google Gemini AI",
           "YouTube API",
           "GitHub Copilot",
@@ -241,16 +256,28 @@
           "Lucene",
           "Chrome Extensions",
           "Prompt Engineering",
+          "Context Engineering",
+          "AI Orchestration",
           "Cline"
         ]
       },
       {
         "category": "Mobile & Desktop",
-        "items": ["Flutter", "Dart", "Ionic", "Android", "Electron.js"]
+        "items": [
+          "Flutter",
+          "Dart",
+          "Ionic",
+          "Android",
+          "Electron.js"
+        ]
       },
       {
         "category": "Project Management",
-        "items": ["Jira", "Asana", "Slack"]
+        "items": [
+          "Jira",
+          "Asana",
+          "Slack"
+        ]
       }
     ],
     "experience": [
@@ -389,6 +416,62 @@
           "Integrated tray enhancements and storage statistics modules for holistic monitoring and quick access to system metrics.",
           "Developed advanced management tools (process termination, elevation, inspection) with safeguards to maintain system stability and compliance.",
           "Architected a modular, maintainable desktop solution using .NET WPF and MVVM, aligned with enterprise‑grade development practices and open‑sourced under MIT license."
+        ]
+      },
+      {
+        "name": "Linguistics (High-Performance Arabic NLP Library)",
+        "url": "https://github.com/ahmadmdabit/Linguistics",
+        "technologies": [
+          "C#",
+          ".NET 10",
+          "NLP",
+          "Span<T>",
+          "stackalloc",
+          "Morphological Analysis",
+          "Stemming",
+          "NUnit"
+        ],
+        "description": [
+          "Authored a zero-allocation Arabic Natural Language Processing (NLP) library in C# supporting .NET 6 to 10 with zero external dependencies.",
+          "Engineered performance-critical hot paths using `Span<T>`, `stackalloc`, and integer-packed lookup tables to achieve high throughput for search indexing workloads.",
+          "Implemented advanced diacritic removal and regex-free text sanitization algorithms, improving execution speed compared to standard Regex-based engines."
+        ]
+      },
+      {
+        "name": "App User Data Scanner (High-Performance Directory Crawler)",
+        "url": "https://github.com/ahmadmdabit/AppUserDataScanner",
+        "technologies": [
+          "C#",
+          ".NET 10",
+          "NativeAOT",
+          "System.Threading.Channels",
+          "Producer-Consumer",
+          "ZLogger"
+        ],
+        "description": [
+          "Developed a multi-threaded system directory scanner using .NET 10 and NativeAOT for rapid Chromium and Electron profile identification.",
+          "Architected a non-blocking producer-consumer pipeline using `System.Threading.Channels` and `Parallel.ForEachAsync` to traverse folder structures with low resource overhead.",
+          "Optimized path parsing to minimize heap footprint by leveraging `ReadOnlySpan<char>`, `FrozenDictionary`, and object pooling for zero-allocation hot paths."
+        ]
+      },
+      {
+        "name": "Data Import/Export Viewer (WPF Tabular Data Application)",
+        "url": "https://github.com/ahmadmdabit/DataTablesApp",
+        "technologies": [
+          "C#",
+          ".NET 10",
+          "WPF",
+          "MVVM",
+          "IAsyncEnumerable",
+          "DataGrid Virtualization",
+          "OpenXML",
+          "YamlDotNet",
+          "Result Pattern"
+        ],
+        "description": [
+          "Built a WPF desktop data viewer supporting streaming import and export operations across CSV, JSON, XLSX, XML, and YAML formats.",
+          "Implemented memory-efficient data streaming using `IAsyncEnumerable<T>`, OpenXmlReader, and zero-allocation span-based CSV line parsing.",
+          "Designed a clean, decoupled MVVM architecture using CommunityToolkit.Mvvm, featuring virtualized DataGrid elements for smooth rendering of large-scale tabular datasets."
         ]
       },
       {
@@ -594,12 +677,7 @@
         "name": "Arabic",
         "proficiency": "Native"
       }
-    ],
-    "reference": {
-      "name": "Mr. Uğur Kolcu",
-      "title": "Manager at Hitit Bilgi Teknolojileri",
-      "contact": "+90 541 567 22 17 - ugur.kolcu@hititbt.com - Istanbul, Turkey"
-    }
+    ]
   },
   "privacy": {
     "title": "Privacy Notice",

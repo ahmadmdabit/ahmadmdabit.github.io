@@ -144,7 +144,7 @@ export const HomePage: React.FC = () => {
         </Box>
 
         <Typography variant="caption" color="grey.400" align="center" paddingTop={1}>
-          All Rights Reserved &copy; 2025
+          {t("ui.meta.allRightsReserved")} {new Date().getFullYear()}
         </Typography>
       </Container>
       <ChatPopup open={chatOpen} onClose={() => setChatOpen(false)} />
