@@ -35,6 +35,7 @@
       "searchIndexNotReady": "Arama dizini henüz hazır değil. Lütfen bir dakika bekleyin.",
       "noRelevantInformationFoundInTheDocuments": "Sorunuzla ilgili belgelerde bilgi bulunamadı.",
       "encounteredError": "Üzgünüm, isteğinizi işlerken bir hata oluştu.",
+      "sendMessage": "Gönder",
       "stop": "Durdur"
     },
     "misc": {

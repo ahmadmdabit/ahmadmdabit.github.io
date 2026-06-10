@@ -73,6 +73,7 @@ const translation = {
       searchIndexNotReady: "",
       noRelevantInformationFoundInTheDocuments: "",
       encounteredError: "",
+      sendMessage: "",
       stop: "",
     },
     misc: {

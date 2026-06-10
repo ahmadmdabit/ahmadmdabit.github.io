@@ -35,6 +35,7 @@
       "searchIndexNotReady": "Search index not ready. Please wait a moment.",
       "noRelevantInformationFoundInTheDocuments": "No relevant information found in the documents for your query.",
       "encounteredError": "I encountered an error processing your request.",
+      "sendMessage": "Send",
       "stop": "Stop"
     },
     "misc": {

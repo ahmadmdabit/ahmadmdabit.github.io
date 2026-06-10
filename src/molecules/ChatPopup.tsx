@@ -11,6 +11,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import IconButton from "@mui/material/IconButton";
 import DOMPurify from "dompurify";
 import puter, { type ChatMessage } from "@heyputer/puter.js";
+import type { ChatResponseChunk, StreamingChatOptions } from "@heyputer/puter.js/types/modules/ai";
 import MiniSearch from "minisearch";
 import { marked } from "marked";
 import { StatusIndicator } from "@/atoms/StatusIndicator";
@@ -22,6 +23,9 @@ const LLMModel = "openai/gpt-oss-120b:free"; // ContextWindow: 131K
 // const LLMModel = "deepseek/deepseek-v4-flash", // ContextWindow: 1M
 // const LLMModel = "z-ai/glm-4.7-flash", // ContextWindow: 128K
 
+// History management constants
+const MAX_HISTORY_TURNS = 20; // Keep last 20 turns (10 user + 10 assistant) to prevent token blowup
+
 declare module "@heyputer/puter.js" {
   interface Puter {
     quiet: boolean;
@@ -32,6 +36,10 @@ declare module "@heyputer/puter.js" {
     name?: string;
     type?: string;
     input?: { query: string; searchType: string };
+  }
+
+  interface StreamingChatOptions {
+    signal?: AbortSignal;
   }
 }
 
@@ -97,11 +105,14 @@ Answer questions about Ahmet's professional background, including:
 
 ## Response Guidelines
 - **Be professional yet conversational** — write like a knowledgeable colleague, not a robot.
-- **Be specific and detailed** — draw from the context to provide concrete examples, technologies, and outcomes.
+- **Be specific and detailed only when supported** — draw from the context to provide concrete examples, technologies, and outcomes; if the context is silent, say so.
 - **Use the same language** as the user's question (English or Turkish).
 - **Never fabricate** information not present in the context documents.
+- **Do not treat previous assistant messages as factual evidence.** They are conversation history only. Use the current Resume, Projects, FAQ answers, and tool results as the source of truth.
+- **Evidence discipline:** When the user asks for proof, examples, or project-based evidence, separate direct named-project evidence from general resume skill listings. Never present a listed skill as project evidence unless a named project or role explicitly supports it.
+- **Capability discipline:** For questions like "Can he build X?", answer with what the documents explicitly support. If X is not directly mentioned, say that directly and then mention only related documented experience.
 - **Keep responses focused** — don't add unnecessary filler or disclaimers.
-- **Avoid outputing tables** - as much as possible prefer to avoid responsing with tables. Respond with alternatives like formated vertical list.
+- **Avoid outputting tables** - as much as possible prefer to avoid responding with tables. Respond with alternatives like formatted vertical list.
 
 ## Context Evaluation & Tool Usage
 You are provided with "Initial Context" containing Resume, Projects, and a FAQ question list. You also have access to an \`expandSearch\` tool for retrieving detailed answers.
@@ -129,24 +140,56 @@ Professional, confident, concise, and helpful. Mirror the user's level of formal
 ## Language Handling
 The conversation history may contain messages in English or Turkish from previous turns. Always respond in the language of the user's current question, regardless of what language was used earlier in the conversation.`;
 
-const DocumentSources = {
+interface DocumentSource {
+  readonly path: string;
+  readonly title: string;
+  readonly locale: string;
+}
+
+interface LoadedDocument extends DocumentSource {
+  content: string;
+}
+
+const DocumentSources: { readonly en: DocumentSource[]; readonly tr: DocumentSource[] } = {
   en: [
-    { path: "/data/Resume-EN.md", title: "Resume", locale: "en", content: "" },
-    { path: "/data/Projects-EN.md", title: "Projects", locale: "en", content: "" },
-    { path: "/data/FAQ-EN.md", title: "FAQ", locale: "en", content: "" },
+    { path: "/data/Resume-EN.md", title: "Resume", locale: "en" },
+    { path: "/data/Projects-EN.md", title: "Projects", locale: "en" },
+    { path: "/data/FAQ-EN.md", title: "FAQ", locale: "en" },
   ],
   tr: [
-    { path: "/data/Resume-TR.md", title: "Özgeçmiş", locale: "tr", content: "" },
-    { path: "/data/Projects-TR.md", title: "Projeler", locale: "tr", content: "" },
-    { path: "/data/FAQ-TR.md", title: "SSS", locale: "tr", content: "" },
+    { path: "/data/Resume-TR.md", title: "Özgeçmiş", locale: "tr" },
+    { path: "/data/Projects-TR.md", title: "Projeler", locale: "tr" },
+    { path: "/data/FAQ-TR.md", title: "SSS", locale: "tr" },
   ],
-};
+} as const;
 
 const makeMessage = (role: MessageRole, text: string): Message => ({
   id: crypto.randomUUID(),
   role,
   text,
 });
+
+/**
+ * Trim conversation history to keep only the last N turns
+ * Each "turn" consists of one user and one assistant message (2 messages)
+ */
+const trimHistory = (history: Array<{ role: "user" | "assistant"; content: string }>): Array<{ role: "user" | "assistant"; content: string }> => {
+  if (history.length <= MAX_HISTORY_TURNS) return history;
+  // Keep the last MAX_HISTORY_TURNS messages
+  return history.slice(-MAX_HISTORY_TURNS);
+};
+
+/**
+ * Strip PII (email, phone, address) from resume content
+ * to minimize data sent to LLM on every request.
+ */
+const stripPIIFromResume = (content: string): string => {
+  return content
+    .replace(/\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/g, "[EMAIL REDACTED]")
+    .replace(/\+?\d{1,4}[-.\s]?\(?\d{1,3}\)?[-.\s]?\d{1,4}[-.\s]?\d{1,9}/g, "[PHONE REDACTED]")
+    .replace(/\b(?:ÇEKMEKÖY|CEKMEKOY),?\s*İ?STANBUL,?\s*TÜRKİYE\b/gi, "[ADDRESS REDACTED]")
+    .replace(/\b(?:Çekmeköy|Cekmekoy),?\s*I?stanbul,?\s*Turkey\b/gi, "[ADDRESS REDACTED]");
+};
 
 const chunkDocument = (content: string, source: string, locale: string): DocumentChunk[] => {
   const chunks: DocumentChunk[] = [];
@@ -156,8 +199,9 @@ const chunkDocument = (content: string, source: string, locale: string): Documen
     return chunkFAQDocument(content, source, locale);
   }
 
-  // Standard chunking for Resume and Projects: split by headings
-  const sections = content.split(/\n##?\s+/).filter(Boolean);
+  // Standard chunking for Resume and Projects: split by headings (h1-h3)
+  // Use multiline regex to match #, ##, ### headings at start of line
+  const sections = content.split(/^#{1,3}\s+/m).filter(Boolean);
 
   sections.forEach((section, index) => {
     const lines = section.trim().split("\n");
@@ -182,7 +226,8 @@ const chunkFAQDocument = (content: string, source: string, locale: string): Docu
   const chunks: DocumentChunk[] = [];
   // Match each question block: **N. Question text** followed by answer text
   // The pattern matches bold numbered questions and captures everything until the next bold question or end
-  const questionPattern = /\*\*(\d+)\.\s+([^*]+)\*\*\s*\n([\s\S]*?)(?=\n\*\*+\d+\.|$)/g;
+  // Using a more robust regex that handles * in question text and uses proper multiline matching
+  const questionPattern = /^\*\*(\d+)\.\s+(.+?)\*\*\s*\r?\n([\s\S]*?)(?=^\*\*\d+\.\s+.+?\*\*\s*$|$)/gm;
 
   let match;
   while ((match = questionPattern.exec(content)) !== null) {
@@ -212,7 +257,8 @@ const chunkFAQDocument = (content: string, source: string, locale: string): Docu
 
 const extractFAQQuestions = (content: string): string[] => {
   const questions: string[] = [];
-  const questionPattern = /\*\*(\d+)\.\s+([^*]+)\*\*\s*\n/g;
+  // Use the same robust pattern as chunkFAQDocument for consistency
+  const questionPattern = /^\*\*(\d+)\.\s+(.+?)\*\*\s*$/gm;
   let match;
   while ((match = questionPattern.exec(content)) !== null) {
     questions.push(`${match[1]}. ${match[2].trim()}`);
@@ -220,16 +266,49 @@ const extractFAQQuestions = (content: string): string[] => {
   return questions;
 };
 
-const loadAndIndexDocuments = async (locale: string): Promise<SearchIndex> => {
+/**
+ * Dedicated FAQ search path. Looks for an exact or near-exact match
+ * of the query against the FAQ question list, then returns the matched
+ * Q+A chunk(s) directly — bypassing the general MiniSearch index.
+ *
+ * Returns null if no FAQ question matches within the threshold.
+ */
+const searchFAQ = (searchIndex: SearchIndex, query: string, locale: "en" | "tr"): string | null => {
+  // Filter documents to FAQ chunks in the requested locale
+  const faqDocs = searchIndex.documents.filter((d) => d.locale === locale && (d.source === "FAQ" || d.source === "SSS"));
+  if (faqDocs.length === 0) return null;
+
+  // Build a transient MiniSearch over FAQ docs only
+  const faqIndex = new MiniSearch<DocumentChunk>({
+    fields: ["title", "text"],
+    storeFields: ["title", "text", "source", "locale"],
+    searchOptions: {
+      boost: { title: 3 },
+      fuzzy: 0.1, // very tight fuzzy — we want near-exact matches
+      prefix: true,
+    },
+  });
+  faqIndex.addAll(faqDocs);
+
+  const results = faqIndex.search(query);
+  if (results.length === 0) return null;
+
+  // Take the top 3 matches, joined
+  const top = results.slice(0, 3);
+  return top.map((r) => `[Source: ${r.source}]\n${r.text}`).join("\n\n---\n\n");
+};
+
+const loadAndIndexDocuments = async (locale: string): Promise<{ searchIndex: SearchIndex; loadedDocs: LoadedDocument[] }> => {
   const sources = DocumentSources[locale as keyof typeof DocumentSources] || DocumentSources.en;
   const allChunks: DocumentChunk[] = [];
+  const loadedDocs: LoadedDocument[] = [];
 
   for (const source of sources) {
     try {
       const response = await fetch(source.path);
       if (response.ok) {
         const content = await response.text();
-        source.content = content;
+        loadedDocs.push({ path: source.path, title: source.title, locale: source.locale, content });
         const chunks = chunkDocument(content, source.title, source.locale);
         allChunks.push(...chunks);
       }
@@ -250,7 +329,7 @@ const loadAndIndexDocuments = async (locale: string): Promise<SearchIndex> => {
 
   miniSearch.addAll(allChunks);
 
-  return { miniSearch, documents: allChunks };
+  return { searchIndex: { miniSearch, documents: allChunks }, loadedDocs };
 };
 
 const MarkdownRenderer = memo(({ content }: { content: string }) => {
@@ -260,14 +339,33 @@ const MarkdownRenderer = memo(({ content }: { content: string }) => {
     let cancelled = false;
     (async () => {
       const raw = await marked.parse(content, { async: true });
-      if (!cancelled) setHtml(DOMPurify.sanitize(raw));
+      if (!cancelled) {
+        setHtml(
+          DOMPurify.sanitize(raw, {
+            // Security hardening: forbid javascript: URIs and dangerous protocols
+            ALLOWED_URI_REGEXP: /^(?:(?:https?|mailto):|[^a-z]|[a-z+.-]+(?:[^a-z+.\-:]|$))/i,
+            // Allow target and rel attributes for link hardening
+            ADD_ATTR: ["target", "rel"],
+            // Forbid dangerous tags
+            FORBID_TAGS: ["style", "iframe", "form", "script", "object", "embed"],
+            // Forbid event handler attributes
+            FORBID_ATTR: ["onerror", "onload", "onclick", "onmouseover", "onfocus", "onblur"],
+          }),
+        );
+      }
     })();
     return () => {
       cancelled = true;
     };
   }, [content]);
 
-  return <Box component="div" sx={{ "& p": { m: 0 }, "& code": { fontFamily: "monospace" } }} dangerouslySetInnerHTML={{ __html: html }} />;
+  return (
+    <Box
+      component="div"
+      sx={{ "& p": { m: 0 }, "& code": { fontFamily: "monospace" } }}
+      dangerouslySetInnerHTML={{ __html: html }}
+    />
+  );
 });
 
 MarkdownRenderer.displayName = "MarkdownRenderer";
@@ -280,10 +378,12 @@ export const ChatPopup: React.FC<{ open: boolean; onClose: () => void }> = memo(
   const [isIndexing, setIsIndexing] = useState(false);
   const [searchIndex, setSearchIndex] = useState<SearchIndex | null>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement | HTMLTextAreaElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const abortControllerRef = useRef<AbortController | null>(null);
   const apiHistoryRef = useRef<{ role: "user" | "assistant"; content: string }[]>([]);
+  // Store loaded document content per locale to avoid mutating DocumentSources
+  const loadedDocumentsRef = useRef<Record<"en" | "tr", LoadedDocument[]>>({ en: [], tr: [] });
   // When true, the user has scrolled up away from the bottom; pause auto-scroll.
   const isUserScrolledUpRef = useRef(false);
 
@@ -305,8 +405,8 @@ export const ChatPopup: React.FC<{ open: boolean; onClose: () => void }> = memo(
     if (open && !isIndexing && !searchIndex) {
       setIsIndexing(true);
       Promise.all([loadAndIndexDocuments("en"), loadAndIndexDocuments("tr")])
-        .then(([enIndex, trIndex]) => {
-          const allDocs = [...enIndex.documents, ...trIndex.documents];
+        .then(([enResult, trResult]) => {
+          const allDocs = [...enResult.searchIndex.documents, ...trResult.searchIndex.documents];
           const mergedMiniSearch = new MiniSearch<DocumentChunk>({
             fields: ["title", "text"],
             storeFields: ["title", "text", "source", "locale"],
@@ -318,6 +418,9 @@ export const ChatPopup: React.FC<{ open: boolean; onClose: () => void }> = memo(
           });
           mergedMiniSearch.addAll(allDocs);
           setSearchIndex({ miniSearch: mergedMiniSearch, documents: allDocs });
+          // Store loaded documents for initial context access
+          loadedDocumentsRef.current.en = enResult.loadedDocs;
+          loadedDocumentsRef.current.tr = trResult.loadedDocs;
           setIsIndexing(false);
         })
         .catch(() => setIsIndexing(false));
@@ -328,7 +431,7 @@ export const ChatPopup: React.FC<{ open: boolean; onClose: () => void }> = memo(
     if (open && messages.length === 0) {
       const initialMsg = makeMessage("assistant", t("ui.chat.initialMessage"));
       setMessages([initialMsg]);
-      apiHistoryRef.current = [{ role: "assistant", content: initialMsg.text }];
+      apiHistoryRef.current = [];
     }
   }, [messages.length, open, t]);
 
@@ -349,7 +452,7 @@ export const ChatPopup: React.FC<{ open: boolean; onClose: () => void }> = memo(
   // Auto-scroll when messages change — but only if the user hasn't scrolled up.
   useEffect(() => {
     if (!isUserScrolledUpRef.current) {
-      bottomRef.current?.scrollIntoView({ behavior: "instant" });
+      bottomRef.current?.scrollIntoView({ behavior: "auto" });
     }
   }, [messages]);
 
@@ -358,13 +461,25 @@ export const ChatPopup: React.FC<{ open: boolean; onClose: () => void }> = memo(
       const timeout = setTimeout(() => {
         inputRef.current?.focus();
       }, 220);
-      return () => clearTimeout(timeout);
+
+      const handleEscape = (e: KeyboardEvent) => {
+        if (e.key === "Escape") {
+          onClose();
+        }
+      };
+
+      document.addEventListener("keydown", handleEscape);
+      return () => {
+        clearTimeout(timeout);
+        document.removeEventListener("keydown", handleEscape);
+      };
     }
     return undefined;
-  }, [open]);
+  }, [open, onClose]);
 
+  // Search function - plain function since only used in send() and doesn't need memoization
   const performSearch = useCallback(
-    (query: string, fuzzy: number, maxResults: number, localeFilter: "same" | "all"): string | null => {
+    (query: string, fuzzy: number, maxResults: number, localeFilter: "same" | "crossLocale" | "all", locale: "en" | "tr"): string | null => {
       if (!searchIndex) return null;
 
       const results = searchIndex.miniSearch.search(query, {
@@ -373,7 +488,17 @@ export const ChatPopup: React.FC<{ open: boolean; onClose: () => void }> = memo(
         prefix: true,
       });
 
-      const filtered = localeFilter === "same" ? results.filter((r) => r.locale === currentLocale) : results;
+      let filtered: typeof results;
+      if (localeFilter === "same") {
+        filtered = results.filter((r) => r.locale === locale);
+      } else if (localeFilter === "crossLocale") {
+        // crossLocale: search only the OTHER locale
+        const otherLocale = locale === "en" ? "tr" : "en";
+        filtered = results.filter((r) => r.locale === otherLocale);
+      } else {
+        // "all" - search all locales (legacy, not used by tool)
+        filtered = results;
+      }
 
       const top = filtered.slice(0, maxResults);
 
@@ -381,7 +506,7 @@ export const ChatPopup: React.FC<{ open: boolean; onClose: () => void }> = memo(
 
       return top.map((r) => `[Source: ${r.source}]\n${r.text}`).join("\n\n---\n\n");
     },
-    [searchIndex, currentLocale],
+    [searchIndex],
   );
 
   const send = useCallback(async () => {
@@ -404,22 +529,27 @@ export const ChatPopup: React.FC<{ open: boolean; onClose: () => void }> = memo(
     try {
       // Step 1: Initial strict search
       // const initialContext = performSearch(userMessage, 0.2, 5, "same");
-      const faqQuestions = extractFAQQuestions(DocumentSources[currentLocale][2].content);
-      const initialContext = `RESUME:
-${DocumentSources[currentLocale][0].content}
+      const loadedDocs = loadedDocumentsRef.current[currentLocale];
+      const resumeContentRaw = loadedDocs.find((d) => d.title === "Resume" || d.title === "Özgeçmiş")?.content.trim() ?? "";
+      const resumeContent = stripPIIFromResume(resumeContentRaw);
+      const projectsContent = loadedDocs.find((d) => d.title === "Projects" || d.title === "Projeler")?.content.trim() ?? "";
+      const faqContent = loadedDocs.find((d) => d.title === "FAQ" || d.title === "SSS")?.content.trim() ?? "";
+      const faqQuestions = extractFAQQuestions(faqContent);
 
-ALL PROJECTS:
-${DocumentSources[currentLocale][1].content}
-
-FAQ QUESTIONS (use expandSearch tool to get the full answer for any matching question):
-${faqQuestions.join("\n")}`;
-
-      if (!initialContext) {
-        // No results at all — inform the user immediately
-        apiHistoryRef.current = [...history, { role: "user" as const, content: userMessage }];
+      if (!resumeContent && !projectsContent && faqQuestions.length === 0) {
+        apiHistoryRef.current = trimHistory([...history, { role: "user" as const, content: userMessage }]);
         setMessages((prev) => [...prev, makeMessage("assistant", t("ui.chat.noRelevantInformationFoundInTheDocuments"))]);
         return;
       }
+
+      const initialContext = `RESUME:
+${resumeContent}
+
+ALL PROJECTS:
+${projectsContent}
+
+FAQ QUESTIONS (use expandSearch tool to get the full answer for any matching question):
+${faqQuestions.join("\n")}`;
 
       // Define the expandSearch tool for the LLM
       const tools = [
@@ -427,7 +557,8 @@ ${faqQuestions.join("\n")}`;
           type: "function" as const,
           function: {
             name: "expandSearch",
-            description: "Perform an expanded document search with relaxed parameters when the initial context is insufficient or partially relevant. Call this when you need more information to answer the user's question. Returns additional document chunks that may contain relevant information.",
+            description:
+              "Perform an expanded document search with relaxed parameters when the initial context is insufficient or partially relevant. Call this when you need more information to answer the user's question. Returns additional document chunks that may contain relevant information.",
             parameters: {
               type: "object" as const,
               properties: {
@@ -450,10 +581,10 @@ ${faqQuestions.join("\n")}`;
       // Build initial messages with the context
       const baseSystemContent = `${SystemPrompt}\n\n## Initial Context (from document search)\n${initialContext}`;
 
-      const apiMessages: Array<ChatMessage> = [{ role: "system", content: baseSystemContent }, ...history, { role: "user", content: userMessage }];
-
-      // Step 2: Call AI with stream AND tools
-      const response = await puter.ai.chat(apiMessages, {
+      // Trim history to prevent token blowup
+      const trimmedHistory = trimHistory(history);
+      const apiMessages: Array<ChatMessage> = [{ role: "system", content: baseSystemContent }, ...trimmedHistory, { role: "user", content: userMessage }];
+      const apiOptions: StreamingChatOptions = {
         tools,
         stream: true,
         verbosity: "low", // OpenAI models only.
@@ -461,7 +592,12 @@ ${faqQuestions.join("\n")}`;
         //   effort: "minimal", // OpenAI models only.
         // },
         model: LLMModel,
-      });
+        signal: abortControllerRef.current.signal,
+      } as StreamingChatOptions;
+
+      // Step 2: Call AI with stream AND tools
+      //chat (messages: ChatMessage[], options: StreamingChatOptions, testMode?: boolean): AsyncIterable<ChatResponseChunk>;
+      const response = (await puter.ai.chat(apiMessages, apiOptions, false)) as AsyncIterable<ChatResponseChunk>;
 
       // Stream handling with tool call detection
       const assistantMessage = makeMessage("assistant", "");
@@ -485,10 +621,10 @@ ${faqQuestions.join("\n")}`;
         }
 
         // Tool call detected
-        if (part?.type === "tool_use") {
+        if (part?.type === "tool_use" && part.id && part.name === "expandSearch" && part.input && typeof part.input.query === "string" && (part.input.searchType === "broader" || part.input.searchType === "crossLocale")) {
           pendingToolCall = {
-            id: part.id!,
-            name: part.name!,
+            id: part.id,
+            name: part.name,
             input: part.input as { query: string; searchType: string },
           };
         }
@@ -498,11 +634,21 @@ ${faqQuestions.join("\n")}`;
       if (!wasAborted && pendingToolCall && pendingToolCall.name === "expandSearch") {
         const { query: expandedQuery, searchType: searchType } = pendingToolCall.input;
 
-        const fuzzy = searchType === "crossLocale" ? 0.3 : 0.4;
-        const maxResults = searchType === "crossLocale" ? 8 : 10;
-        const localeFilter = searchType === "crossLocale" ? "all" : "same";
+        // Q2: Dedicated FAQ path — check if the query matches an FAQ question first
+        const faqResult = searchType !== "crossLocale" ? searchFAQ(searchIndex, expandedQuery, currentLocale) : null;
 
-        const expandedContext = performSearch(expandedQuery, fuzzy, maxResults, localeFilter);
+        let expandedContext: string | null;
+        if (faqResult) {
+          // FAQ match found — use it directly, skip general search
+          expandedContext = faqResult;
+        } else {
+          // Fall back to general MiniSearch
+          const fuzzy = searchType === "crossLocale" ? 0.3 : 0.4;
+          const maxResults = searchType === "crossLocale" ? 8 : 10;
+          const localeFilter = searchType === "crossLocale" ? "all" : "same";
+
+          expandedContext = performSearch(expandedQuery, fuzzy, maxResults, localeFilter, currentLocale);
+        }
 
         // Build conversation history including the tool call
         const toolCallMessage = {
@@ -529,13 +675,22 @@ ${faqQuestions.join("\n")}`;
         // Step 4: Send expanded results back to LLM for final answer
         const expandedSystemContent = expandedContext ? `${SystemPrompt}\n\n## Initial Context\n${initialContext}\n\n## Expanded Context (from additional search)\n${expandedContext}` : baseSystemContent;
 
-        const followUpMessages = [{ role: "system", content: expandedSystemContent }, ...history, { role: "user", content: userMessage }, toolCallMessage, toolResultMessage];
+        // Trim history for follow-up as well
+        const trimmedHistory = trimHistory(history);
+        const followUpMessages = [{ role: "system", content: expandedSystemContent }, ...trimmedHistory, { role: "user", content: userMessage }, toolCallMessage, toolResultMessage];
 
-        const finalResponse = await puter.ai.chat(followUpMessages, {
+        const finalApiOptions: StreamingChatOptions = {
           stream: true,
-          verbosity: "low",
+          verbosity: "low", // OpenAI models only.
+          // reasoning: {
+          //   effort: "minimal", // OpenAI models only.
+          // },
           model: LLMModel,
-        });
+          signal: abortControllerRef.current.signal,
+        } as StreamingChatOptions;
+
+        //chat (messages: ChatMessage[], options: StreamingChatOptions, testMode?: boolean): AsyncIterable<ChatResponseChunk>;
+        const finalResponse = (await puter.ai.chat(followUpMessages, finalApiOptions)) as AsyncIterable<ChatResponseChunk>;
 
         // Reset and stream the final response
         assistantText = "";
@@ -557,7 +712,7 @@ ${faqQuestions.join("\n")}`;
         setMessages((prev) => prev.filter((m) => m.id !== streamingId));
       } else {
         // Persist completed turn to conversation history.
-        apiHistoryRef.current = [...history, { role: "user" as const, content: userMessage }, { role: "assistant" as const, content: assistantText }];
+        apiHistoryRef.current = trimHistory([...history, { role: "user" as const, content: userMessage }, { role: "assistant" as const, content: assistantText }]);
       }
     } catch (error) {
       if (error instanceof Error && error.name === "AbortError") return;
@@ -574,6 +729,8 @@ ${faqQuestions.join("\n")}`;
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLDivElement>) => {
+      // IME composition: don't send on Enter while composing (e.g., Japanese, Korean, Turkish)
+      if (e.nativeEvent.isComposing) return;
       if (e.key === "Enter" && !e.shiftKey) {
         e.preventDefault();
         send();
@@ -589,20 +746,47 @@ ${faqQuestions.join("\n")}`;
 
   return (
     <>
-      <Backdrop open={open} sx={{ zIndex: 1200 }} onClick={onClose} />
-      <StyledChatPopupPaper role="dialog" aria-label={t("ui.chat.aiAssistant")} aria-modal="false" className={open ? "open" : ""}>
-        <Stack direction="row" alignItems="center" sx={{ p: 1.5, backgroundColor: "grey.800" }}>
+      <Backdrop
+        open={open}
+        sx={{ zIndex: 1200 }}
+        onClick={onClose}
+      />
+      <StyledChatPopupPaper
+        role="dialog"
+        aria-label={t("ui.chat.aiAssistant")}
+        aria-modal="true"
+        aria-hidden={!open}
+        className={open ? "open" : ""}
+      >
+        <Stack
+          direction="row"
+          alignItems="center"
+          sx={{ p: 1.5, backgroundColor: "grey.800" }}
+        >
           <StatusIndicator />
-          <Typography variant="subtitle2" sx={{ ml: 1, flexGrow: 1 }}>
+          <Typography
+            variant="subtitle2"
+            sx={{ ml: 1, flexGrow: 1 }}
+          >
             {t("ui.chat.aiAssistant")}
           </Typography>
           <CloseButton onClick={onClose} />
         </Stack>
 
-        <Stack ref={scrollContainerRef} sx={{ flex: 1, overflowY: "auto", p: 2 }} spacing={2}>
+        <Stack
+          ref={scrollContainerRef}
+          sx={{ flex: 1, overflowY: "auto", p: 2 }}
+          spacing={2}
+        >
           {messages.map((m) => (
-            <Box key={m.id} sx={{ alignSelf: m.role === "user" ? "flex-end" : "flex-start" }}>
-              <Typography variant="caption" color="grey.400">
+            <Box
+              key={m.id}
+              sx={{ alignSelf: m.role === "user" ? "flex-end" : "flex-start" }}
+            >
+              <Typography
+                variant="caption"
+                color="grey.400"
+              >
                 {m.role === "user" ? t("ui.chat.senderYou") : t("ui.chat.senderAssistant")}
               </Typography>
               <Paper
@@ -616,7 +800,9 @@ ${faqQuestions.join("\n")}`;
                   overflow: "auto",
                 }}
               >
-                {m.role === "assistant" ? <MarkdownRenderer content={m.text} /> : m.text}
+                {m.role === "assistant" ?
+                  <MarkdownRenderer content={m.text} />
+                : m.text}
               </Paper>
             </Box>
           ))}
@@ -626,14 +812,50 @@ ${faqQuestions.join("\n")}`;
         <Box sx={{ p: 2 }}>
           {isIndexing && (
             <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 1 }}>
-              <CircularProgress size={16} thickness={3} color="primary" />
-              <Typography variant="body2" color="text.secondary">
+              <CircularProgress
+                size={16}
+                thickness={3}
+                color="primary"
+              />
+              <Typography
+                variant="body2"
+                color="text.secondary"
+              >
                 {t("ui.chat.indexingDocuments")}
               </Typography>
             </Box>
           )}
 
-          <TextField inputRef={inputRef} variant="outlined" hiddenLabel fullWidth multiline maxRows={3} value={draft} onChange={handleChange} onKeyDown={handleKeyDown} disabled={isLoading || isIndexing} placeholder={isIndexing ? t("ui.chat.pleaseWaitIndexingDocuments") : isLoading ? t("ui.chat.loadingPlaceholder") : t("ui.chat.placeholder")} />
+          <Box sx={{ display: "flex", gap: 1 }}>
+            <TextField
+              inputRef={inputRef}
+              variant="outlined"
+              hiddenLabel
+              fullWidth
+              multiline
+              maxRows={3}
+              value={draft}
+              onChange={handleChange}
+              onKeyDown={handleKeyDown}
+              disabled={!open || isLoading || isIndexing}
+              placeholder={
+                isIndexing ? t("ui.chat.pleaseWaitIndexingDocuments")
+                : isLoading ?
+                  t("ui.chat.loadingPlaceholder")
+                : t("ui.chat.placeholder")
+              }
+            />
+            <IconButton
+              onClick={send}
+              disabled={!draft.trim() || isLoading || isIndexing || !open}
+              aria-label={t("ui.chat.sendMessage")}
+              color="primary"
+              size="medium"
+              sx={{ alignSelf: "flex-end", mb: 0.8, px: 1.4 }}
+            >
+              <span style={{ fontSize: 20 }}>➤</span>
+            </IconButton>
+          </Box>
           {isLoading && (
             <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", mt: 1 }}>
               <Box
@@ -650,10 +872,19 @@ ${faqQuestions.join("\n")}`;
                   },
                 }}
               />
-              <Typography variant="body2" color="text.secondary" sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                sx={{ display: "flex", alignItems: "center", gap: 0.5 }}
+              >
                 <span>{t("ui.chat.loading")}</span>
               </Typography>
-              <IconButton onClick={handleStop} size="small" color="error" aria-label={t("ui.chat.stop")}>
+              <IconButton
+                onClick={handleStop}
+                size="small"
+                color="error"
+                aria-label={t("ui.chat.stop")}
+              >
                 {t("ui.chat.stop")}
               </IconButton>
             </Box>
