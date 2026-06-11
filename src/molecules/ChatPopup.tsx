@@ -17,14 +17,25 @@ import { marked } from "marked";
 import { StatusIndicator } from "@/atoms/StatusIndicator";
 import { CloseButton } from "@/atoms/CloseButton";
 
-const LLMModel = "openai/gpt-oss-120b:free"; // ContextWindow: 131K
-// const LLMModel = "openai/gpt-oss-120b", // ContextWindow: 131K
-// const LLMModel = "anthropic/claude-haiku-4-5", // ContextWindow: 200K
-// const LLMModel = "deepseek/deepseek-v4-flash", // ContextWindow: 1M
-// const LLMModel = "z-ai/glm-4.7-flash", // ContextWindow: 128K
+const LLMModel = "openai/gpt-oss-120b:free";
+const LLMModelContextWindow = 131000; // 131K
 
-// History management constants
-const MAX_HISTORY_TURNS = 20; // Keep last 20 turns (10 user + 10 assistant) to prevent token blowup
+// const LLMModel = "openai/gpt-oss-120b";
+// const LLMModelContextWindow = 131000; // 131K
+
+// const LLMModel = "anthropic/claude-haiku-4-5";
+// const LLMModelContextWindow = 200000; // 200K
+
+// const LLMModel = "deepseek/deepseek-v4-flash";
+// const LLMModelContextWindow = 1000000; // 1M
+
+// const LLMModel = "z-ai/glm-4.7-flash";
+// const LLMModelContextWindow = 128000; // 128K
+
+// Conversation compaction constants (Developer 2 approach: background compaction with retry/queue)
+const CompactionThresholdRatio = 0.75; // Trigger compaction when history exceeds 75% of context window
+const CompactionMaxRetries = 3;
+const CompactionRetryBaseDelayMs = 1000;
 
 declare module "@heyputer/puter.js" {
   interface Puter {
@@ -38,12 +49,25 @@ declare module "@heyputer/puter.js" {
     input?: { query: string; searchType: string };
   }
 
-  interface StreamingChatOptions {
+  interface ChatOptions {
     signal?: AbortSignal;
   }
+
+  // interface StreamingChatOptions {
+  //   signal?: AbortSignal;
+  // }
 }
 
 puter.quiet = true;
+
+interface UsageInfo {
+  prompt: number;
+  completion: number;
+  inputCacheRead: number;
+  request: number;
+  billedUsage: number;
+  usdCents: number;
+}
 
 interface DocumentChunk {
   id: string;
@@ -91,54 +115,30 @@ const StyledChatPopupPaper = styled(Paper)(({ theme }) => ({
   },
 }));
 
-const SystemPrompt = `You are a professional, knowledgeable, and approachable AI assistant representing Ahmet FATIHOGLU — a Senior Software Developer and Architect.
+const SystemPrompt = `You are the official AI representative of Ahmet FATIHOGLU (Senior Software Developer & Architect). Your sole function is to answer questions about his professional background using ONLY the provided context documents (Resume, Projects) and the results of the \`expandSearch\` tool. 
 
-## Your Role
-Answer questions about Ahmet's professional background, including:
-- Work experience (companies, roles, durations, responsibilities)
-- Technical skills and areas of expertise
-- Projects (architecture, technologies, challenges, outcomes)
-- Education and certifications
-- Languages spoken
-- Career highlights and achievements
-- Leadership, mentoring, and collaboration style
+## 1. NON-NEGOTIABLE CONSTRAINTS
+- **Language Lock:** Detect the language of the user's CURRENT message. Respond EXCLUSIVELY in that language. Do not inherit language from previous turns.
+- **Zero Fabrication:** State only facts explicitly present in the provided context. Do not invent projects, technologies (e.g., SignalR, Kafka), dates, or roles. Do not use general industry knowledge to fill gaps.
+- **No Tables:** Never use markdown tables. Use vertical bulleted lists or compact prose.
+- **Conciseness:** Lead with the direct answer. Omit filler phrases. Do not append concluding summaries or analytical paragraphs (e.g., "This demonstrates that..."). Match verbosity to the user's request.
 
-## Response Guidelines
-- **Be professional yet conversational** — write like a knowledgeable colleague, not a robot.
-- **Be specific and detailed only when supported** — draw from the context to provide concrete examples, technologies, and outcomes; if the context is silent, say so.
-- **Use the same language** as the user's question (English or Turkish).
-- **Never fabricate** information not present in the context documents.
-- **Do not treat previous assistant messages as factual evidence.** They are conversation history only. Use the current Resume, Projects, FAQ answers, and tool results as the source of truth.
-- **Evidence discipline:** When the user asks for proof, examples, or project-based evidence, separate direct named-project evidence from general resume skill listings. Never present a listed skill as project evidence unless a named project or role explicitly supports it.
-- **Capability discipline:** For questions like "Can he build X?", answer with what the documents explicitly support. If X is not directly mentioned, say that directly and then mention only related documented experience.
-- **Keep responses focused** — don't add unnecessary filler or disclaimers.
-- **Avoid outputting tables** - as much as possible prefer to avoid responding with tables. Respond with alternatives like formatted vertical list.
+## 2. TOOL USE & FAQ PROTOCOL
+You do NOT possess FAQ answers in your initial context. Evaluate the Initial Context against the current question:
+- **Sufficient:** Resume or Projects directly answers the question → Answer immediately.
+- **FAQ Match:** The question matches or closely relates to an item in the FAQ QUESTIONS list → You MUST call \`expandSearch(query="<exact FAQ question text>", searchType="broader")\` in the SAME turn. You are FORBIDDEN from referencing "FAQ" or a "documented approach" unless the tool just returned it.
+- **Insufficient:** Context is incomplete and no FAQ match exists → Call \`expandSearch(query="<refined broader query>", searchType="broader")\`. If still insufficient, call with \`searchType="crossLocale"\`.
+- **Empty Result:** If tools yield nothing, state exactly: "I don't have specific information about that in my available documents."
 
-## Context Evaluation & Tool Usage
-You are provided with "Initial Context" containing Resume, Projects, and a FAQ question list. You also have access to an \`expandSearch\` tool for retrieving detailed answers.
+## 3. CAPABILITY & EVIDENCE DISCIPLINE
+When asked "Can he build X?" or "Does he know Y?":
+- **If explicitly documented:** State the fact and cite the specific named project or role.
+- **If NOT explicitly documented:** State: "The available documents do not explicitly mention X." Then, cite ONLY directly related named-project evidence. STOP. Do not provide a general solution architecture or recommend a tech stack.
+- **Skill vs. Evidence:** A skill listed in the "Technical Skills" section is a listed skill, not project evidence. Do not conflate the two.
 
-**Evaluate the Initial Context carefully:**
-
-1. **Sufficient** — The Resume or Projects context directly contains the information needed to fully answer the user's question. → Answer immediately using the context.
-
-2. **FAQ question match** — The user's question matches or closely relates to a question in the FAQ QUESTIONS list → **Call \`expandSearch\`** with the exact FAQ question text as the query and searchType="broader". The FAQ detailed answers are not included in the initial context; you must use expandSearch to retrieve them.
-
-3. **Partially sufficient / Insufficient** — The context is related but doesn't directly answer the question, and no FAQ question matches. → **Call \`expandSearch\`** with a refined query using synonyms or broader terms. For example:
-   - User asks "Where does he work?" → call \`expandSearch\` with query="work experience companies employment" and searchType="broader"
-   - User asks about a specific project not in context → call \`expandSearch\` with query="[project name] architecture technologies" and searchType="broader"
-   - If broader search still doesn't help → call \`expandSearch\` with searchType="crossLocale" as a last resort
-
-4. **After expandSearch returns results:**
-   - If the expanded context now contains relevant information → Answer using the combined context.
-   - If the expanded context is still empty or irrelevant → Politely say: "I don't have specific information about that in my available documents. Feel free to ask me about Ahmet's experience, skills, projects, education, or certifications."
-
-**Important:** Always call \`expandSearch\` when the Initial Context doesn't directly answer the user's question, or when the user's question matches an FAQ entry. When answering FAQ-related questions, use the FAQ answer as the primary source and enhance it with relevant details from the Resume or Projects context when they add value — for example, expanding a career-summary answer with specific project names, technologies, or metrics from the Projects list.
-
-## Tone
-Professional, confident, concise, and helpful. Mirror the user's level of formality.
-
-## Language Handling
-The conversation history may contain messages in English or Turkish from previous turns. Always respond in the language of the user's current question, regardless of what language was used earlier in the conversation.`;
+## 4. META-REQUEST & FORMATTING HANDLING
+- **Procedural Commands:** If the user issues a meta-instruction (e.g., "Speak in my language", "Be shorter"), acknowledge it briefly in the language of the CURRENT message. Do NOT re-answer the previous question. Apply the instruction to subsequent turns.
+- **Redaction Rendering:** When encountering masked dates (e.g., "07/[PHONE REDACTED]"), render them cleanly in prose (e.g., "July [Year]" or "Ongoing"). Do not output raw placeholders like "07/…".`;
 
 interface DocumentSource {
   readonly path: string;
@@ -168,16 +168,6 @@ const makeMessage = (role: MessageRole, text: string): Message => ({
   role,
   text,
 });
-
-/**
- * Trim conversation history to keep only the last N turns
- * Each "turn" consists of one user and one assistant message (2 messages)
- */
-const trimHistory = (history: Array<{ role: "user" | "assistant"; content: string }>): Array<{ role: "user" | "assistant"; content: string }> => {
-  if (history.length <= MAX_HISTORY_TURNS) return history;
-  // Keep the last MAX_HISTORY_TURNS messages
-  return history.slice(-MAX_HISTORY_TURNS);
-};
 
 /**
  * Strip PII (email, phone, address) from resume content
@@ -264,6 +254,155 @@ const extractFAQQuestions = (content: string): string[] => {
     questions.push(`${match[1]}. ${match[2].trim()}`);
   }
   return questions;
+};
+
+// =============================================================================
+// Developer 2: Background Conversation Compaction with Exponential Backoff & Queue
+// =============================================================================
+
+interface CompactionJob {
+  id: number;
+  history: Array<{ role: "user" | "assistant"; content: string }>;
+  resolve: (compacted: Array<{ role: "user" | "assistant"; content: string }>) => void;
+  reject: (error: Error) => void;
+  attempt: number;
+  timestamp: number;
+}
+
+/**
+ * Developer 1: Context-specific lazy hydration for PII.
+ * Only includes PII (email, phone, address) in resume when user explicitly
+ * asks for contact information. Otherwise returns sanitized resume.
+ */
+const isContactInfoQuery = (query: string): boolean => {
+  const normalized = query.toLowerCase();
+  const contactKeywords = ["email", "e-posta", "mail", "phone", "telefon", "telephone", "mobile", "cep", "address", "adres", "location", "konum", "where", "nerede", "ikamet", "contact", "iletişim", "iletisim"];
+  return contactKeywords.some((kw) => normalized.includes(kw));
+};
+
+const getContextWindow = (): number => LLMModelContextWindow;
+
+/**
+ * Parse a usage event from a Puter.js stream chunk.
+ * Usage events arrive at the end of the stream with shape:
+ *   { type: "usage", usage: { prompt, completion, input_cache_read, ... } }
+ */
+const parseUsageFromChunk = (part: unknown): UsageInfo | null => {
+  if (part && typeof part === "object" && (part as { type?: string }).type === "usage" && (part as { usage?: unknown }).usage && typeof (part as { usage: object }).usage === "object") {
+    const u = (part as { usage: { prompt?: number; completion?: number; input_cache_read?: number } }).usage;
+    return {
+      prompt: u.prompt ?? 0,
+      completion: u.completion ?? 0,
+      inputCacheRead: u.input_cache_read ?? 0,
+      request: 0,
+      billedUsage: 0,
+      usdCents: 0,
+    };
+  }
+  return null;
+};
+
+const buildCompactionPrompt = (history: Array<{ role: "user" | "assistant"; content: string }>): string => {
+  const conversationText = history.map((m) => `[${m.role.toUpperCase()}]: ${m.content}`).join("\n\n");
+
+  return `You are a professional conversation summarizer. Your objective is to produce a concise, factual summary of the provided conversation history, preserving all specific details about the candidate's experience, projects, and skills.
+
+## 1. STRICT CONSTRAINTS
+- **No Tables:** You are strictly FORBIDDEN from using markdown tables. Format all structured data using vertical bulleted lists.
+- **Zero Fabrication:** Summarize ONLY the factual information presented in the conversation text. Do not add external knowledge, infer capabilities, or invent technologies.
+- **Conciseness:** Keep the summary highly focused. Omit conversational filler, greetings, and meta-commentary. Use direct, professional phrasing.
+
+## 2. REQUIRED OUTPUT STRUCTURE
+Organize the summary using the following plain-text/bulleted sections if the data is present in the text:
+- **Current Role & Status:** (Brief statement of current position and location).
+- **Employment History:** (Bulleted list of companies, roles, and dates).
+- **Key Projects & Technologies:** (Bulleted list of named projects and their associated tech stacks).
+- **Documented Capabilities:** (Specific skills or capabilities explicitly proven in the text).
+
+CONVERSATION HISTORY:
+${conversationText}
+
+SUMMARY:`;
+};
+
+const compactHistoryWithLLM = async (history: Array<{ role: "user" | "assistant"; content: string }>, signal: AbortSignal): Promise<Array<{ role: "user" | "assistant"; content: string }>> => {
+  const prompt = buildCompactionPrompt(history);
+
+  try {
+    const response = await puter.ai.chat(
+      [
+        { role: "system", content: "You are a professional conversation summarizer. Produce a concise factual summary preserving all specific details about the candidate's experience, projects, and skills." },
+        { role: "user", content: prompt },
+      ],
+      {
+        model: LLMModel,
+        signal,
+      },
+    );
+    console.log("response", response);
+
+    const summaryText = typeof response === "string" ? response : ((response.message?.content as string) ?? "");
+
+    if (!summaryText || summaryText.trim().length === 0) {
+      throw new Error("Empty summary returned from LLM");
+    }
+
+    // Return compacted history: summary as a single system-like entry + last 2 turns
+    const recentTurns = history.slice(-2);
+    return [{ role: "assistant", content: `[Conversation Summary]: ${summaryText.trim()}` }, ...recentTurns];
+  } catch (error) {
+    if (error instanceof Error && error.name === "AbortError") {
+      throw error;
+    }
+    throw new Error(`Compaction LLM call failed: ${error instanceof Error ? error.message : String(error)}`);
+  }
+};
+
+const processCompactionQueue = async (
+  queue: CompactionJob[],
+  compactionQueueRef: React.RefObject<CompactionJob[]>,
+  isHistorySummarizingRef: React.RefObject<boolean>,
+  abortControllerRef: React.RefObject<AbortController | null>,
+  setIsHistorySummarizing?: (value: boolean) => void,
+): Promise<void> => {
+  if (isHistorySummarizingRef.current || queue.length === 0) return;
+
+  const job = queue[0];
+  isHistorySummarizingRef.current = true;
+  setIsHistorySummarizing?.(true);
+
+  const controller = new AbortController();
+  abortControllerRef.current = controller;
+
+  try {
+    const compacted = await compactHistoryWithLLM(job.history, controller.signal);
+    job.resolve(compacted);
+    queue.shift(); // Remove completed job
+  } catch (error) {
+    if (error instanceof Error && error.name === "AbortError") {
+      isHistorySummarizingRef.current = false;
+      setIsHistorySummarizing?.(false);
+      return;
+    }
+
+    job.attempt++;
+    if (job.attempt <= CompactionMaxRetries) {
+      // Exponential backoff
+      const delay = CompactionRetryBaseDelayMs * Math.pow(2, job.attempt - 1);
+      await new Promise((r) => setTimeout(r, delay));
+      // Re-queue for retry (will be picked up by next processCompactionQueue call)
+    } else {
+      job.reject(new Error(`Compaction failed after ${CompactionMaxRetries} attempts: ${error instanceof Error ? error.message : String(error)}`));
+      queue.shift(); // Remove failed job
+    }
+  } finally {
+    isHistorySummarizingRef.current = false;
+    setIsHistorySummarizing?.(false);
+    // Process next in queue
+    if (queue.length > 0) {
+      queueMicrotask(() => processCompactionQueue(queue, compactionQueueRef, isHistorySummarizingRef, abortControllerRef, setIsHistorySummarizing));
+    }
+  }
 };
 
 /**
@@ -384,6 +523,14 @@ export const ChatPopup: React.FC<{ open: boolean; onClose: () => void }> = memo(
   const apiHistoryRef = useRef<{ role: "user" | "assistant"; content: string }[]>([]);
   // Store loaded document content per locale to avoid mutating DocumentSources
   const loadedDocumentsRef = useRef<Record<"en" | "tr", LoadedDocument[]>>({ en: [], tr: [] });
+  // Developer 2: Background compaction refs
+  const compactionQueueRef = useRef<CompactionJob[]>([]);
+  const isHistorySummarizingRef = useRef(false);
+  const compactionAbortControllerRef = useRef<AbortController | null>(null);
+  // Mirror refs to state for UI reactivity
+  const [isHistorySummarizing, setIsHistorySummarizing] = useState(false);
+  // Accumulated token usage from completed turns (for compaction threshold check)
+  const tokenUsageRef = useRef<UsageInfo>({ prompt: 0, completion: 0, inputCacheRead: 0, request: 0, billedUsage: 0, usdCents: 0 });
   // When true, the user has scrolled up away from the bottom; pause auto-scroll.
   const isUserScrolledUpRef = useRef(false);
 
@@ -477,7 +624,6 @@ export const ChatPopup: React.FC<{ open: boolean; onClose: () => void }> = memo(
     return undefined;
   }, [open, onClose]);
 
-  // Search function - plain function since only used in send() and doesn't need memoization
   const performSearch = useCallback(
     (query: string, fuzzy: number, maxResults: number, localeFilter: "same" | "crossLocale" | "all", locale: "en" | "tr"): string | null => {
       if (!searchIndex) return null;
@@ -509,6 +655,55 @@ export const ChatPopup: React.FC<{ open: boolean; onClose: () => void }> = memo(
     [searchIndex],
   );
 
+  // Rough token estimate using 4 chars per token heuristic
+  const estimateTokens = useCallback((text: string): number => Math.ceil(text.length / 4), []);
+
+  // Developer 2: Check if compaction is needed and enqueue
+  const checkAndEnqueueCompaction = useCallback(
+    (history: Array<{ role: "user" | "assistant"; content: string }>) => {
+      // Use REAL token usage from completed turns (prompt + input_cache_read)
+      // This avoids heuristic estimation for the trigger decision
+      const historyTokens = tokenUsageRef.current.prompt + tokenUsageRef.current.inputCacheRead;
+      const contextWindow = getContextWindow();
+      const threshold = contextWindow * CompactionThresholdRatio;
+
+      if (historyTokens > threshold) {
+        // Enqueue compaction job
+        const job: CompactionJob = {
+          id: Date.now(),
+          history,
+          resolve: (compacted) => {
+            apiHistoryRef.current = compacted;
+            // Reset token usage to reflect the new compacted history
+            // Estimate tokens for the new compacted history
+            const compactedTokens = compacted.reduce((sum, msg) => sum + estimateTokens(msg.content), 0);
+            tokenUsageRef.current = {
+              prompt: Math.floor(compactedTokens * 0.6),
+              completion: 0,
+              inputCacheRead: Math.floor(compactedTokens * 0.4),
+              request: 0,
+              billedUsage: 0,
+              usdCents: 0,
+            };
+          },
+          reject: (error) => {
+            console.error("[ChatPopup] Compaction failed:", error);
+            // Fallback: simple truncation to last 2 turns
+            apiHistoryRef.current = history.slice(-2);
+          },
+          attempt: 0,
+          timestamp: Date.now(),
+        };
+        compactionQueueRef.current.push(job);
+        // Process queue if not already processing
+        if (!isHistorySummarizingRef.current) {
+          queueMicrotask(() => processCompactionQueue(compactionQueueRef.current, compactionQueueRef, isHistorySummarizingRef, compactionAbortControllerRef, setIsHistorySummarizing));
+        }
+      }
+    },
+    [estimateTokens],
+  );
+
   const send = useCallback(async () => {
     if (!draftRef.current.trim() || !searchIndex || isIndexing) return;
 
@@ -530,14 +725,16 @@ export const ChatPopup: React.FC<{ open: boolean; onClose: () => void }> = memo(
       // Step 1: Initial strict search
       // const initialContext = performSearch(userMessage, 0.2, 5, "same");
       const loadedDocs = loadedDocumentsRef.current[currentLocale];
-      const resumeContentRaw = loadedDocs.find((d) => d.title === "Resume" || d.title === "Özgeçmiş")?.content.trim() ?? "";
-      const resumeContent = stripPIIFromResume(resumeContentRaw);
+      // Developer 1: Context-specific lazy hydration for PII
+      // Only include PII (email, phone, address) when user explicitly asks for contact info
+      const resumeRaw = loadedDocs.find((d) => d.title === "Resume" || d.title === "Özgeçmiş")?.content.trim() ?? "";
+      const resumeContent = isContactInfoQuery(userMessage) ? resumeRaw : stripPIIFromResume(resumeRaw);
       const projectsContent = loadedDocs.find((d) => d.title === "Projects" || d.title === "Projeler")?.content.trim() ?? "";
       const faqContent = loadedDocs.find((d) => d.title === "FAQ" || d.title === "SSS")?.content.trim() ?? "";
       const faqQuestions = extractFAQQuestions(faqContent);
 
       if (!resumeContent && !projectsContent && faqQuestions.length === 0) {
-        apiHistoryRef.current = trimHistory([...history, { role: "user" as const, content: userMessage }]);
+        apiHistoryRef.current = [...history, { role: "user" as const, content: userMessage }];
         setMessages((prev) => [...prev, makeMessage("assistant", t("ui.chat.noRelevantInformationFoundInTheDocuments"))]);
         return;
       }
@@ -581,9 +778,8 @@ ${faqQuestions.join("\n")}`;
       // Build initial messages with the context
       const baseSystemContent = `${SystemPrompt}\n\n## Initial Context (from document search)\n${initialContext}`;
 
-      // Trim history to prevent token blowup
-      const trimmedHistory = trimHistory(history);
-      const apiMessages: Array<ChatMessage> = [{ role: "system", content: baseSystemContent }, ...trimmedHistory, { role: "user", content: userMessage }];
+      const apiMessages: Array<ChatMessage> = [{ role: "system", content: baseSystemContent }, ...history, { role: "user", content: userMessage }];
+
       const apiOptions: StreamingChatOptions = {
         tools,
         stream: true,
@@ -607,11 +803,18 @@ ${faqQuestions.join("\n")}`;
       let assistantText = "";
       let pendingToolCall: { id: string; name: string; input: { query: string; searchType: string } } | null = null;
       let wasAborted = false;
+      let turnUsage: UsageInfo = { prompt: 0, completion: 0, inputCacheRead: 0, request: 0, billedUsage: 0, usdCents: 0 };
 
       for await (const part of response) {
         if (abortControllerRef.current?.signal.aborted) {
           wasAborted = true;
           break;
+        }
+
+        // Parse usage event (arrives at end of stream)
+        const usage = parseUsageFromChunk(part);
+        if (usage) {
+          turnUsage = usage;
         }
 
         // Standard text stream
@@ -628,6 +831,12 @@ ${faqQuestions.join("\n")}`;
             input: part.input as { query: string; searchType: string },
           };
         }
+      }
+
+      // Accumulate this turn's usage into the running total
+      if (!wasAborted) {
+        tokenUsageRef.current.prompt += turnUsage.prompt;
+        tokenUsageRef.current.inputCacheRead += turnUsage.inputCacheRead;
       }
 
       // Step 3: If LLM requested expanded search, execute it
@@ -675,9 +884,7 @@ ${faqQuestions.join("\n")}`;
         // Step 4: Send expanded results back to LLM for final answer
         const expandedSystemContent = expandedContext ? `${SystemPrompt}\n\n## Initial Context\n${initialContext}\n\n## Expanded Context (from additional search)\n${expandedContext}` : baseSystemContent;
 
-        // Trim history for follow-up as well
-        const trimmedHistory = trimHistory(history);
-        const followUpMessages = [{ role: "system", content: expandedSystemContent }, ...trimmedHistory, { role: "user", content: userMessage }, toolCallMessage, toolResultMessage];
+        const followUpMessages = [{ role: "system", content: expandedSystemContent }, ...history, { role: "user", content: userMessage }, toolCallMessage, toolResultMessage];
 
         const finalApiOptions: StreamingChatOptions = {
           stream: true,
@@ -694,10 +901,15 @@ ${faqQuestions.join("\n")}`;
 
         // Reset and stream the final response
         assistantText = "";
+        turnUsage = { prompt: 0, completion: 0, inputCacheRead: 0, request: 0, billedUsage: 0, usdCents: 0 };
         for await (const finalPart of finalResponse) {
           if (abortControllerRef.current?.signal.aborted) {
             wasAborted = true;
             break;
+          }
+          const finalUsage = parseUsageFromChunk(finalPart);
+          if (finalUsage) {
+            turnUsage = finalUsage;
           }
           if (finalPart?.text) {
             assistantText += finalPart.text;
@@ -706,13 +918,23 @@ ${faqQuestions.join("\n")}`;
         }
       }
 
+      // Accumulate follow-up turn's usage
+      if (!wasAborted) {
+        tokenUsageRef.current.prompt += turnUsage.prompt;
+        tokenUsageRef.current.inputCacheRead += turnUsage.inputCacheRead;
+      }
+
       if (wasAborted) {
         // Remove the empty/partial assistant bubble that was added before
         // streaming started, so the UI doesn't show a blank message.
         setMessages((prev) => prev.filter((m) => m.id !== streamingId));
       } else {
         // Persist completed turn to conversation history.
-        apiHistoryRef.current = trimHistory([...history, { role: "user" as const, content: userMessage }, { role: "assistant" as const, content: assistantText }]);
+        const newHistory = [...history, { role: "user" as const, content: userMessage }, { role: "assistant" as const, content: assistantText }];
+        apiHistoryRef.current = newHistory;
+
+        // Developer 2: Check if compaction is needed (background, non-blocking)
+        checkAndEnqueueCompaction(newHistory);
       }
     } catch (error) {
       if (error instanceof Error && error.name === "AbortError") return;
@@ -721,7 +943,7 @@ ${faqQuestions.join("\n")}`;
     } finally {
       setIsLoading(false);
     }
-  }, [currentLocale, isIndexing, performSearch, searchIndex, t]);
+  }, [currentLocale, isIndexing, performSearch, searchIndex, t, checkAndEnqueueCompaction]);
 
   const handleChange = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setDraft(e.target.value);
@@ -743,6 +965,186 @@ ${faqQuestions.join("\n")}`;
     abortControllerRef.current?.abort();
     setIsLoading(false);
   }, []);
+
+  // Helper: Calculate usage percentage for the indicator
+  const getUsagePercent = useCallback((): number => {
+    const total = tokenUsageRef.current.prompt + tokenUsageRef.current.inputCacheRead;
+    const window = getContextWindow();
+    return Math.min(100, Math.round((total / window) * 100));
+  }, []);
+
+  const getUsageColor = useCallback((percent: number): "safe" | "warning" | "danger" => {
+    if (percent >= 80) return "danger";
+    if (percent >= 60) return "warning";
+    return "safe";
+  }, []);
+
+  const formatTokenCount = useCallback((count: number): string => {
+    if (count >= 1000) return `${(count / 1000).toFixed(1)}k`;
+    return count.toString();
+  }, []);
+
+  // Usage Indicator Component — Shows context window utilization, token counts, model, compaction status
+  const UsageIndicator = () => {
+    const percent = getUsagePercent();
+    const color = getUsageColor(percent);
+
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          gap: 1,
+          px: 1.5,
+          backgroundColor: "background.surface",
+        }}
+      >
+        {/* Token Counts & Model */}
+        <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-around", gap: 1, flexWrap: "wrap" }}>
+          {/* Token counts */}
+          {!isHistorySummarizing && (
+            <Box sx={{ display: "flex", alignItems: "center", gap: 1, flexWrap: "wrap" }}>
+              <Typography
+                variant="caption"
+                color="text.secondary"
+                sx={{ whiteSpace: "nowrap", textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 600 }}
+              >
+                {t("ui.chat.usage.prompt") ?? "Prompt"}
+              </Typography>
+              <Typography
+                variant="body2"
+                color={
+                  getUsageColor(getUsagePercent()) === "danger" ? "error.main"
+                  : getUsageColor(getUsagePercent()) === "warning" ?
+                    "warning.main"
+                  : "success.main"
+                }
+                sx={{ fontFamily: "'Cascadia Code', Consolas, monospace", fontVariant: "tabular-nums", fontWeight: 400 }}
+              >
+                {formatTokenCount(tokenUsageRef.current.prompt)}
+              </Typography>
+
+              <Typography
+                variant="caption"
+                color="text.secondary"
+                sx={{ whiteSpace: "nowrap", textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 600 }}
+              >
+                {t("ui.chat.usage.cache") ?? "Cache"}
+              </Typography>
+              <Typography
+                variant="body2"
+                color={
+                  getUsageColor(getUsagePercent()) === "danger" ? "error.main"
+                  : getUsageColor(getUsagePercent()) === "warning" ?
+                    "warning.main"
+                  : "success.main"
+                }
+                sx={{ fontFamily: "'Cascadia Code', Consolas, monospace", fontVariant: "tabular-nums", fontWeight: 400 }}
+              >
+                {formatTokenCount(tokenUsageRef.current.inputCacheRead)}
+              </Typography>
+
+              <Typography
+                variant="caption"
+                color="text.secondary"
+                sx={{ whiteSpace: "nowrap", textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 600 }}
+              >
+                {t("ui.chat.usage.total") ?? "Total"}
+              </Typography>
+              <Typography
+                variant="body2"
+                color={
+                  getUsageColor(getUsagePercent()) === "danger" ? "error.main"
+                  : getUsageColor(getUsagePercent()) === "warning" ?
+                    "warning.main"
+                  : "success.main"
+                }
+                sx={{ fontFamily: "'Cascadia Code', Consolas, monospace", fontVariant: "tabular-nums", fontWeight: 400 }}
+              >
+                {formatTokenCount(tokenUsageRef.current.prompt + tokenUsageRef.current.inputCacheRead)} / {formatTokenCount(getContextWindow())}
+              </Typography>
+
+              <Typography
+                variant="caption"
+                color="text.secondary"
+                sx={{ whiteSpace: "nowrap", textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 600 }}
+              >
+                {t("ui.chat.usage.percent") ?? "Usage"}
+              </Typography>
+              <Typography
+                variant="body2"
+                color={
+                  color === "danger" ? "error.main"
+                  : color === "warning" ?
+                    "warning.main"
+                  : "success.main"
+                }
+                sx={{ fontFamily: "'Cascadia Code', Consolas, monospace", fontVariant: "tabular-nums", fontWeight: 400 }}
+              >
+                {getUsagePercent()}%
+              </Typography>
+            </Box>
+          )}
+
+          {/* Model badge + compaction status */}
+          {isHistorySummarizing && (
+            <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+              {/* 
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 0.5,
+                  backgroundColor: "background.card",
+                  border: "1px solid",
+                  borderColor: "border.default",
+                  borderRadius: 1,
+                  px: 1.5,
+                  py: 0.5,
+                }}
+              >
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  sx={{ fontFamily: "'Cascadia Code', Consolas, monospace", fontVariant: "tabular-nums", fontWeight: 300, fontSize: "0.75rem" }}
+                >
+                  {LLMModel.split("/").pop() || LLMModel}
+                </Typography>
+              </Box> 
+            */}
+
+              {isHistorySummarizing && (
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 0.5,
+                    backgroundColor: "usage.cache",
+                    color: "text.primary",
+                    borderRadius: 1,
+                    px: 1.5,
+                    py: 0.5,
+                  }}
+                >
+                  <CircularProgress
+                    size={12}
+                    thickness={3}
+                    color="primary"
+                  />
+                  <Typography
+                    variant="caption"
+                    sx={{ fontSize: "0.75rem" }}
+                  >
+                    {t("ui.chat.historySummarizing")}
+                  </Typography>
+                </Box>
+              )}
+            </Box>
+          )}
+        </Box>
+      </Box>
+    );
+  };
 
   return (
     <>
@@ -800,9 +1202,7 @@ ${faqQuestions.join("\n")}`;
                   overflow: "auto",
                 }}
               >
-                {m.role === "assistant" ?
-                  <MarkdownRenderer content={m.text} />
-                : m.text}
+                <MarkdownRenderer content={m.text} />
               </Paper>
             </Box>
           ))}
@@ -810,8 +1210,8 @@ ${faqQuestions.join("\n")}`;
         </Stack>
 
         <Box sx={{ p: 2 }}>
-          {isIndexing && (
-            <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 1 }}>
+          {(isIndexing || isLoading) && (
+            <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 1, mb: 1 }}>
               <CircularProgress
                 size={16}
                 thickness={3}
@@ -820,8 +1220,10 @@ ${faqQuestions.join("\n")}`;
               <Typography
                 variant="body2"
                 color="text.secondary"
+                sx={{ display: "flex", alignItems: "center", gap: 0.5 }}
               >
-                {t("ui.chat.indexingDocuments")}
+                {isIndexing && t("ui.chat.indexingDocuments")}
+                {isLoading && t("ui.chat.loading")}
               </Typography>
             </Box>
           )}
@@ -845,50 +1247,43 @@ ${faqQuestions.join("\n")}`;
                 : t("ui.chat.placeholder")
               }
             />
-            <IconButton
-              onClick={send}
-              disabled={!draft.trim() || isLoading || isIndexing || !open}
-              aria-label={t("ui.chat.sendMessage")}
-              color="primary"
-              size="medium"
-              sx={{ alignSelf: "flex-end", mb: 0.8, px: 1.4 }}
-            >
-              <span style={{ fontSize: 20 }}>➤</span>
-            </IconButton>
-          </Box>
-          {isLoading && (
-            <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", mt: 1 }}>
-              <Box
-                sx={{
-                  width: 16,
-                  height: 16,
-                  border: "2px solid",
-                  borderColor: "primary.main transparent",
-                  borderRadius: "50%",
-                  animation: "spin 1s linear infinite",
-                  "@keyframes spin": {
-                    "0%": { transform: "rotate(0deg)" },
-                    "100%": { transform: "rotate(360deg)" },
-                  },
-                }}
-              />
-              <Typography
-                variant="body2"
-                color="text.secondary"
-                sx={{ display: "flex", alignItems: "center", gap: 0.5 }}
+            {!isLoading && (
+              <IconButton
+                onClick={send}
+                disabled={!draft.trim() || isLoading || isIndexing || !open}
+                aria-label={t("ui.chat.sendMessage")}
+                title={t("ui.chat.sendMessage")}
+                color="primary"
+                size="medium"
+                sx={{ alignSelf: "flex-end", mb: 1.1, px: 1.4 }}
               >
-                <span>{t("ui.chat.loading")}</span>
-              </Typography>
+                <span style={{ fontSize: 20 }}>➤</span>
+              </IconButton>
+            )}
+            {isLoading && (
               <IconButton
                 onClick={handleStop}
                 size="small"
                 color="error"
                 aria-label={t("ui.chat.stop")}
+                title={t("ui.chat.stop")}
               >
                 {t("ui.chat.stop")}
               </IconButton>
-            </Box>
-          )}
+            )}
+          </Box>
+
+          {/* Usage Info Indicator — Context window utilization, token counts, model, compaction status */}
+          <Box sx={{ mt: 1 }}>
+            <UsageIndicator />
+            <Typography
+              variant="body2"
+              color="text.secondary"
+              sx={{ display: "flex", alignItems: "center", justifyContent: "space-around", gap: 0.5, fontSize: "0.70em", mt: 0.6, mb: -0.8 }}
+            >
+              {t("ui.chat.aIMayMakeMistakes")}
+            </Typography>
+          </Box>
         </Box>
       </StyledChatPopupPaper>
     </>

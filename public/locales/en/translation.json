@@ -35,6 +35,14 @@
       "searchIndexNotReady": "Search index not ready. Please wait a moment.",
       "noRelevantInformationFoundInTheDocuments": "No relevant information found in the documents for your query.",
       "encounteredError": "I encountered an error processing your request.",
+      "historySummarizing": "Working on summarizing the history...",
+      "aIMayMakeMistakes": "AI models may make mistakes, so double-check outputs.",
+      "usage": {
+        "prompt": "Prompt",
+        "cache": "Cache",
+        "total": "Total",
+        "percent": "Percent"
+      },
       "sendMessage": "Send",
       "stop": "Stop"
     },

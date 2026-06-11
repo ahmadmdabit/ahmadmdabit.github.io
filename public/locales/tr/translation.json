@@ -35,6 +35,14 @@
       "searchIndexNotReady": "Arama dizini henüz hazır değil. Lütfen bir dakika bekleyin.",
       "noRelevantInformationFoundInTheDocuments": "Sorunuzla ilgili belgelerde bilgi bulunamadı.",
       "encounteredError": "Üzgünüm, isteğinizi işlerken bir hata oluştu.",
+      "historySummarizing": "Tarihi özetleme üzerinde çalışıyorum...",
+      "aIMayMakeMistakes": "Yapay zekâ modelleri hata yapabilir, bu nedenle çıktıları iki kez kontrol edin.",
+      "usage": {
+        "prompt": "İstem",
+        "cache": "Önbellek",
+        "total": "Toplam",
+        "percent": "Yüzde"
+      },
       "sendMessage": "Gönder",
       "stop": "Durdur"
     },
