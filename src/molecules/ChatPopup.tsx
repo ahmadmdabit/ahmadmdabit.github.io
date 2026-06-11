@@ -11,13 +11,14 @@ import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import { marked } from "marked";
-import DOMPurify from "dompurify";
 import MiniSearch from "minisearch";
-import puter, { type ChatMessage } from "@heyputer/puter.js";
-import type { ChatResponseChunk, StreamingChatOptions } from "@heyputer/puter.js/types/modules/ai";
+import puter from "@heyputer/puter.js";
+import type { ChatMessage, ChatResponseChunk, StreamingChatOptions } from "@heyputer/puter.js/types/modules/ai";
 import { StatusIndicator } from "@/atoms/StatusIndicator";
 import { CloseButton } from "@/atoms/CloseButton";
+import MarkdownRenderer from "@/atoms/MarkdownRenderer";
+import ChatUsageIndicator from "@/atoms/ChatUsageIndicator";
+import type { DocumentSource, MessageRole, Message, DocumentChunk, UsageInfo, SearchIndex, LoadedDocument, CompactionJob } from "@/types/Chat.types";
 
 const LLMModel = "openai/gpt-oss-120b:free";
 const LLMModelContextWindow = 131000; // 131K
@@ -39,58 +40,7 @@ const CompactionThresholdRatio = 0.75; // Trigger compaction when history exceed
 const CompactionMaxRetries = 3;
 const CompactionRetryBaseDelayMs = 1000;
 
-declare module "@heyputer/puter.js" {
-  interface Puter {
-    quiet: boolean;
-  }
-
-  interface ChatResponseChunk {
-    id?: string;
-    name?: string;
-    type?: string;
-    input?: { query: string; searchType: string };
-  }
-
-  interface ChatOptions {
-    signal?: AbortSignal;
-  }
-
-  // interface StreamingChatOptions {
-  //   signal?: AbortSignal;
-  // }
-}
-
 puter.quiet = true;
-
-interface UsageInfo {
-  prompt: number;
-  completion: number;
-  inputCacheRead: number;
-  request: number;
-  billedUsage: number;
-  usdCents: number;
-}
-
-interface DocumentChunk {
-  id: string;
-  title: string;
-  text: string;
-  source: string;
-  locale: string;
-}
-
-interface SearchIndex {
-  miniSearch: MiniSearch<DocumentChunk>;
-  documents: DocumentChunk[];
-}
-
-type MessageRole = "user" | "assistant";
-
-interface Message {
-  id: string;
-  role: MessageRole;
-  text: string;
-}
 
 const StyledChatPopupPaper = styled(Paper)(({ theme }) => ({
   display: "flex",
@@ -161,16 +111,6 @@ When asked "Can he build X?" or "Does he know Y?", you MUST categorize your resp
 ## 4. META-REQUEST & FORMATTING HANDLING
 - **Procedural Commands:** If the user issues a meta-instruction (e.g., "Speak in my language", "Be shorter") within their message, acknowledge it briefly (1 sentence) in the language of the CURRENT message before answering any accompanying question. Apply the instruction to subsequent turns. If the user ONLY issues the command without a question, do not re-answer the previous question.
 - **Redaction Rendering:** When encountering masked dates (e.g., "07/[PHONE REDACTED]"), render them cleanly in prose (e.g., "July [Year]" or "Ongoing"). Do not output raw placeholders like "07/…".`;
-
-interface DocumentSource {
-  readonly path: string;
-  readonly title: string;
-  readonly locale: string;
-}
-
-interface LoadedDocument extends DocumentSource {
-  content: string;
-}
 
 const DocumentSources: { readonly en: DocumentSource[]; readonly tr: DocumentSource[] } = {
   en: [
@@ -281,15 +221,6 @@ const extractFAQQuestions = (content: string): string[] => {
 // =============================================================================
 // Developer 2: Background Conversation Compaction with Exponential Backoff & Queue
 // =============================================================================
-
-interface CompactionJob {
-  id: number;
-  history: Array<{ role: "user" | "assistant" | "system"; content: string }>;
-  resolve: (compacted: Array<{ role: "user" | "assistant" | "system"; content: string }>) => void;
-  reject: (error: Error) => void;
-  attempt: number;
-  timestamp: number;
-}
 
 /**
  * Developer 1: Context-specific lazy hydration for PII.
@@ -494,44 +425,6 @@ const loadAndIndexDocuments = async (locale: string): Promise<{ searchIndex: Sea
 
   return { searchIndex: { miniSearch, documents: allChunks }, loadedDocs };
 };
-
-const MarkdownRenderer = memo(({ content }: { content: string }) => {
-  const [html, setHtml] = useState("");
-
-  useEffect(() => {
-    let cancelled = false;
-    (async () => {
-      const raw = await marked.parse(content, { async: true });
-      if (!cancelled) {
-        setHtml(
-          DOMPurify.sanitize(raw, {
-            // Security hardening: forbid javascript: URIs and dangerous protocols
-            ALLOWED_URI_REGEXP: /^(?:(?:https?|mailto):|[^a-z]|[a-z+.-]+(?:[^a-z+.\-:]|$))/i,
-            // Allow target and rel attributes for link hardening
-            ADD_ATTR: ["target", "rel"],
-            // Forbid dangerous tags
-            FORBID_TAGS: ["style", "iframe", "form", "script", "object", "embed"],
-            // Forbid event handler attributes
-            FORBID_ATTR: ["onerror", "onload", "onclick", "onmouseover", "onfocus", "onblur"],
-          }),
-        );
-      }
-    })();
-    return () => {
-      cancelled = true;
-    };
-  }, [content]);
-
-  return (
-    <Box
-      component="div"
-      sx={{ "& p": { m: 0 }, "& code": { fontFamily: "monospace" } }}
-      dangerouslySetInnerHTML={{ __html: html }}
-    />
-  );
-});
-
-MarkdownRenderer.displayName = "MarkdownRenderer";
 
 export const ChatPopup: React.FC<{ open: boolean; onClose: () => void }> = memo(({ open, onClose }) => {
   const { t, i18n } = useTranslation();
@@ -999,186 +892,6 @@ ${faqQuestions.join("\n")}`;
     setIsLoading(false);
   }, []);
 
-  // Helper: Calculate usage percentage for the indicator
-  const getUsagePercent = useCallback((): number => {
-    const total = tokenUsageRef.current.prompt + tokenUsageRef.current.inputCacheRead;
-    const window = getContextWindow();
-    return Math.min(100, Math.round((total / window) * 100));
-  }, []);
-
-  const getUsageColor = useCallback((percent: number): "safe" | "warning" | "danger" => {
-    if (percent >= 80) return "danger";
-    if (percent >= 60) return "warning";
-    return "safe";
-  }, []);
-
-  const formatTokenCount = useCallback((count: number): string => {
-    if (count >= 1000) return `${(count / 1000).toFixed(1)}k`;
-    return count.toString();
-  }, []);
-
-  // Usage Indicator Component — Shows context window utilization, token counts, model, compaction status
-  const UsageIndicator = () => {
-    const percent = getUsagePercent();
-    const color = getUsageColor(percent);
-
-    return (
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          gap: 1,
-          px: 1.5,
-          backgroundColor: "background.surface",
-        }}
-      >
-        {/* Token Counts & Model */}
-        <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-around", gap: 1, flexWrap: "wrap" }}>
-          {/* Token counts */}
-          {!isHistorySummarizing && (
-            <Box sx={{ display: "flex", alignItems: "center", gap: 1, flexWrap: "wrap" }}>
-              <Typography
-                variant="caption"
-                color="text.secondary"
-                sx={{ whiteSpace: "nowrap", textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 600 }}
-              >
-                {t("ui.chat.usage.prompt") ?? "Prompt"}
-              </Typography>
-              <Typography
-                variant="body2"
-                color={
-                  getUsageColor(getUsagePercent()) === "danger" ? "error.main"
-                  : getUsageColor(getUsagePercent()) === "warning" ?
-                    "warning.main"
-                  : "success.main"
-                }
-                sx={{ fontFamily: "'Cascadia Code', Consolas, monospace", fontVariant: "tabular-nums", fontWeight: 400 }}
-              >
-                {formatTokenCount(tokenUsageRef.current.prompt)}
-              </Typography>
-
-              <Typography
-                variant="caption"
-                color="text.secondary"
-                sx={{ whiteSpace: "nowrap", textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 600 }}
-              >
-                {t("ui.chat.usage.cache") ?? "Cache"}
-              </Typography>
-              <Typography
-                variant="body2"
-                color={
-                  getUsageColor(getUsagePercent()) === "danger" ? "error.main"
-                  : getUsageColor(getUsagePercent()) === "warning" ?
-                    "warning.main"
-                  : "success.main"
-                }
-                sx={{ fontFamily: "'Cascadia Code', Consolas, monospace", fontVariant: "tabular-nums", fontWeight: 400 }}
-              >
-                {formatTokenCount(tokenUsageRef.current.inputCacheRead)}
-              </Typography>
-
-              <Typography
-                variant="caption"
-                color="text.secondary"
-                sx={{ whiteSpace: "nowrap", textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 600 }}
-              >
-                {t("ui.chat.usage.total") ?? "Total"}
-              </Typography>
-              <Typography
-                variant="body2"
-                color={
-                  getUsageColor(getUsagePercent()) === "danger" ? "error.main"
-                  : getUsageColor(getUsagePercent()) === "warning" ?
-                    "warning.main"
-                  : "success.main"
-                }
-                sx={{ fontFamily: "'Cascadia Code', Consolas, monospace", fontVariant: "tabular-nums", fontWeight: 400 }}
-              >
-                {formatTokenCount(tokenUsageRef.current.prompt + tokenUsageRef.current.inputCacheRead)} / {formatTokenCount(getContextWindow())}
-              </Typography>
-
-              <Typography
-                variant="caption"
-                color="text.secondary"
-                sx={{ whiteSpace: "nowrap", textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 600 }}
-              >
-                {t("ui.chat.usage.percent") ?? "Usage"}
-              </Typography>
-              <Typography
-                variant="body2"
-                color={
-                  color === "danger" ? "error.main"
-                  : color === "warning" ?
-                    "warning.main"
-                  : "success.main"
-                }
-                sx={{ fontFamily: "'Cascadia Code', Consolas, monospace", fontVariant: "tabular-nums", fontWeight: 400 }}
-              >
-                {getUsagePercent()}%
-              </Typography>
-            </Box>
-          )}
-
-          {/* Model badge + compaction status */}
-          {isHistorySummarizing && (
-            <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-              {/* 
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 0.5,
-                  backgroundColor: "background.card",
-                  border: "1px solid",
-                  borderColor: "border.default",
-                  borderRadius: 1,
-                  px: 1.5,
-                  py: 0.5,
-                }}
-              >
-                <Typography
-                  variant="body2"
-                  color="text.secondary"
-                  sx={{ fontFamily: "'Cascadia Code', Consolas, monospace", fontVariant: "tabular-nums", fontWeight: 300, fontSize: "0.75rem" }}
-                >
-                  {LLMModel.split("/").pop() || LLMModel}
-                </Typography>
-              </Box> 
-            */}
-
-              {isHistorySummarizing && (
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 0.5,
-                    backgroundColor: "usage.cache",
-                    color: "text.primary",
-                    borderRadius: 1,
-                    px: 1.5,
-                    py: 0.5,
-                  }}
-                >
-                  <CircularProgress
-                    size={12}
-                    thickness={3}
-                    color="primary"
-                  />
-                  <Typography
-                    variant="caption"
-                    sx={{ fontSize: "0.75rem" }}
-                  >
-                    {t("ui.chat.historySummarizing")}
-                  </Typography>
-                </Box>
-              )}
-            </Box>
-          )}
-        </Box>
-      </Box>
-    );
-  };
-
   return (
     <>
       <Backdrop
@@ -1307,7 +1020,11 @@ ${faqQuestions.join("\n")}`;
 
           {/* Usage Info Indicator — Context window utilization, token counts, model, compaction status */}
           <Box sx={{ mt: 0.2, mb: -1 }}>
-            <UsageIndicator />
+            <ChatUsageIndicator
+              isHistorySummarizing={isHistorySummarizing}
+              TokenUsageInfo={tokenUsageRef.current}
+              ContextWindow={getContextWindow()}
+            />
             <List sx={{ my: 0, px: 2.8, color: "text.secondary", backgroundColor: "grey.800", borderRadius: 1.3, fontSize: "0.70em" }}>
               <ListItem sx={{ display: "list-item", listStyle: "disc", padding: 0 }}>{t("ui.chat.aIMayMakeMistakes")}</ListItem>
               <ListItem sx={{ display: "list-item", listStyle: "disc", padding: 0 }}>{t("ui.chat.privacyNotice")}</ListItem>
