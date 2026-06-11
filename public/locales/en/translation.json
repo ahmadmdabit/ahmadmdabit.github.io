@@ -29,7 +29,7 @@
       "initialMessage": "Hello. I can help you know better about Ahmet FATIHOGLU",
       "placeholder": "Ask me anything about Ahmet FATIHOGLU",
       "loadingPlaceholder": "Waiting for AI response...",
-      "loading": "Thinking...",
+      "loading": "Processing...",
       "indexingDocuments": "Indexing documents...",
       "pleaseWaitIndexingDocuments": "Please wait, indexing documents...",
       "searchIndexNotReady": "Search index not ready. Please wait a moment.",

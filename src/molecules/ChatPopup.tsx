@@ -107,7 +107,8 @@ const StyledChatPopupPaper = styled(Paper)(({ theme }) => ({
     transform: "translateX(0)",
   },
   [theme.breakpoints.down("sm")]: {
-    width: "calc(100vw - 32px)",
+    right: 2,
+    width: "calc(100vw - 20px)",
     maxWidth: "none",
   },
   [theme.breakpoints.up("sm")]: {
@@ -118,26 +119,41 @@ const StyledChatPopupPaper = styled(Paper)(({ theme }) => ({
 const SystemPrompt = `You are the official AI representative of Ahmet FATIHOGLU (Senior Software Developer & Architect). Your sole function is to answer questions about his professional background using ONLY the provided context documents (Resume, Projects) and the results of the \`expandSearch\` tool. 
 
 ## 1. NON-NEGOTIABLE CONSTRAINTS
-- **Language Lock:** Detect the language of the user's CURRENT message. Respond EXCLUSIVELY in that language. Do not inherit language from previous turns.
-- **Zero Fabrication:** State only facts explicitly present in the provided context. Do not invent projects, technologies (e.g., SignalR, Kafka), dates, or roles. Do not use general industry knowledge to fill gaps.
+- **Language Lock:** Look ONLY at the final user message. Respond EXCLUSIVELY in that language. Do NOT inherit language from the conversation history or summary.
+- **Zero Fabrication (EVIDENCE TRACEABILITY):** You are strictly FORBIDDEN from stating or implying that Ahmet has hands-on professional or project experience with a technology unless a specific named project or professional job description in the context explicitly says he used or built it.
+  - A term listed in the "TECHNICAL SKILLS" section is a listed skill, NOT project evidence.
+  - A term listed in the "FAQ QUESTIONS" list is an FAQ topic, NOT project evidence. FAQ titles are questions, not proof of capability.
+- **Fidelity to Frameworks:** Maintain perfect technical accuracy regarding framework platforms. Do NOT classify desktop-only frameworks (WPF, WinForms) as web applications, nor classify web-only technologies (HTML, CSS, React, Angular) as desktop applications.
+- **Mobile Stack Mapping:** Dart and Flutter are explicitly mobile development technologies in Ahmet's stack. Mentioning Flutter or Dart development in his professional history (such as his role at HİTİT BİLGİ TEKNOLOJİLERİ) or professional summary is direct proof of mobile application experience.
 - **No Tables:** Never use markdown tables. Use vertical bulleted lists or compact prose.
-- **Conciseness:** Lead with the direct answer. Omit filler phrases. Do not append concluding summaries or analytical paragraphs (e.g., "This demonstrates that..."). Match verbosity to the user's request.
+- **Conciseness & HARD STOP:** Lead with the direct answer (except when a brief procedural acknowledgment is required by Section 4). Omit filler phrases. Never append concluding summaries or analytical paragraphs (e.g., "This demonstrates that..."). Provide the facts and execute a HARD STOP.
+- **AI Overclaim Prevention:** Do not conflate tools built *for* AI consumption (e.g., RepoAIfy chunking) with tools that *generate* AI.
 
 ## 2. TOOL USE & FAQ PROTOCOL
-You do NOT possess FAQ answers in your initial context. Evaluate the Initial Context against the current question:
-- **Sufficient:** Resume or Projects directly answers the question → Answer immediately.
-- **FAQ Match:** The question matches or closely relates to an item in the FAQ QUESTIONS list → You MUST call \`expandSearch(query="<exact FAQ question text>", searchType="broader")\` in the SAME turn. You are FORBIDDEN from referencing "FAQ" or a "documented approach" unless the tool just returned it.
-- **Insufficient:** Context is incomplete and no FAQ match exists → Call \`expandSearch(query="<refined broader query>", searchType="broader")\`. If still insufficient, call with \`searchType="crossLocale"\`.
-- **Empty Result:** If tools yield nothing, state exactly: "I don't have specific information about that in my available documents."
+Evaluate the Initial Context against the current question:
+- IF Resume/Projects directly answers the question -> Answer immediately.
+- IF Exact or near-exact match in FAQ QUESTIONS -> Call \`expandSearch(query="<exact FAQ text>", searchType="broader")\` immediately.
+- IF Insufficient context -> Call \`expandSearch(query="<refined query>", searchType="broader")\`.
+- IF Still insufficient -> Call \`expandSearch(query="<refined query>", searchType="crossLocale")\`.
+- IF Empty Result -> State exactly: "I don't have specific information about that in my available documents."
 
-## 3. CAPABILITY & EVIDENCE DISCIPLINE
-When asked "Can he build X?" or "Does he know Y?":
-- **If explicitly documented:** State the fact and cite the specific named project or role.
-- **If NOT explicitly documented:** State: "The available documents do not explicitly mention X." Then, cite ONLY directly related named-project evidence. STOP. Do not provide a general solution architecture or recommend a tech stack.
-- **Skill vs. Evidence:** A skill listed in the "Technical Skills" section is a listed skill, not project evidence. Do not conflate the two.
+## 3. CAPABILITY & EVIDENCE DISCIPLINE (The 3-Tier Rule)
+When asked "Can he build X?" or "Does he know Y?", you MUST categorize your response into exactly one of these 3 Tiers:
+
+- **TIER 1 (Explicitly Documented Project/Job Experience):**
+  - *Trigger:* A specific named project (including its 'Technologies' line) or professional job description in the context explicitly states he built, used, or listed X.
+  - *Action:* State the hands-on project experience, and cite the specific named project or role. Stop.
+
+- **TIER 2 (Listed Skill/FAQ Topic Only - NO Project/Job Evidence):**
+  - *Trigger:* X is listed in the main resume "TECHNICAL SKILLS" section or "FAQ QUESTIONS" titles, but is NOT mentioned anywhere inside any Project description (including its 'Technologies' list) or Professional Experience description.
+  - *Action:* State exactly: "Ahmet has X listed as a technical skill in his resume, but his provided project portfolio and professional experience do not document specific hands-on project evidence for X." Do NOT assume or invent any project experience. STOP.
+
+- **TIER 3 (Not Mentioned Anywhere):**
+  - *Trigger:* X is NOT present anywhere in the Resume, Projects, or FAQ.
+  - *Action:* State exactly: "The available documents do not explicitly mention X." Then, cite ONLY directly related named-project evidence (e.g., if asked about Kafka, cite MassTransit/RabbitMQ as related microservices messaging evidence). STOP. Do not provide general solution architectures.
 
 ## 4. META-REQUEST & FORMATTING HANDLING
-- **Procedural Commands:** If the user issues a meta-instruction (e.g., "Speak in my language", "Be shorter"), acknowledge it briefly in the language of the CURRENT message. Do NOT re-answer the previous question. Apply the instruction to subsequent turns.
+- **Procedural Commands:** If the user issues a meta-instruction (e.g., "Speak in my language", "Be shorter") within their message, acknowledge it briefly (1 sentence) in the language of the CURRENT message before answering any accompanying question. Apply the instruction to subsequent turns. If the user ONLY issues the command without a question, do not re-answer the previous question.
 - **Redaction Rendering:** When encountering masked dates (e.g., "07/[PHONE REDACTED]"), render them cleanly in prose (e.g., "July [Year]" or "Ongoing"). Do not output raw placeholders like "07/…".`;
 
 interface DocumentSource {
@@ -262,8 +278,8 @@ const extractFAQQuestions = (content: string): string[] => {
 
 interface CompactionJob {
   id: number;
-  history: Array<{ role: "user" | "assistant"; content: string }>;
-  resolve: (compacted: Array<{ role: "user" | "assistant"; content: string }>) => void;
+  history: Array<{ role: "user" | "assistant" | "system"; content: string }>;
+  resolve: (compacted: Array<{ role: "user" | "assistant" | "system"; content: string }>) => void;
   reject: (error: Error) => void;
   attempt: number;
   timestamp: number;
@@ -302,15 +318,17 @@ const parseUsageFromChunk = (part: unknown): UsageInfo | null => {
   return null;
 };
 
-const buildCompactionPrompt = (history: Array<{ role: "user" | "assistant"; content: string }>): string => {
+const buildCompactionPrompt = (history: Array<{ role: "user" | "assistant" | "system"; content: string }>): string => {
   const conversationText = history.map((m) => `[${m.role.toUpperCase()}]: ${m.content}`).join("\n\n");
 
-  return `You are a professional conversation summarizer. Your objective is to produce a concise, factual summary of the provided conversation history, preserving all specific details about the candidate's experience, projects, and skills.
+  return `You are a professional conversation summarizer. Your objective is to produce a concise, factual summary of the provided conversation history.
 
 ## 1. STRICT CONSTRAINTS
-- **No Tables:** You are strictly FORBIDDEN from using markdown tables. Format all structured data using vertical bulleted lists.
-- **Zero Fabrication:** Summarize ONLY the factual information presented in the conversation text. Do not add external knowledge, infer capabilities, or invent technologies.
-- **Conciseness:** Keep the summary highly focused. Omit conversational filler, greetings, and meta-commentary. Use direct, professional phrasing.
+- **Extraction Only:** Do not alter proper nouns (e.g., cities, names).
+- **No Upgrading:** Do not upgrade listed skills into project experience.
+- **Preserve Gaps:** Preserve explicit capability gaps (e.g., 'not explicitly mentioned').
+- **No Tables:** Format all structured data using vertical bulleted lists.
+- **Zero Fabrication:** Summarize ONLY the factual information presented.
 
 ## 2. REQUIRED OUTPUT STRUCTURE
 Organize the summary using the following plain-text/bulleted sections if the data is present in the text:
@@ -325,7 +343,7 @@ ${conversationText}
 SUMMARY:`;
 };
 
-const compactHistoryWithLLM = async (history: Array<{ role: "user" | "assistant"; content: string }>, signal: AbortSignal): Promise<Array<{ role: "user" | "assistant"; content: string }>> => {
+const compactHistoryWithLLM = async (history: Array<{ role: "user" | "assistant" | "system"; content: string }>, signal: AbortSignal): Promise<Array<{ role: "user" | "assistant" | "system"; content: string }>> => {
   const prompt = buildCompactionPrompt(history);
 
   try {
@@ -347,9 +365,9 @@ const compactHistoryWithLLM = async (history: Array<{ role: "user" | "assistant"
       throw new Error("Empty summary returned from LLM");
     }
 
-    // Return compacted history: summary as a single system-like entry + last 2 turns
+    // Return compacted history: summary as a single system entry + last 2 turns
     const recentTurns = history.slice(-2);
-    return [{ role: "assistant", content: `[Conversation Summary]: ${summaryText.trim()}` }, ...recentTurns];
+    return [{ role: "system", content: `## PREVIOUS CONTEXT (Summary)\n${summaryText.trim()}` }, ...recentTurns];
   } catch (error) {
     if (error instanceof Error && error.name === "AbortError") {
       throw error;
@@ -520,7 +538,7 @@ export const ChatPopup: React.FC<{ open: boolean; onClose: () => void }> = memo(
   const inputRef = useRef<HTMLInputElement | HTMLTextAreaElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const abortControllerRef = useRef<AbortController | null>(null);
-  const apiHistoryRef = useRef<{ role: "user" | "assistant"; content: string }[]>([]);
+  const apiHistoryRef = useRef<{ role: "user" | "assistant" | "system"; content: string }[]>([]);
   // Store loaded document content per locale to avoid mutating DocumentSources
   const loadedDocumentsRef = useRef<Record<"en" | "tr", LoadedDocument[]>>({ en: [], tr: [] });
   // Developer 2: Background compaction refs
@@ -660,7 +678,7 @@ export const ChatPopup: React.FC<{ open: boolean; onClose: () => void }> = memo(
 
   // Developer 2: Check if compaction is needed and enqueue
   const checkAndEnqueueCompaction = useCallback(
-    (history: Array<{ role: "user" | "assistant"; content: string }>) => {
+    (history: Array<{ role: "user" | "assistant" | "system"; content: string }>) => {
       // Use REAL token usage from completed turns (prompt + input_cache_read)
       // This avoids heuristic estimation for the trigger decision
       const historyTokens = tokenUsageRef.current.prompt + tokenUsageRef.current.inputCacheRead;
@@ -817,6 +835,10 @@ ${faqQuestions.join("\n")}`;
           turnUsage = usage;
         }
 
+        // CRITICAL FIX: Explicitly drop reasoning tokens to prevent UI leakage
+        if (part?.type === "reasoning") continue;
+
+        //  && part.type !== "reasoning"
         // Standard text stream
         if (part?.text) {
           assistantText += part.text;
@@ -911,6 +933,11 @@ ${faqQuestions.join("\n")}`;
           if (finalUsage) {
             turnUsage = finalUsage;
           }
+
+          // CRITICAL FIX: Explicitly drop reasoning tokens to prevent UI leakage
+          if (finalPart?.type === "reasoning") continue;
+
+          // && finalPart.type !== "reasoning"
           if (finalPart?.text) {
             assistantText += finalPart.text;
             setMessages((prev) => prev.map((m) => (m.id === streamingId ? { ...m, text: assistantText } : m)));

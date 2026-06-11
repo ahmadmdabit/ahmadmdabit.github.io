@@ -29,7 +29,7 @@
       "initialMessage": "Merhaba. Ahmet FATİHOĞLU hakkında daha fazla bilgi edinmenize yardımcı olabilirim.",
       "placeholder": "Ahmet FATİHOĞLU hakkında ne istersen sorabilirsiniz",
       "loadingPlaceholder": "Yapay zekanın yanıtını bekliyoruz...",
-      "loading": "Düşünme...",
+      "loading": "İşleniyor...",
       "indexingDocuments": "Belgeler dizine ekleniyor...",
       "pleaseWaitIndexingDocuments": "Lütfen bekleyin, dizin hazırlanıyor...",
       "searchIndexNotReady": "Arama dizini henüz hazır değil. Lütfen bir dakika bekleyin.",
