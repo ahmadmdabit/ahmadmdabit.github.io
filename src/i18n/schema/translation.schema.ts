@@ -75,6 +75,7 @@ const translation = {
       encounteredError: "",
       historySummarizing: "",
       aIMayMakeMistakes: "",
+      privacyNotice: "",
       usage: {
         prompt: "",
         cache: "",

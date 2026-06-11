@@ -37,6 +37,7 @@
       "encounteredError": "Üzgünüm, isteğinizi işlerken bir hata oluştu.",
       "historySummarizing": "Tarihi özetleme üzerinde çalışıyorum...",
       "aIMayMakeMistakes": "Yapay zekâ modelleri hata yapabilir, bu nedenle çıktıları iki kez kontrol edin.",
+      "privacyNotice": "Sohbetiniz üçüncü taraf bir yapay zekâ sağlayıcısı tarafından işlenmektedir. Hassas kişisel bilgiler paylaşmayın.",
       "usage": {
         "prompt": "İstem",
         "cache": "Önbellek",

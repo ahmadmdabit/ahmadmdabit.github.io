@@ -37,6 +37,7 @@
       "encounteredError": "I encountered an error processing your request.",
       "historySummarizing": "Working on summarizing the history...",
       "aIMayMakeMistakes": "AI models may make mistakes, so double-check outputs.",
+      "privacyNotice": "Your conversation is processed by a third-party AI provider. Do not share sensitive personal information.",
       "usage": {
         "prompt": "Prompt",
         "cache": "Cache",

@@ -1,19 +1,21 @@
 import { useState, useEffect, useRef, memo, useCallback } from "react";
 import { useTranslation } from "react-i18next";
+import { styled } from "@mui/material/styles";
+import Backdrop from "@mui/material/Backdrop";
+import Box from "@mui/material/Box";
+import CircularProgress from "@mui/material/CircularProgress";
+import IconButton from "@mui/material/IconButton";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
-import { styled } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
-import Backdrop from "@mui/material/Backdrop";
-import CircularProgress from "@mui/material/CircularProgress";
-import IconButton from "@mui/material/IconButton";
+import { marked } from "marked";
 import DOMPurify from "dompurify";
+import MiniSearch from "minisearch";
 import puter, { type ChatMessage } from "@heyputer/puter.js";
 import type { ChatResponseChunk, StreamingChatOptions } from "@heyputer/puter.js/types/modules/ai";
-import MiniSearch from "minisearch";
-import { marked } from "marked";
 import { StatusIndicator } from "@/atoms/StatusIndicator";
 import { CloseButton } from "@/atoms/CloseButton";
 
@@ -94,9 +96,10 @@ const StyledChatPopupPaper = styled(Paper)(({ theme }) => ({
   display: "flex",
   position: "fixed",
   top: 64,
-  right: 16,
+  right: 14,
+  bottom: 14,
   maxWidth: 620,
-  height: "85vh",
+  // height: "91.5vh",
   zIndex: 1210,
   flexDirection: "column",
   borderRadius: 5,
@@ -112,6 +115,9 @@ const StyledChatPopupPaper = styled(Paper)(({ theme }) => ({
     maxWidth: "none",
   },
   [theme.breakpoints.up("sm")]: {
+    width: "80vw",
+  },
+  [theme.breakpoints.up("md")]: {
     width: "50vw",
   },
 }));
@@ -126,7 +132,7 @@ const SystemPrompt = `You are the official AI representative of Ahmet FATIHOGLU 
 - **Fidelity to Frameworks:** Maintain perfect technical accuracy regarding framework platforms. Do NOT classify desktop-only frameworks (WPF, WinForms) as web applications, nor classify web-only technologies (HTML, CSS, React, Angular) as desktop applications.
 - **Mobile Stack Mapping:** Dart and Flutter are explicitly mobile development technologies in Ahmet's stack. Mentioning Flutter or Dart development in his professional history (such as his role at HİTİT BİLGİ TEKNOLOJİLERİ) or professional summary is direct proof of mobile application experience.
 - **No Tables:** Never use markdown tables. Use vertical bulleted lists or compact prose.
-- **Conciseness & HARD STOP:** Lead with the direct answer (except when a brief procedural acknowledgment is required by Section 4). Omit filler phrases. Never append concluding summaries or analytical paragraphs (e.g., "This demonstrates that..."). Provide the facts and execute a HARD STOP.
+- **Conciseness & HARD STOP:** Lead with the direct answer (except when a brief procedural acknowledgment is required by Section 4). Omit filler phrases. Never append concluding summaries or analytical paragraphs (e.g., "This demonstrates that..."). Provide the facts and execute a HARD STOP. [DO NOT PRINT \`HARD STOP\` TERM]
 - **AI Overclaim Prevention:** Do not conflate tools built *for* AI consumption (e.g., RepoAIfy chunking) with tools that *generate* AI.
 
 ## 2. TOOL USE & FAQ PROTOCOL
@@ -372,7 +378,7 @@ const compactHistoryWithLLM = async (history: Array<{ role: "user" | "assistant"
     if (error instanceof Error && error.name === "AbortError") {
       throw error;
     }
-    throw new Error(`Compaction LLM call failed: ${error instanceof Error ? error.message : String(error)}`);
+    throw new Error(`Compaction LLM call failed: ${error instanceof Error ? error.message : String(error)}`, { cause: error });
   }
 };
 
@@ -1210,7 +1216,7 @@ ${faqQuestions.join("\n")}`;
           {messages.map((m) => (
             <Box
               key={m.id}
-              sx={{ alignSelf: m.role === "user" ? "flex-end" : "flex-start" }}
+              sx={{ maxWidth: "90%", alignSelf: m.role === "user" ? "flex-end" : "flex-start" }}
             >
               <Typography
                 variant="caption"
@@ -1225,7 +1231,6 @@ ${faqQuestions.join("\n")}`;
                   mt: 0.5,
                   backgroundColor: "grey.700",
                   color: m.role === "user" ? "success.main" : "text.primary",
-                  maxWidth: "90%",
                   overflow: "auto",
                 }}
               >
@@ -1301,15 +1306,12 @@ ${faqQuestions.join("\n")}`;
           </Box>
 
           {/* Usage Info Indicator — Context window utilization, token counts, model, compaction status */}
-          <Box sx={{ mt: 1 }}>
+          <Box sx={{ mt: 0.2, mb: -1 }}>
             <UsageIndicator />
-            <Typography
-              variant="body2"
-              color="text.secondary"
-              sx={{ display: "flex", alignItems: "center", justifyContent: "space-around", gap: 0.5, fontSize: "0.70em", mt: 0.6, mb: -0.8 }}
-            >
-              {t("ui.chat.aIMayMakeMistakes")}
-            </Typography>
+            <List sx={{ my: 0, px: 2.8, color: "text.secondary", backgroundColor: "grey.800", borderRadius: 1.3, fontSize: "0.70em" }}>
+              <ListItem sx={{ display: "list-item", listStyle: "disc", padding: 0 }}>{t("ui.chat.aIMayMakeMistakes")}</ListItem>
+              <ListItem sx={{ display: "list-item", listStyle: "disc", padding: 0 }}>{t("ui.chat.privacyNotice")}</ListItem>
+            </List>
           </Box>
         </Box>
       </StyledChatPopupPaper>
