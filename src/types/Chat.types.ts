@@ -47,4 +47,6 @@ export interface CompactionJob {
     reject: (error: Error) => void;
     attempt: number;
     timestamp: number;
+    /** Token usage at the time of compaction for history reset */
+    tokenUsage: UsageInfo;
 }

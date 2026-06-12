@@ -9,7 +9,7 @@ This document contains Mermaid diagrams illustrating the key architectures, data
 ```mermaid
 graph TB
     subgraph "Client (Browser)"
-        UI["React 19 SPA"]
+        UI["React 19 SPA\n+ CSP Meta Tag"]
         Router["React Router v7"]
         Theme["MUI Theme + Emotion"]
         I18n["i18next + react-i18next"]
@@ -22,7 +22,9 @@ graph TB
     end
 
     subgraph "AI Chat System"
-        ChatPopup["ChatPopup Molecule"]
+        ChatPopup["ChatPopup\nPresentational Wrapper"]
+        Hooks["src/hooks/\n6 Custom Hooks"]
+        Constants["src/constants/chat.ts\nLLM + Compaction Config"]
         MiniSearch[["MiniSearch Index\nBilingual EN + TR"]]
         PuterJS["heyputer/puter.js\nLLM Streaming"]
         DOMPurify["DOMPurify\nHardened Config"]
@@ -40,10 +42,12 @@ graph TB
     UI --> PublicData
     UI --> Assets
 
-    ChatPopup --> MiniSearch
-    ChatPopup --> PuterJS
-    ChatPopup --> DOMPurify
-    ChatPopup --> PublicData
+    ChatPopup --> Hooks
+    Hooks --> MiniSearch
+    Hooks --> PuterJS
+    Hooks --> DOMPurify
+    Hooks --> PublicData
+    Hooks --> Constants
     PuterJS --> PuterAPI
 
     I18nData -.->|Hash-busted loading\nVITE_LOCALE_HASH| UI
@@ -69,9 +73,18 @@ graph TD
 
     subgraph "Molecules (Composite)"
         ActivityBar["ActivityBar\nNav + PersonPhoto + LangSelector + ChatBtn"]
-        ChatPopup["ChatPopup\nRAG Chat Assistant"]
+        ChatPopup["ChatPopup\nPresentational Wrapper\n~220 LOC"]
         StatusBar["StatusBar\nPage + Name/Title + StatusIndicator"]
         LanguageSelector["LanguageSelector\nEN/TR Toggle"]
+    end
+
+    subgraph "Hooks (Chat Logic)"
+        UseDocIdx["useDocumentIndex\nLoad + Chunk + Index"]
+        UseSearch["useSearch\nGeneral + FAQ Search"]
+        UseAutoScroll["useAutoScroll\nSmart Scroll"]
+        UseCompact["useCompaction\nBackground Queue"]
+        UseConv["useConversationHistory\nSend/Receive Stream"]
+        UseKeys["useKeyboardShortcuts\nEsc/Enter/Focus"]
     end
 
     subgraph "Atoms (Primitive)"
@@ -148,7 +161,12 @@ graph TD
     ChatPopup --> StatusIndicator
     ChatPopup --> CloseButton
     ChatPopup --> MarkdownRenderer["MarkdownRenderer Atom"]
-    ChatPopup --> DOMPurify
+    ChatPopup --> UseDocIdx
+    ChatPopup --> UseSearch
+    ChatPopup --> UseAutoScroll
+    ChatPopup --> UseCompact
+    ChatPopup --> UseConv
+    ChatPopup --> UseKeys
 ```
 
 ---
@@ -255,7 +273,7 @@ flowchart TD
 
 ---
 
-## 4. Background Conversation Compaction (Developer 2)
+## 4. Background Conversation Compaction
 
 ```mermaid
 sequenceDiagram
@@ -641,6 +659,10 @@ graph TB
         FAQOnlyList["Initial Context:\nFAQ Questions ONLY\nAnswers via expandSearch"]
     end
 
+    subgraph "Content Security"
+        CSP["CSP Meta Tag\ndefault-src 'self'\nconnect-src: Puter.ai, GetForm\nstyle-src: Google Fonts\nscript-src: 'self'"]
+    end
+
     UserQuery["User Message"] --> LazyPII
     UserQuery --> ToolValidation
     StreamChunks["Puter.js Stream"] --> ReasoningDrop
@@ -650,6 +672,9 @@ graph TB
     DocumentStore --> BilingualIndex
     SearchLogic --> CrossLocaleOnly
     ContextBuild --> FAQOnlyList
+
+    CSP --> DOMPurifyConfig
+    CSP --> ToolValidation
 ```
 
 ---
@@ -693,55 +718,65 @@ graph TD
         I18nLang["i18n.language\nfrom i18n instance"]
     end
 
-    subgraph "ChatPopup State (Local)"
+    subgraph "useDocumentIndex State"
+        SearchIndex["searchIndex: SearchIndex | null\nMiniSearch + documents"]
+        IsIndexing["isIndexing: boolean"]
+        LoadedDocs["loadedDocuments: {en, tr}\nFull document content\nper locale for context"]
+        FaqIndexes["faqSearchIndexes\nPer-locale FAQ MiniSearch"]
+    end
+
+    subgraph "useConversationHistory State"
         Messages["messages: Message[]\nUI display only"]
         Draft["draft: string\ncontrolled input"]
         IsLoading["isLoading: boolean"]
-        IsIndexing["isIndexing: boolean"]
-        SearchIndex["searchIndex: SearchIndex | null\nMiniSearch + documents"]
-        BottomRef["bottomRef: HTMLDivElement\nscroll anchor"]
-        InputRef["inputRef: HTMLTextAreaElement\nfocus management"]
-        ScrollContainer["scrollContainerRef: HTMLDivElement\nscroll listener"]
         AbortController["abortControllerRef: AbortController\nstream cancellation"]
         ApiHistory["apiHistoryRef: ChatMessage[]\nLLM conversation history\nEXCLUDES greeting"]
-        LoadedDocs["loadedDocumentsRef: {en, tr}\nFull document content\nper locale for context"]
+        TokenUsage["tokenUsage: UsageInfo\nReactive state\nprompt, completion,\ninput_cache_read"]
+    end
 
-        subgraph "Compaction Refs (Developer 2)"
+    subgraph "useCompaction State"
+        IsHistorySummarizing["isHistorySummarizing: boolean\nCompaction in progress"]
+        subgraph "Compaction Refs"
             CompQueue["compactionQueueRef: CompactionJob[]\nSequential job queue"]
-            IsSummarizing["isHistorySummarizingRef: boolean\nLock for queue processing"]
+            IsSummarizingRef["isHistorySummarizingRef: boolean\nLock for queue processing"]
             CompAbort["compactionAbortControllerRef\nAbort active compaction"]
         end
+    end
 
-        TokenUsage["tokenUsageRef: UsageInfo\nAccumulated: prompt, completion,\ninput_cache_read, request..."]
-        UserScrolled["isUserScrolledUpRef: boolean\nPause auto-scroll > 80px"]
-        DraftRef["draftRef: string\nStable ref for send\nAvoids useCallback recreation"]
+    subgraph "useAutoScroll State"
+        UserScrolled["isUserScrolledUp: boolean\nPause auto-scroll > 80px"]
+    end
+
+    subgraph "Stable Refs (No Re-render)"
+        DraftRef["draftRef\nStable draft for send\nAvoids useCallback recreation"]
+        LoadedDocsRef["loadedDocumentsRef\nStable ref mirror"]
+        SearchIndexRef["searchIndexRef\nStable ref mirror"]
     end
 
     subgraph "Derived/UI State"
-        IsSummarizingState["isHistorySummarizing: boolean\nMirror for UsageIndicator"]
         UsagePercent["getUsagePercent\n(prompt + cache) / 131k * 100"]
         UsageColor["getUsageColor\nsafe/warning/danger"]
     end
 
     ChatOpen --> ChatPopup
-    I18nLang --> ChatPopup
+    I18nLang --> LoadedDocs
+    LoadedDocsRef --> LoadedDocs
+    SearchIndexRef --> SearchIndex
+
     ChatPopup --> Messages
     ChatPopup --> Draft
     ChatPopup --> IsLoading
     ChatPopup --> IsIndexing
     ChatPopup --> SearchIndex
     ChatPopup --> ApiHistory
-    ChatPopup --> LoadedDocs
-    ChatPopup --> CompQueue
-    ChatPopup --> IsSummarizing
-    ChatPopup --> CompAbort
     ChatPopup --> TokenUsage
-    ChatPopup --> UserScrolled
-    ChatPopup --> DraftRef
+    ChatPopup --> IsHistorySummarizing
+    ChatPopup --> CompQueue
+    ChatPopup --> IsSummarizingRef
+    ChatPopup --> CompAbort
 
     TokenUsage --> UsagePercent
     UsagePercent --> UsageColor
-    IsSummarizing --> IsSummarizingState
 ```
 
 ---
@@ -761,31 +796,30 @@ graph TD
 | **Error Boundaries**    | ErrorBoundary wraps RouterProvider                 | `main.tsx`, `src/components/ErrorBoundary.tsx`              |
 | **Responsive Design**   | useMediaQuery(theme.breakpoints.down('md'))        | `StatusBar.tsx`, `ActivityBar.tsx`                          |
 | **Accessibility**       | aria-modal, aria-label, Escape key, IME support    | `ChatPopup.tsx`, `ActivityBar.tsx`                          |
+| **Custom Hook Logic**   | Single-responsibility hooks with barrel export     | `src/hooks/` (6 hooks via `hooks/index.ts`)                 |
 
 ---
 
-## 15. Chat System - Component Interaction Detail
+## 15. Chat System - Hook Composition Detail
 
 ```mermaid
 graph LR
-    subgraph "ChatPopup Internal"
+    subgraph "ChatPopup (Presentational)"
         SendBtn["Send Button\nIconButton + Enter key (IME safe)"]
         Input["TextField\nmultiline, maxRows=3"]
         StopBtn["Stop Button\nIconButton"]
-        ScrollArea["Stack ref=scrollContainerRef\nonScroll -> isUserScrolledUpRef"]
         MsgList["Messages.map -> Box + Paper +\nMarkdownRenderer"]
         UsageInd["UsageIndicator\nToken counts, %, Model, Compaction"]
         LoadingIdx["CircularProgress\nisIndexing / isLoading"]
     end
 
-    subgraph "Core Logic (useCallback)"
-        Send["send\nBuild context -> Stream -> Tools -> Persist"]
-        HandleChange["handleChange\nsetDraft"]
-        HandleKeyDown["handleKeyDown\nEnter + !isComposing -> send"]
-        HandleStop["handleStop\nabortController.abort"]
-        PerformSearch["performSearch\nMiniSearch with locale filter"]
-        SearchFAQ["searchFAQ\nDedicated FAQ index"]
-        CheckCompact["checkAndEnqueueCompaction\nThreshold -> Queue"]
+    subgraph "Hooks (Business Logic)"
+        UseConv["useConversationHistory\nsend, handleChange, handleKeyDown\nhandleStop, messages, draft, isLoading"]
+        UseDocIdx["useDocumentIndex\nsearchIndex, loadedDocuments\nisIndexing, faqSearchIndexes"]
+        UseSearch["useSearch\nperformSearch, searchFAQ"]
+        UseCompact["useCompaction\nisHistorySummarizing\ncheckAndEnqueueCompaction"]
+        UseAuto["useAutoScroll\nscrollContainerRef, bottomRef\nisUserScrolledUp"]
+        UseKeys["useKeyboardShortcuts\nonEscape, onEnter, focusRef"]
     end
 
     subgraph "Refs (Mutable, No Re-render)"
@@ -798,25 +832,83 @@ graph LR
         ScrollRefs["scrollContainerRef\nbottomRef\ninputRef"]
     end
 
-    SendBtn --> Send
-    Input --> HandleChange
-    Input --> HandleKeyDown
-    StopBtn --> HandleStop
-    ScrollArea --> Send
-    MsgList --> Send
+    SendBtn --> UseConv
+    Input --> UseConv
+    StopBtn --> UseConv
+    UseConv --> UseDocIdx
+    UseConv --> UseSearch
+    UseConv --> UseCompact
+    UseConv --> UseAuto
+    UseKeys --> UseConv
+
+    UseDocIdx --> LoadedDocsRef
+    UseDocIdx --> SearchIndexRef["searchIndexRef"]
+    UseSearch --> SearchIndexRef
+    UseCompact --> CompQueueRef
+    UseCompact --> TokenUsageRef
+    UseAuto --> ScrollRefs
+
     UsageInd --> TokenUsageRef
     UsageInd --> CompQueueRef
-    LoadingIdx --> IsIndexing/IsLoading
+    LoadingIdx --> UseDocIdx
+    LoadingIdx --> UseConv
 
-    Send --> ApiHistoryRef
-    Send --> LoadedDocsRef
-    Send --> PerformSearch
-    Send --> SearchFAQ
-    Send --> TokenUsageRef
-    Send --> AbortRef
-    Send --> DraftRef
-    Send --> CheckCompact
+    UseConv --> ApiHistoryRef
+    UseConv --> TokenUsageRef
+    UseConv --> AbortRef
+    UseConv --> DraftRef
+    UseCompact --> TokenUsageRef
+```
 
-    CheckCompact --> CompQueueRef
-    CheckCompact --> TokenUsageRef
+---
+
+## 16. Chat Hooks Decomposition Overview
+
+```mermaid
+graph TD
+    subgraph "Before: Monolithic ChatPopup (~880 LOC)"
+        OldPopup["ChatPopup.tsx\nAll-in-One Component\n~880 lines"]
+        OldPopup --> OldDoc["Document Loading\nChunking\nMiniSearch Index"]
+        OldPopup --> OldStream["Send/Receive\nStream Parsing\nTool Calls"]
+        OldPopup --> OldComp["Compaction Queue\nRetry Logic"]
+        OldPopup --> OldUI["Scroll Logic\nKeyboard Handling\nState Management"]
+    end
+
+    subgraph "After: Thin Presentational Wrapper (~220 LOC)"
+        NewPopup["ChatPopup.tsx\nPresentational Only"]
+        NewPopup --> HooksBarrel["src/hooks/index.ts\nBarrel Export"]
+
+        subgraph "Custom Hooks (Single Responsibility)"
+            H1["useDocumentIndex\n\nLoad markdown docs\nChunk by headings/FAQ\nBuild MiniSearch index\nBuild FAQ indexes per locale"]
+            H2["useSearch\n\nGeneral MiniSearch query\nLocale filtering same/cross\nDedicated FAQ exact-match"]
+            H3["useAutoScroll\n\nScroll container ref\nUser-scroll detection\nAuto-scroll with threshold"]
+            H4["useCompaction\n\nToken usage threshold\nSequential job queue\nExponential backoff retry\nAbort handling"]
+            H5["useConversationHistory\n\nPII hydration\nSystem prompt\nLLM streaming + tools\nUsage tracking\nHistory persistence"]
+            H6["useKeyboardShortcuts\n\nEscape handler (global)\nEnter handler (IME-safe)\nAuto-focus on mount"]
+        end
+
+        HooksBarrel --> H1
+        HooksBarrel --> H2
+        HooksBarrel --> H3
+        HooksBarrel --> H4
+        HooksBarrel --> H5
+        HooksBarrel --> H6
+    end
+
+    subgraph "Shared Constants"
+        Const["src/constants/chat.ts\n\nAvailableLLMModels\nLLMModel + ContextWindow\nCompactionThresholdRatio\nDocumentSources EN/TR"]
+    end
+
+    NewPopup --> Const
+    H5 --> Const
+
+    style OldPopup fill:#ffcdd2
+    style NewPopup fill:#c8e6c9
+    style H1 fill:#e8eaf6
+    style H2 fill:#e8eaf6
+    style H3 fill:#e8eaf6
+    style H4 fill:#e8eaf6
+    style H5 fill:#e8eaf6
+    style H6 fill:#e8eaf6
+    style Const fill:#fff3e0
 ```
