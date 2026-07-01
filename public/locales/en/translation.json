@@ -549,6 +549,25 @@
         ]
       },
       {
+        "name": "Semantic Tool Router CLI",
+        "url": "https://github.com/ahmadmdabit/semantic-tool-router",
+        "technologies": [
+          "TypeScript",
+          "Node.js",
+          "Commander.js",
+          "Ollama Embeddings",
+          "JSONL Vector Store",
+          "Mermaid/CLI tooling",
+          "Vitest"
+        ],
+        "description": [
+          "Architected a semantic tool-routing CLI that solves the \"fat agent\" tool-catalog problem by indexing tools offline and injecting only the top-K relevant schemas at runtime via just-in-time context injection.",
+          "Implemented a multi-signal retrieval pipeline combining dense cosine similarity, structural intent detection, and keyword-overlap scoring with Reciprocal-Rank Fusion to improve routing accuracy and reduce token bloat.",
+          "Designed a polarity-aware vector store that stores positive and negative embeddings per tool, supports model/dimension validation, threshold-based confidence filtering, and JSONL persistence for fast local routing workflows.",
+          "Built a data-driven intent layer that compiles tool-specific triggers and boosts at runtime, with builtin verb baselines and longest-match disambiguation to avoid hardcoded tool-name routing."
+        ]
+      },
+      {
         "name": "Personal Website & AI Chat Assistant (RAG)",
         "url": "https://github.com/ahmadmdabit/ahmadmdabit.github.io",
         "technologies": [

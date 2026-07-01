@@ -24,6 +24,14 @@
 - Developed a reactive frontend with RxJS, managing component state declaratively to create a responsive and predictable user experience.
 - Established a robust testing strategy for the backend using Testcontainers to run integration tests against a real SQL Server instance, ensuring high reliability.
 
+### Semantic Tool Router CLI – [github.com/ahmadmdabit/semantic-tool-router](https://github.com/ahmadmdabit/semantic-tool-router)
+
+- **Technologies:** TypeScript, Node.js, Commander.js, Ollama Embeddings, JSONL Vector Store, Mermaid/CLI tooling, Vitest
+- Architected a semantic tool-routing CLI that solves the “fat agent” tool-catalog problem by indexing tools offline and injecting only the top-K relevant schemas at runtime via just-in-time context injection.
+- Implemented a multi-signal retrieval pipeline combining dense cosine similarity, structural intent detection, and keyword-overlap scoring with Reciprocal-Rank Fusion to improve routing accuracy and reduce token bloat.
+- Designed a polarity-aware vector store that stores positive and negative embeddings per tool, supports model/dimension validation, threshold-based confidence filtering, and JSONL persistence for fast local routing workflows.
+- Built a data-driven intent layer that compiles tool-specific triggers and boosts at runtime, with builtin verb baselines and longest-match disambiguation to avoid hardcoded tool-name routing.
+
 ### Linguistics (High-Performance Arabic NLP Library) - [github.com/ahmadmdabit/Linguistics](https://github.com/ahmadmdabit/Linguistics)
 
 - **Technologies:** C#, .NET 10, SOLID Principles, NLP, Span<T>, stackalloc, Morphological Analysis, Stemming, NUnit

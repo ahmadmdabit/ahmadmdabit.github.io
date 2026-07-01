@@ -16,6 +16,14 @@
 - Sistem kararlılığını ve uyumluluğunu korumaya yönelik güvenlik önlemleriyle donatılmış gelişmiş yönetim araçları (işlem sonlandırma, yetki yükseltme, inceleme) geliştirildi.
 - Kurumsal düzeyde geliştirme pratikleriyle uyumlu ve MIT lisansı altında açık kaynaklı olarak sunulan, .NET WPF ve MVVM kullanan modüler, sürdürülebilir bir masaüstü çözümü tasarlandı.
 
+### Semantic Tool Router CLI – [github.com/ahmadmdabit/semantic-tool-router](https://github.com/ahmadmdabit/semantic-tool-router)
+
+- **Teknolojiler:** TypeScript, Node.js, Commander.js, Ollama Embeddings, JSONL Vector Store, Mermaid/CLI tooling, Vitest
+- Komut satırı üzerinden çalışan, yapay zekâ araç kataloğu için semantik yönlendirme yapan bir CLI geliştirildi; araçları offline olarak indeksleyip, çalışma anında yalnızca en alakalı ilk K araç şemasını enjekte ederek “fat agent” problemini çözdü.
+- Kosinüs benzerliği, yapısal niyet tespiti ve anahtar kelime örtüşmesini Reciprocal-Rank Fusion ile birleştiren çok sinyalli bir geri getirme hattı tasarlandı; böylece yönlendirme doğruluğu artırılırken token şişmesi azaltıldı.
+- Her araç için pozitif ve negatif gömme vektörleri tutan kutu işareti (polarity-aware) bir vektör deposu uygulandı; model/dimensions doğrulaması, eşik tabanlı güven filtresi ve JSONL kalıcılığı ile yerel, hızlı ve güvenilir bir yönlendirme akışı oluşturuldu.
+- Araç bazlı trigger ve boost kurallarını çalışma anında derleyen veri odaklı bir niyet katmanı geliştirildi; yerleşik fiil tabanlı kurallar ve en uzun eşleşme önceliği ile sabit kodlu araç isimlerine bağımlılık olmadan ayrıştırma sağlandı.
+
 ### Meeting System - [github.com/ahmadmdabit/MeetingSystem](https://github.com/ahmadmdabit/MeetingSystem)
 
 - **Teknolojiler:** .NET 9, Angular 20+, Clean Architecture, SOLID Principles, Docker, MinIO, Hangfire, Testcontainers, RxJS
