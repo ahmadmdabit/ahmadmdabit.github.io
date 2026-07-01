@@ -549,7 +549,7 @@
         ]
       },
       {
-        "name": "Semantic Tool Router CLI",
+        "name": "Semantic Tool Router",
         "url": "https://github.com/ahmadmdabit/semantic-tool-router",
         "technologies": [
           "TypeScript",
@@ -702,6 +702,43 @@
           "Sağlam, nesne yönelimli veri erişimi için NHibernate ORM'den yararlanarak, temiz bir N-Tier mimarisi kullanarak tam kapsamlı bir müşteri yönetimi uygulaması geliştirdim.",
           "ag-Grid ile etkileşimli veri tabloları da dahil olmak üzere kapsamlı veri yönetimi için Angular 11 ile zengin özelliklere sahip ve duyarlı bir tek sayfalı uygulama (SPA) oluşturdum.",
           "Angular frontend ve .NET backend arasında sorunsuz CRUD işlemlerini sağlamak için iletişim katmanı olarak hizmet veren temiz bir RESTful API tasarladım ve uyguladım."
+        ]
+      },
+      {
+        "name": "SevenZipRunner",
+        "url": "https://github.com/ahmadmdabit/SevenZipRunner",
+        "technologies": [
+          ".NET 6–10",
+          "C#",
+          "Dependency Injection",
+          "Options Pattern",
+          "Async Process Execution",
+          "Platform-Aware Runtime Logic"
+        ],
+        "description": [
+          "Yönetilen kod üzerinden 7‑Zip çalıştırmak için hafif bir .NET kütüphanesi geliştirildi; sıkıştırma ve çıkarma işlemleri basit ve asenkron bir API ile sunuldu.",
+          "Windows/Linux ve x86/x64 için doğru 7‑Zip çalıştırılabilir dosyasını seçen platform farkındalığına sahip yürütülebilir dosya çözümleme mantığı tasarlandı; 32-bit bellek sorunlarını önlemek için sıkıştırma ayarları otomatik olarak optimize edildi.",
+          "Balanced, Fastest, MaxCompression ve LogArchiving gibi adlandırılmış sıkıştırma profilleri eklendi; böylece sıkıştırma seviyesi, iş parçacığı sayısı ve süreç önceliği iş yüküne göre yapılandırılabilir hale getirildi.",
+          "Hata durumlarında çıkış kodu, stderr ve çalıştırılan argümanları ayrıntılı şekilde sunan özel SevenZipException ile yapılandırılmış hata yönetimi sağlandı."
+        ]
+      },
+      {
+        "name": "MCP Hub Web Arayüzü",
+        "url": "https://github.com/ahmadmdabit/mcp-hub-web-interface",
+        "technologies": [
+          "Node.js",
+          "Koa.js",
+          "Vanilla JavaScript",
+          "CSS3",
+          "HTML5",
+          "MCP Protocol",
+          "node-fetch"
+        ],
+        "description": [
+          "MCP Hub sunucularını izlemek ve yönetmek için, Spotify esintili bir arayüzle gerçek zamanlı durum takibi, yetenek sayıları, çalışma süresi izleme ve yönetim aksiyonları sunan sıfır-build, üretime hazır bir web paneli geliştirildi.",
+          "/api/servers/* isteklerini port 3000’de çalışan MCP Hub’a şeffaf biçimde yönlendiren Koa tabanlı bir API forwarder tasarlandı; sorgu parametreleri korunarak backend erişilemediğinde zarif 502 hata yanıtları döndürüldü.",
+          "JSON şemalarından dinamik form üretimiyle birlikte araçlar, kaynaklar ve prompt’lar için satır içi yetenek çalıştırma özelliği, çift modal akışı ve sunucu bazlı ile sistem geneli execution istatistik takibi uygulandı.",
+          "XSS güvenli render için escapeHtml() ile korunan, duyarlı kart tabanlı yerleşime ve ölçeklenebilir tema/uyum için CSS değişkenleri mimarisine sahip güvenli bir istemci arayüzü tasarlandı."
         ]
       }
     ],

@@ -24,7 +24,7 @@
 - Developed a reactive frontend with RxJS, managing component state declaratively to create a responsive and predictable user experience.
 - Established a robust testing strategy for the backend using Testcontainers to run integration tests against a real SQL Server instance, ensuring high reliability.
 
-### Semantic Tool Router CLI – [github.com/ahmadmdabit/semantic-tool-router](https://github.com/ahmadmdabit/semantic-tool-router)
+### Semantic Tool Router – [github.com/ahmadmdabit/semantic-tool-router](https://github.com/ahmadmdabit/semantic-tool-router)
 
 - **Technologies:** TypeScript, Node.js, Commander.js, Ollama Embeddings, JSONL Vector Store, Mermaid/CLI tooling, Vitest
 - Architected a semantic tool-routing CLI that solves the “fat agent” tool-catalog problem by indexing tools offline and injecting only the top-K relevant schemas at runtime via just-in-time context injection.
@@ -135,3 +135,19 @@
 - Developed a full-stack customer management application using a clean N-Tier architecture, leveraging the NHibernate ORM for robust, object-oriented data access.
 - Built a feature-rich and responsive single-page application (SPA) with Angular 11 for comprehensive data management, including interactive data grids with ag-Grid.
 - Designed and implemented a clean RESTful API to serve as the communication layer between the Angular frontend and the .NET backend, ensuring seamless CRUD operations.
+
+### SevenZipRunner – [github.com/ahmadmdabit/SevenZipRunner](https://github.com/ahmadmdabit/SevenZipRunner)
+
+- **Technologies:** .NET 6–10, C#, Dependency Injection, Options Pattern, Async Process Execution, Platform-Aware Runtime Logic
+- Built a lightweight .NET library for invoking 7‑Zip from managed code, with support for both compression and extraction through a simple async API.
+- Designed platform-aware executable resolution and profile adjustment logic that selects the correct 7‑Zip binary for Windows/Linux and x86/x64, while automatically tuning compression settings to avoid 32-bit memory issues.
+- Implemented named compression profiles such as `Balanced`, `Fastest`, `MaxCompression`, and `LogArchiving`, enabling configurable compression level, thread count, and process priority per workload.
+- Added structured error handling with a custom `SevenZipException` that surfaces exit code, stderr, and the exact arguments used for failed 7‑Zip operations.
+
+### MCP Hub Web Interface – [github.com/ahmadmdabit/mcp-hub-web-interface](https://github.com/ahmadmdabit/mcp-hub-web-interface)
+
+- **Technologies:** Node.js, Koa.js, vanilla JavaScript, CSS3, HTML5, MCP Protocol, node-fetch
+- Built a zero-build, production-ready web dashboard for monitoring and managing MCP Hub servers, providing real-time server status, capability counts, uptime tracking, and management actions through a Spotify-inspired UI.
+- Implemented a transparent Koa-based API forwarder that proxies `/api/servers/*` requests to MCP Hub on port 3000, preserving query strings and returning graceful 502 errors when the backend is unreachable.
+- Developed inline capability execution for tools, resources, and prompts with dynamic form generation from JSON schemas, dual modal workflows, and execution statistics tracking per server and system-wide.
+- Designed a secure client-side interface with XSS-safe rendering via `escapeHtml()`, responsive card-based layouts, and CSS variables architecture for scalable theming and consistent styling.

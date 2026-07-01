@@ -16,7 +16,7 @@
 - Sistem kararlılığını ve uyumluluğunu korumaya yönelik güvenlik önlemleriyle donatılmış gelişmiş yönetim araçları (işlem sonlandırma, yetki yükseltme, inceleme) geliştirildi.
 - Kurumsal düzeyde geliştirme pratikleriyle uyumlu ve MIT lisansı altında açık kaynaklı olarak sunulan, .NET WPF ve MVVM kullanan modüler, sürdürülebilir bir masaüstü çözümü tasarlandı.
 
-### Semantic Tool Router CLI – [github.com/ahmadmdabit/semantic-tool-router](https://github.com/ahmadmdabit/semantic-tool-router)
+### Semantic Tool Router – [github.com/ahmadmdabit/semantic-tool-router](https://github.com/ahmadmdabit/semantic-tool-router)
 
 - **Teknolojiler:** TypeScript, Node.js, Commander.js, Ollama Embeddings, JSONL Vector Store, Mermaid/CLI tooling, Vitest
 - Komut satırı üzerinden çalışan, yapay zekâ araç kataloğu için semantik yönlendirme yapan bir CLI geliştirildi; araçları offline olarak indeksleyip, çalışma anında yalnızca en alakalı ilk K araç şemasını enjekte ederek “fat agent” problemini çözdü.
@@ -135,3 +135,19 @@
 - Güçlü ve nesne yönelimli veri erişimi için NHibernate ORM kullanılarak temiz bir N-Tier mimarisine sahip full-stack bir müşteri yönetim uygulaması geliştirildi.
 - Etkileşimli ag-Grid veri tabloları dahil olmak üzere kapsamlı veri yönetimi için Angular 11 ile zengin özelliklere sahip ve duyarlı bir tek sayfadan oluşan uygulama (SPA) geliştirildi.
 - Angular ön ucu ile .NET arka ucu arasındaki iletişim katmanı olarak hizmet etmek ve sorunsuz CRUD işlemlerini sağlamak için temiz bir RESTful API tasarlandı ve uygulandı.
+
+### SevenZipRunner – [github.com/ahmadmdabit/SevenZipRunner](https://github.com/ahmadmdabit/SevenZipRunner)
+
+- **Teknolojiler:** .NET 6–10, C#, Dependency Injection, Options Pattern, Async Process Execution, Platform-Aware Runtime Logic
+- Yönetilen kod üzerinden 7‑Zip çalıştırmak için hafif bir .NET kütüphanesi geliştirildi; sıkıştırma ve çıkarma işlemleri basit ve asenkron bir API ile sunuldu.
+- Windows/Linux ve x86/x64 için doğru 7‑Zip çalıştırılabilir dosyasını seçen platform farkındalığına sahip yürütülebilir dosya çözümleme mantığı tasarlandı; 32-bit bellek sorunlarını önlemek için sıkıştırma ayarları otomatik olarak optimize edildi.
+- `Balanced`, `Fastest`, `MaxCompression` ve `LogArchiving` gibi adlandırılmış sıkıştırma profilleri eklendi; böylece sıkıştırma seviyesi, iş parçacığı sayısı ve süreç önceliği iş yüküne göre yapılandırılabilir hale getirildi.
+- Hata durumlarında çıkış kodu, stderr ve çalıştırılan argümanları ayrıntılı şekilde sunan özel `SevenZipException` ile yapılandırılmış hata yönetimi sağlandı.
+
+### MCP Hub Web Interface – [github.com/ahmadmdabit/mcp-hub-web-interface](https://github.com/ahmadmdabit/mcp-hub-web-interface)
+
+- **Teknolojiler:** Node.js, Koa.js, Vanilla JavaScript, CSS3, HTML5, MCP Protocol, node-fetch
+- MCP Hub sunucularını izlemek ve yönetmek için, Spotify esintili bir arayüzle gerçek zamanlı durum takibi, yetenek sayıları, çalışma süresi izleme ve yönetim aksiyonları sunan sıfır-build, üretime hazır bir web paneli geliştirildi.
+- `/api/servers/*` isteklerini port 3000’de çalışan MCP Hub’a şeffaf biçimde yönlendiren Koa tabanlı bir API forwarder tasarlandı; sorgu parametreleri korunarak backend erişilemediğinde zarif 502 hata yanıtları döndürüldü.
+- JSON şemalarından dinamik form üretimiyle birlikte araçlar, kaynaklar ve prompt’lar için satır içi yetenek çalıştırma özelliği, çift modal akışı ve sunucu bazlı ile sistem geneli execution istatistik takibi uygulandı.
+- XSS güvenli render için `escapeHtml()` ile korunan, duyarlı kart tabanlı yerleşime ve ölçeklenebilir tema/uyum için CSS değişkenleri mimarisine sahip güvenli bir istemci arayüzü tasarlandı.
