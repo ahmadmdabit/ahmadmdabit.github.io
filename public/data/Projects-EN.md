@@ -2,8 +2,8 @@
 
 ### Distributed File Fragmentor – [github.com/ahmadmdabit/DistributedFileFragmentor](https://github.com/ahmadmdabit/DistributedFileFragmentor)
 
-- **Technologies:** .NET 9, Clean Architecture, CQRS, EF Core 9, System.CommandLine, Resilience Patterns
-- Architected a distributed file storage system using .NET 9 and Clean Architecture to fragment large files, distribute them across multiple storage providers (FileSystem, Database), and verify integrity with SHA-256.
+- **Technologies:** .NET 9, Clean Architecture, SOLID Principles, CQRS, EF Core 9, System.CommandLine, Resilience Patterns
+- Architected a distributed file storage system using .NET 9, Clean Architecture and SOLID Principles to fragment large files, distribute them across multiple storage providers (FileSystem, Database), and verify integrity with SHA-256.
 - Implemented a CQRS pattern with a source-generated Mediator and engineered a robust batch processing system with isolated DbContext scopes to handle parallel operations safely and efficiently.
 - Integrated advanced resilience patterns, including exponential backoff retries and circuit breakers, and implemented security measures against path traversal and symlink attacks.
 
@@ -18,15 +18,15 @@
 
 ### Meeting System - [github.com/ahmadmdabit/MeetingSystem](https://github.com/ahmadmdabit/MeetingSystem)
 
-- **Technologies:** .NET 9, Angular 20+, Clean Architecture, Docker, MinIO, Hangfire, Testcontainers, RxJS
-- Architected a full-stack, containerized meeting management system using .NET 9 Clean Architecture for the backend and Angular 20+ Standalone Components for the frontend.
+- **Technologies:** .NET 9, Angular 20+, Clean Architecture, SOLID Principles, Docker, MinIO, Hangfire, Testcontainers, RxJS
+- Architected a full-stack, containerized meeting management system using .NET 9 Clean Architecture and SOLID Principles for the backend and Angular 20+ Standalone Components for the frontend.
 - Implemented a complete DevOps environment using Docker Compose, integrating services like MinIO for object storage and Hangfire for background job processing.
 - Developed a reactive frontend with RxJS, managing component state declaratively to create a responsive and predictable user experience.
 - Established a robust testing strategy for the backend using Testcontainers to run integration tests against a real SQL Server instance, ensuring high reliability.
 
 ### Linguistics (High-Performance Arabic NLP Library) - [github.com/ahmadmdabit/Linguistics](https://github.com/ahmadmdabit/Linguistics)
 
-- **Technologies:** C#, .NET 10, NLP, Span<T>, stackalloc, Morphological Analysis, Stemming, NUnit
+- **Technologies:** C#, .NET 10, SOLID Principles, NLP, Span<T>, stackalloc, Morphological Analysis, Stemming, NUnit
 - Authored a zero-allocation Arabic Natural Language Processing (NLP) library in C# supporting .NET 6 to 10 with zero external dependencies.
 - Engineered performance-critical hot paths using `Span<T>`, `stackalloc`, and integer-packed lookup tables to achieve high throughput for search indexing workloads.
 - Implemented advanced diacritic removal and regex-free text sanitization algorithms, improving execution speed compared to standard Regex-based engines.
@@ -45,13 +45,39 @@
 - Implemented memory-efficient data streaming using `IAsyncEnumerable<T>`, OpenXmlReader, and zero-allocation span-based CSV line parsing.
 - Designed a clean, decoupled MVVM architecture using CommunityToolkit.Mvvm, featuring virtualized DataGrid elements for smooth rendering of large-scale tabular datasets.
 
+### Personal Website & AI Chat Assistant (RAG) - [github.com/ahmadmdabit/ahmadmdabit.github.io](https://github.com/ahmadmdabit/ahmadmdabit.github.io)
+
+- **Technologies:** SOLID Principles, Atomic Design, React 19, TypeScript, Material-UI (MUI) v7, React Router v7, puter.js, MiniSearch, CSP, GitHub Pages
+- Designed and built a dynamic, responsive portfolio website as a data-driven React 19 and TypeScript single-page application (SPA) featuring Atomic Design methodology and React Router v7 navigation.
+- Engineered a client-side, production-grade Retrieval-Augmented Generation (RAG) system utilizing `MiniSearch` to build a bilingual full-text search index across structured resume and FAQ documents.
+- Developed a conversational AI assistant integration using `puter.js`, implementing streaming, tool-calling pipelines, lazy PII hydration for data privacy, and real-time token telemetry tracking.
+- Implemented a non-blocking context compaction queue (`queueMicrotask`) with exponential backoff retries to dynamically summarize conversation histories, avoiding token threshold overflows.
+- Hardened client-side security by implementing strict Content Security Policy (CSP) headers, hardened `DOMPurify` sanitizer controls to block XSS vectors, and ensured W3C ARIA accessibility compliance.
+
+### Architectly (AI-Powered Document Generator) - [github.com/ahmadmdabit/architectly](https://github.com/ahmadmdabit/architectly)
+
+- **Technologies:** SOLID Principles, TypeScript, Vite, Puter.js, i18next, IndexedDB, Signal-Based Reactivity, SCSS, WCAG 2.1 AA
+- Developed a client-side, AI-powered BRD/PRD document generator built entirely on strict TypeScript, SCSS, and Vite, featuring 100% offline-first execution.
+- Engineered a custom, SolidJS-style reactive state management system using lightweight signal primitives (`signal`, `computed`, `effect`) to coordinate application view updates.
+- Implemented client-side persistence using IndexedDB (up to 100 documents with FIFO eviction) and localStorage, integrated with Puter.js AI endpoints gated by AbortControllers.
+- Designed an accessible UI complying with WCAG 2.1 AA standards, incorporating focus traps, keyboard navigation, and multi-language support (EN/TR/AR) with dynamic RTL rendering.
+
+### MCP CLI (Model Context Protocol Client) - [github.com/ahmadmdabit/mcp-cli](https://github.com/ahmadmdabit/mcp-cli)
+
+- **Technologies:** TypeScript, @modelcontextprotocol/sdk, Bun, Commander.js, Unix Domain Sockets, Windows Named Pipes, GitHub Actions
+- Authored a lightweight, type-safe command-line interface (CLI) for Model Context Protocol (MCP) servers using TypeScript and the official `@modelcontextprotocol/sdk`.
+- Designed a stateful background daemon mode utilizing platform-specific sockets (Unix Domain Sockets and Windows Named Pipes) to persist active sessions across CLI invocations.
+- Engineered client-side policy guards (tool allowlists/denylists, resource access validation, and payload size restriction) alongside JSONPath filtering (`--select`) for response processing.
+- Established a multi-platform release pipeline using Bun compiler and GitHub Actions to automate cross-compilation, signing, and integrity verification (SHA-256) for Windows, macOS, and Linux binaries.
+
 ### Aided - [github.com/ahmadmdabit/aided](https://github.com/ahmadmdabit/aided)
 
-- **Technologies:** JavaScript, TypeScript, Hyperscript, Fine-Grained Reactivity, Vitest
-- Authored and published a minimal JavaScript library for building user interfaces without a Virtual DOM, inspired by SolidJS.
-- Designed a core reactivity system from scratch using signals, effects, and memos to ensure that state changes result in precise, surgical DOM updates.
-- Engineered a high-performance, headless list virtualizer (`VirtualFor`) to efficiently render lists with thousands or millions of items, significantly outperforming traditional mapping techniques.
-- Developed a declarative UI creation method using a hyperscript function (`h`), providing a JSX-like developer experience with plain JavaScript.
+- **Technologies:** SOLID Principles, JavaScript, TypeScript, Fine-Grained Reactivity, Web Workers, Vitest, TestCafe, Web Security (XSS)
+- Authored and published a minimal, zero-dependency JavaScript library (5.92kb) for building reactive user interfaces without a Virtual DOM, leveraging an ownership graph for automatic memory cleanup.
+- Engineered an asynchronous longest increasing subsequence (LIS) algorithm using **Web Workers** for non-blocking DOM reconciliation, alongside a high-performance, headless list virtualizer (`VirtualFor`).
+- Hardened library security with proactive XSS mitigations, implementing URL protocol blocking (e.g., rejecting `javascript:` on sensitive attributes), automatic event-handler binding validation, and strict tag-name validation.
+- Integrated a zero-overhead performance profiler, scheduler error isolation, and `createResource` cancellation utilizing `AbortSignal` API hooks.
+- Established a comprehensive testing infrastructure incorporating automated Vitest unit tests and **TestCafe** end-to-end (E2E) browser testing implementing the Page Object Model.
 
 ### RepoAIfy - [github.com/ahmadmdabit/RepoAIfy](https://github.com/ahmadmdabit/RepoAIfy)
 

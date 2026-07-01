@@ -2,8 +2,8 @@
 
 ### Distributed File Fragmentor – [github.com/ahmadmdabit/DistributedFileFragmentor](https://github.com/ahmadmdabit/DistributedFileFragmentor)
 
-- **Teknolojiler:** .NET 9, Clean Architecture, CQRS, EF Core 9, System.CommandLine, Resilience Patterns
-- .NET 9 ve Clean Architecture kullanılarak, büyük dosyaları parçalara ayıran, bu parçaları birden fazla depolama sağlayıcısına (Dosya Sistemi, Veritabanı) dağıtan ve bütünlüğü SHA-256 ile doğrulayan dağıtık bir dosya depolama sistemi tasarlandı.
+- **Teknolojiler:** .NET 9, Clean Architecture, SOLID Principles, CQRS, EF Core 9, System.CommandLine, Resilience Patterns
+- .NET 9, Clean Architecture ve SOLID Principles kullanılarak, büyük dosyaları parçalara ayıran, bu parçaları birden fazla depolama sağlayıcısına (Dosya Sistemi, Veritabanı) dağıtan ve bütünlüğü SHA-256 ile doğrulayan dağıtık bir dosya depolama sistemi tasarlandı.
 - Kaynak üreten (source-generated) bir Mediator ile CQRS deseni uygulandı ve paralel işlemleri güvenli ve verimli bir şekilde yönetmek için izole DbContext kapsamlarına sahip sağlam bir toplu işleme (batch processing) sistemi geliştirildi.
 - Üstel geri çekilme (exponential backoff) ve devre kesici (circuit breaker) gibi ileri düzey dayanıklılık (resilience) desenleri entegre edildi ve path traversal ile symlink saldırılarına karşı güvenlik önlemleri alındı.
 
@@ -18,15 +18,15 @@
 
 ### Meeting System - [github.com/ahmadmdabit/MeetingSystem](https://github.com/ahmadmdabit/MeetingSystem)
 
-- **Teknolojiler:** .NET 9, Angular 20+, Clean Architecture, Docker, MinIO, Hangfire, Testcontainers, RxJS
-- Backend için .NET 9 Clean Architecture ve frontend için Angular 20+ Standalone Components kullanılarak full-stack ve konteynerize edilmiş bir toplantı yönetim sistemi tasarlandı.
+- **Teknolojiler:** .NET 9, Angular 20+, Clean Architecture, SOLID Principles, Docker, MinIO, Hangfire, Testcontainers, RxJS
+- Backend için .NET 9 Clean Architecture ve SOLID Principles. Frontend için Angular 20+ Standalone Components kullanılarak full-stack ve konteynerize edilmiş bir toplantı yönetim sistemi tasarlandı.
 - Nesne depolama (object storage) için MinIO ve arka plan görevlerinin (background jobs) işlenmesi için Hangfire gibi servisler entegre edilerek, Docker Compose kullanılarak eksiksiz bir DevOps ortamı kuruldu.
 - Duyarlı ve öngörülebilir bir kullanıcı deneyimi oluşturmak amacıyla, bileşen durumunu (component state) deklaratif olarak yöneten, RxJS ile reaktif bir frontend geliştirildi.
 - Yüksek güvenilirlik sağlamak amacıyla, gerçek bir SQL Server örneği üzerinde entegrasyon testleri çalıştırmak için Testcontainers kullanılarak backend için sağlam bir test stratejisi oluşturuldu.
 
 ### Linguistics (Yüksek Performanslı Arapça Doğal Dil İşleme [NLP] Kütüphanesi) - [github.com/ahmadmdabit/Linguistics](https://github.com/ahmadmdabit/Linguistics)
 
-- **Teknolojiler:** C#, .NET 10, NLP, Span<T>, stackalloc, Morphological Analysis, Stemming, NUnit
+- **Teknolojiler:** C#, .NET 10, SOLID Principles, NLP, Span<T>, stackalloc, Morphological Analysis, Stemming, NUnit
 - C# ile harici hiçbir bağımlılık barındırmayan, .NET 6'dan 10'a kadar olan sürümleri destekleyen sıfır bellek tahsisatlı (zero-allocation) Arapça Doğal Dil İşleme (NLP) kütüphanesi geliştirildi.
 - Arama dizini oluşturma (search indexing) iş yüklerinde yüksek performans elde etmek için `Span<T>`, `stackalloc` ve tamsayı paketli (integer-packed) arama tabloları kullanılarak performans kritik yollar optimize edildi.
 - Standart Regex tabanlı motorlara kıyasla yürütme hızını önemli ölçüde artıran gelişmiş hareke kaldırma (diacritic removal) ve regex içermeyen metin temizleme (text sanitization) algoritmaları uygulandı.
@@ -45,13 +45,39 @@
 - `IAsyncEnumerable<T>`, OpenXmlReader ve sıfır bellek tahsisatlı span tabanlı CSV satır ayrıştırma teknikleri kullanılarak bellek dostu bir veri akışı (data streaming) uygulandı.
 - Büyük ölçekli tabloların sorunsuz render edilmesi için sanallaştırılmış DataGrid bileşenleri içeren, CommunityToolkit.Mvvm tabanlı, temiz ve bağımsız bir MVVM mimarisi tasarlandı.
 
+### Kişisel Web Sitesi ve Yapay Zeka Asistanı (RAG) - [github.com/ahmadmdabit/ahmadmdabit.github.io](https://github.com/ahmadmdabit/ahmadmdabit.github.io)
+
+- **Teknolojiler:** SOLID Principles, Atomic Design, React 19, TypeScript, Material-UI (MUI) v7, React Router v7, puter.js, MiniSearch, CSP, GitHub Pages
+- Bileşen odaklı Atomic Design metodolojisi ve React Router v7 navigasyonu içeren, veri odaklı ve reaktif bir React 19 / TypeScript tek sayfa uygulaması (SPA) olarak kişisel portföy web sitesi geliştirildi.
+- Yapılandırılmış özgeçmiş ve SSS (FAQ) belgeleri üzerinde çalışan iki dilli (bilingual) bir tam metin arama dizini oluşturmak amacıyla `MiniSearch` kütüphanesini kullanan istemci taraflı (client-side) RAG sistemi tasarlandı.
+- `puter.js` entegrasyonu ile LLM akışını (streaming), araç çağırma (tool-calling) yeteneklerini, veri gizliliğini korumak için dinamik kişisel veri maskelemeyi (lazy PII hydration) ve gerçek zamanlı token kullanım göstergesini içeren yapay zeka asistanı geliştirildi.
+- Token sınır aşımı hatalarını önlemek amacıyla, geçmiş konuşma verilerini arka planda dinamik olarak özetleyen, üstel geri çekilme (exponential backoff) mekanizmasına sahip bloklamayan bir bağlam sıkıştırma kuyruğu (`queueMicrotask`) tasarlandı.
+- XSS vektörlerini engellemek için özelleştirilmiş `DOMPurify` HTML arındırma filtreleri ve katı İçerik Güvenliği Politikası (CSP) kuralları uygulanarak güvenlik altyapısı güçlendirildi; W3C ARIA erişilebilirlik standartlarına tam uyum sağlandı.
+
+### Architectly (Yapay Zeka Destekli Döküman Üreticisi) - [github.com/ahmadmdabit/architectly](https://github.com/ahmadmdabit/architectly)
+
+- **Teknolojiler:** SOLID Principles, TypeScript, Vite, Puter.js, i18next, IndexedDB, Signal-Based Reactivity, SCSS, WCAG 2.1 AA
+- Sadece istemci tarafında (client-only) çalışan, strict TypeScript, SCSS ve Vite üzerine kurulu, %100 yerel çalışan yapay zeka destekli bir BRD/PRD döküman üreticisi geliştirildi.
+- Uygulama arayüzü güncellemelerini koordine etmek için hafif sinyal primitifleri (`signal`, `computed`, `effect`) kullanan SolidJS tarzı özel bir reaktif durum yönetim (state management) sistemi tasarlandı.
+- IndexedDB (FIFO tahliye mekanizmalı 100 dökümana kadar) ve localStorage kullanan istemci taraflı kalıcılık (persistence) katmanı uygulandı; Puter.js yapay zeka çağrıları AbortController ile güvence altına alındı.
+- Odak tuzakları (focus trap), klavye navigasyonu ve dinamik RTL (sağdan sola) oluşturma özelliğine sahip çok dilli (EN/TR/AR) destek içeren, WCAG 2.1 AA standartlarıyla uyumlu erişilebilir bir arayüz tasarlandı.
+
+### MCP CLI (Model Context Protocol Komut Satırı Arayüzü) - [github.com/ahmadmdabit/mcp-cli](https://github.com/ahmadmdabit/mcp-cli)
+
+- **Teknolojiler:** TypeScript, @modelcontextprotocol/sdk, Bun, Commander.js, Unix Domain Sockets, Windows Named Pipes, GitHub Actions
+- TypeScript ve resmi `@modelcontextprotocol/sdk` kütüphanesi kullanılarak Model Context Protocol (MCP) sunucuları için hafif ve tip güvenli (type-safe) bir komut satırı arayüzü (CLI) geliştirildi.
+- CLI çağrıları arasında aktif oturumları sürdürmek için platforma özel soketler (Unix Domain Sockets ve Windows Named Pipes) kullanan kalıcı bir arka plan servisi (daemon mode) tasarlandı.
+- Araç izin/engelleme listeleri (allowlist/denylist), kaynak erişim doğrulaması ve maksimum veri boyutu sınırlamalarını içeren istemci taraflı güvenlik kuralları (policy guards) ile JSONPath filtreleme özelliği entegre edildi.
+- Windows, macOS ve Linux işletim sistemleri için ikili dosyaların (binaries) derlenmesi, imzalanması ve bütünlük doğrulaması (SHA-256) süreçlerini otomatikleştirmek amacıyla Bun derleyicisi ve GitHub Actions kullanan çok platformlu bir yayınlama (release) hattı kuruldu.
+
 ### Aided - [github.com/ahmadmdabit/aided](https://github.com/ahmadmdabit/aided)
 
-- **Teknolojiler:** JavaScript, TypeScript, Hyperscript, Fine-Grained Reactivity, Vitest
-- SolidJS'ten esinlenerek, Virtual DOM kullanmadan kullanıcı arayüzleri oluşturmak için minimal bir JavaScript kütüphanesi geliştirildi ve yayınlandı.
-- Durum değişikliklerinin hassas ve cerrahi DOM güncellemeleriyle sonuçlanmasını sağlamak amacıyla `signals`, `effects` ve `memos` kullanılarak sıfırdan temel bir reaktivite sistemi tasarlandı.
-- Binlerce veya milyonlarca öğe içeren listeleri verimli bir şekilde render etmek için, geleneksel map etme tekniklerinden önemli ölçüde daha iyi performans gösteren, yüksek performanslı ve `headless` bir liste sanallaştırıcı (`VirtualFor`) geliştirildi.
-- Saf JavaScript ile JSX benzeri bir geliştirici deneyimi sunan, `hyperscript` fonksiyonu (`h`) kullanılarak deklaratif bir kullanıcı arayüzü oluşturma yöntemi geliştirildi.
+- **Teknolojiler:** SOLID Principles, JavaScript, TypeScript, Fine-Grained Reactivity, Web Workers, Vitest, TestCafe, Web Security (XSS)
+- SolidJS'ten esinlenerek, Virtual DOM kullanmadan kullanıcı arayüzleri oluşturmak için sahiplik grafiği (ownership graph) ile otomatik bellek yönetimi sunan bağımsız reaktif bir JavaScript kütüphanesi (5.92kb) geliştirildi ve yayınlandı.
+- Bloklamayan arayüz işlemleri için arka planda **Web Workers** kullanan asenkron en uzun artan alt dizi (LIS) liste mutabakat algoritması ve sanal liste bileşeni (`VirtualFor`) tasarlandı.
+- Hassas özniteliklerde güvenli olmayan URL protokollerini engelleme (`javascript:` vb.), otomatik olay yöneticisi (event handler) reddi ve katı etiket doğrulaması gibi proaktif XSS koruma mekanizmalarıyla kütüphane güvenliği artırıldı.
+- Sıfır ek yük getiren performans profilleyicisi, hata izolasyonlu zamanlayıcı (scheduler) ve `AbortSignal` kullanan `createResource` istek iptal mekanizması entegre edildi.
+- Sayfa Nesnesi Modeli (Page Object Model) kullanarak Vitest birim testlerini ve **TestCafe** uçtan uca (E2E) tarayıcı testlerini içeren otomatikleştirilmiş kapsamlı bir test altyapısı kuruldu.
 
 ### RepoAIfy - [github.com/ahmadmdabit/RepoAIfy](https://github.com/ahmadmdabit/RepoAIfy)
 

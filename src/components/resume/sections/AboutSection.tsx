@@ -15,7 +15,7 @@ export const AboutSection: React.FC = memo(() => {
   const { t } = useTranslation();
 
   const handleDownloadCV = (language: "en" | "tr") => {
-    const cvFileName = language === "tr" ? `Resume-TR.pdf?v=${import.meta.env.VITE_ASSET_HASH}` : `Resume-EN.pdf?v=${import.meta.env.VITE_ASSET_HASH}`;
+    const cvFileName = language === "tr" ? `Resume-TR.pdf` : `Resume-EN.pdf`;
 
     // Create a temporary link and trigger download
     const link = document.createElement("a");
@@ -34,9 +34,15 @@ export const AboutSection: React.FC = memo(() => {
         <Typography variant="body1">{summary.main}</Typography>
         <List>
           {summary.highlights.map((highlight, index) => (
-            <ListItem key={index} disableGutters>
+            <ListItem
+              key={index}
+              disableGutters
+            >
               <ListItemIcon sx={{ minWidth: 32 }}>
-                <CheckCircleOutlineIcon color="primary" fontSize="small" />
+                <CheckCircleOutlineIcon
+                  color="primary"
+                  fontSize="small"
+                />
               </ListItemIcon>
               <ListItemText primary={<BoldedKeyword text={highlight} />} />
             </ListItem>
@@ -48,11 +54,22 @@ export const AboutSection: React.FC = memo(() => {
 
   return (
     <Box>
-      <Typography variant="h4" component="h2" gutterBottom>
+      <Typography
+        variant="h4"
+        component="h2"
+        gutterBottom
+      >
         {t("ui.headings.professionalSummary")}
       </Typography>
 
-      <Box display={"flex"} flexDirection={"row"} gap={2} justifyContent={"center"} flexWrap={"wrap"} alignItems={"flex-start"}>
+      <Box
+        display={"flex"}
+        flexDirection={"row"}
+        gap={2}
+        justifyContent={"center"}
+        flexWrap={"wrap"}
+        alignItems={"flex-start"}
+      >
         <SummaryContent />
 
         <Box>
@@ -62,7 +79,10 @@ export const AboutSection: React.FC = memo(() => {
               alignItems: "center",
             }}
           >
-            <AnimatedBadgeComponent alt={t("ui.misc.microsoftCertification")} aria-label={`${t("ui.misc.microsoftCertified")} Badge`} />
+            <AnimatedBadgeComponent
+              alt={t("ui.misc.microsoftCertification")}
+              aria-label={`${t("ui.misc.microsoftCertified")} Badge`}
+            />
           </Box>
 
           <CVDownloadSection onDownload={handleDownloadCV} />

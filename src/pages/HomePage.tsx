@@ -76,18 +76,54 @@ const HomePageMetaDemo: React.FC<HomePageMetaDemoProps> = memo(({ pathname }) =>
   return (
     <>
       <title>{pageTitle}</title>
-      <meta name="description" content={t("ui.meta.description")} />
-      <meta name="keywords" content={t("ui.meta.keywords")} />
-      <meta name="author" content={t("ui.meta.author")} />
-      <meta property="og:title" content={t("ui.meta.title")} />
-      <meta property="og:description" content={t("ui.meta.description")} />
-      <meta property="og:type" content="website" />
-      <meta property="og:url" content={`https://ahmadmdabit.github.io${pathname}`} />
-      <meta property="og:image" content={`https://ahmadmdabit.github.io/PersonalPhoto.png?v=${import.meta.env.VITE_ASSET_HASH}`} />
-      <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:title" content={t("ui.meta.title")} />
-      <meta name="twitter:description" content={t("ui.meta.description")} />
-      <meta name="twitter:image" content={`https://ahmadmdabit.github.io/PersonalPhoto.png?v=${import.meta.env.VITE_ASSET_HASH}`} />
+      <meta
+        name="description"
+        content={t("ui.meta.description")}
+      />
+      <meta
+        name="keywords"
+        content={t("ui.meta.keywords")}
+      />
+      <meta
+        name="author"
+        content={t("ui.meta.author")}
+      />
+      <meta
+        property="og:title"
+        content={t("ui.meta.title")}
+      />
+      <meta
+        property="og:description"
+        content={t("ui.meta.description")}
+      />
+      <meta
+        property="og:type"
+        content="website"
+      />
+      <meta
+        property="og:url"
+        content={`https://ahmadmdabit.github.io${pathname}`}
+      />
+      <meta
+        property="og:image"
+        content={`https://ahmadmdabit.github.io/PersonalPhoto.png?v=${import.meta.env.VITE_ASSET_HASH}`}
+      />
+      <meta
+        name="twitter:card"
+        content="summary_large_image"
+      />
+      <meta
+        name="twitter:title"
+        content={t("ui.meta.title")}
+      />
+      <meta
+        name="twitter:description"
+        content={t("ui.meta.description")}
+      />
+      <meta
+        name="twitter:image"
+        content={`https://ahmadmdabit.github.io/PersonalPhoto.png?v=${import.meta.env.VITE_ASSET_HASH}`}
+      />
     </>
   );
 });
@@ -108,11 +144,22 @@ export const HomePage: React.FC = () => {
   return (
     <>
       <HomePageMetaDemo pathname={pathname} />
-      <Container maxWidth={false} sx={{ flex: 1, display: "flex", flexDirection: "column", px: 0 }}>
-        <ActivityBar onToggleChat={handleToggleChat} isChatOpen={chatOpen} language={i18n.language} />
+      <Container
+        maxWidth={false}
+        sx={{ flex: 1, display: "flex", flexDirection: "column", px: 0 }}
+      >
+        <ActivityBar
+          onToggleChat={handleToggleChat}
+          isChatOpen={chatOpen}
+          language={i18n.language}
+        />
 
         <Box sx={{ position: "relative", overflow: "hidden" }}>
-          <StatusBar page={getPageData(active, t)} name={contactInfo.name} title={contactInfo.title} />
+          <StatusBar
+            page={getPageData(active, t)}
+            name={contactInfo.name}
+            title={contactInfo.title}
+          />
 
           <Paper
             sx={{
@@ -135,7 +182,18 @@ export const HomePage: React.FC = () => {
               flexDirection: "column",
             }}
           >
-            <Box sx={{ p: 2, flex: 1 }}>
+            <Box
+              key={pathname}
+              sx={{
+                p: 2,
+                flex: 1,
+                animation: "pageFadeSlideIn 0.35s ease",
+                "@keyframes pageFadeSlideIn": {
+                  from: { opacity: 0, transform: "translateY(6px)" },
+                  to: { opacity: 1, transform: "translateY(0)" },
+                },
+              }}
+            >
               <Outlet />
             </Box>
           </Paper>
@@ -143,11 +201,19 @@ export const HomePage: React.FC = () => {
           <AnimatedBorderBoxWrapper />
         </Box>
 
-        <Typography variant="caption" color="grey.400" align="center" paddingTop={1}>
+        <Typography
+          variant="caption"
+          color="grey.400"
+          align="center"
+          paddingTop={1}
+        >
           {t("ui.meta.allRightsReserved")} {new Date().getFullYear()}
         </Typography>
       </Container>
-      <ChatPopup open={chatOpen} onClose={() => setChatOpen(false)} />
+      <ChatPopup
+        open={chatOpen}
+        onClose={() => setChatOpen(false)}
+      />
     </>
   );
 };
