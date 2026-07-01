@@ -9,7 +9,7 @@
 
 Kurumsal yazılımlar, ERP sistemleri, dağıtık sistemler, mikroservisler, web, masaüstü ve mobil uygulamaların tasarımı, geliştirilmesi ve yayına alınmasında 10 yılı aşkın deneyime sahip **Kıdemli Yazılım Geliştirici ve Yazılım Mimarı**.
 
-Strong C# ve .NET geçmişi; .NET Core, ASP.NET Core, ASP.NET MVC, Web API, Entity Framework Core, WCF, WPF ve WinForms teknolojilerini içerir. SOLID prensipleri (Single Responsibility, Open/Closed, Liskov Substitution, Interface Segregation, ve Dependency Inversion), Clean Architecture, Domain-Driven Design (DDD), Command Query Responsibility Segregation (CQRS), N-Tier mimarisi, API Gateway ve RESTful API desenlerini kullanarak çözüm mimarisi ve sistem tasarımı konularında deneyimlidir.
+Güçlü C# ve .NET geçmişi; .NET Core, ASP.NET Core, ASP.NET MVC, Web API, Entity Framework Core, WCF, WPF ve WinForms teknolojilerini içerir. SOLID prensipleri (Single Responsibility, Open/Closed, Liskov Substitution, Interface Segregation, ve Dependency Inversion), Clean Architecture, Domain-Driven Design (DDD), Command Query Responsibility Segregation (CQRS), N-Tier mimarisi, API Gateway ve RESTful API desenlerini kullanarak çözüm mimarisi ve sistem tasarımı konularında deneyimlidir.
 
 RabbitMQ, MassTransit, Ocelot API Gateway, JWT kimlik doğrulama, SQL Server, PostgreSQL, MySQL, Redis, Docker, Microsoft Azure, CI/CD süreçleri, OpenTelemetry ve Serilog ile servis odaklı ve olay güdümlü (event-driven) arka uçlar (backend) oluşturma konusunda pratik deneyime sahiptir.
 
