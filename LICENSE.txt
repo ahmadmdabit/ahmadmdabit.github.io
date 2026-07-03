@@ -1,3 +1,0 @@
-Copyright (c) 2026 Ahmet Fatihoğlu. All rights reserved.
-
-No part of this software may be copied, modified, distributed, or used in any manner without explicit written permission from the copyright owner.
