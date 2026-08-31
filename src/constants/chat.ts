@@ -4,15 +4,15 @@
 import type { DocumentSource } from "@/types/Chat.types";
 
 export const AvailableLLMModels = {
-  GPTOSS102BFREE: { Model: "openai/gpt-oss-120b:free", Context: 131000 }, // 131K
-  GPTOSS102B: { Model: "openai/gpt-oss-120b", Context: 131000 }, // 131K
+  GPTOSS120BFREE: { Model: "openai/gpt-oss-120b:free", Context: 131000 }, // 131K
+  GPTOSS120B: { Model: "openai/gpt-oss-120b", Context: 131000 }, // 131K
   CLAUDEHAIKU45: { Model: "anthropic/claude-haiku-4-5", Context: 200000 }, // 200K
   DEEPSEEKV4FLASH: { Model: "deepseek/deepseek-v4-flash", Context: 1000000 }, // 1M
   GLM47FLASH: { Model: "z-ai/glm-4.7-flash", Context: 128000 }, // 128K
 };
 
-export const LLMModel = AvailableLLMModels.GPTOSS102BFREE.Model;
-export const LLMModelContextWindow = AvailableLLMModels.GPTOSS102BFREE.Context;
+export const LLMModel = AvailableLLMModels.GPTOSS120B.Model;
+export const LLMModelContextWindow = AvailableLLMModels.GPTOSS120B.Context;
 
 // Conversation compaction constants (background compaction with retry/queue)
 export const CompactionThresholdRatio = 0.75; // Trigger compaction when history exceeds 75% of context window
