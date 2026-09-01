@@ -1,23 +1,20 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 import type { TFunction } from "i18next";
-import puter from "@heyputer/puter.js";
-import type { ChatMessage, StreamingChatOptions } from "@heyputer/puter.js/types/modules/ai";
+import type { ChatMessage } from "@heyputer/puter.js/types/modules/ai";
 import type { Message, UsageInfo, LoadedDocument, SearchIndex } from "../types/Chat.types";
 import { useAutoScroll } from "./useAutoScroll";
 import { useSearch } from "./useSearch";
 import { useCompaction } from "./useCompaction";
 import type { FAQSearchIndex } from "./useSearch";
-import { LLMModel } from "@/constants/chat";
-
-// Extended ChatResponseChunk with tool_use properties
-interface ExtendedChatResponseChunk {
-  text?: string;
-  type?: "tool_use" | "usage" | "reasoning";
-  id?: string;
-  name?: string;
-  input?: { query: string; searchType: string };
-  usage?: UsageInfo;
-}
+import { LLMModel, LLMModelContextWindow } from "@/constants/chat";
+import {
+  chatStreamWithFallback,
+  getActiveModel,
+  getInitialFallbackState,
+  isAbort,
+  type ChatFallbackOptions,
+  type FallbackState,
+} from "@/lib/ModelFallback";
 
 // PII stripping
 const stripPIIFromResume = (content: string): string => {
@@ -132,10 +129,10 @@ interface UseConversationHistoryOptions {
   searchIndex: SearchIndex | null;
   /** Loaded documents per locale */
   loadedDocuments: Record<"en" | "tr", LoadedDocument[]>;
-  /** LLM model to use */
-  model: string;
-  /** Context window size */
-  contextWindow: number;
+  /**
+   * NOTE: no `model`/`contextWindow` options — the active model and context
+   * window are owned by the internal fallback state (see ModelFallback.ts).
+   */
   /** Compaction threshold ratio */
   compactionThresholdRatio: number;
   /** Compaction max retries */
@@ -163,6 +160,8 @@ interface UseConversationHistoryReturn {
   tokenUsage: UsageInfo;
   /** Current context window */
   contextWindow: number;
+  /** Currently active LLM model */
+  currentModel: string;
   /** Send the current draft */
   send: () => Promise<void>;
   /** Handle input change */
@@ -190,8 +189,6 @@ export const useConversationHistory = (
     locale,
     searchIndex,
     loadedDocuments,
-    model,
-    contextWindow,
     compactionThresholdRatio,
     compactionMaxRetries,
     compactionRetryBaseDelayMs,
@@ -220,6 +217,21 @@ export const useConversationHistory = (
   const apiHistoryRef = useRef<Array<{ role: "user" | "assistant" | "system"; content: string }>>([]);
   const draftRef = useRef(draft);
   const tokenUsageRef = useRef(tokenUsage);
+  const fallbackStateRef = useRef<FallbackState>(getInitialFallbackState());
+
+  // Atomic mirror of the active (possibly fallback-pinned) model for the UI.
+  // Kept as a single state object so model and context window can never
+  // disagree (e.g. 128K window reported for a 1M model after a fallback).
+  const [activeModel, setActiveModel] = useState<{ model: string; contextWindow: number }>({
+    model: LLMModel,
+    contextWindow: LLMModelContextWindow,
+  });
+  const syncActiveModel = useCallback(() => {
+    const pinned = getActiveModel(fallbackStateRef.current);
+    setActiveModel((prev) =>
+      prev.model === pinned.model ? prev : { model: pinned.model, contextWindow: pinned.context },
+    );
+  }, []);
 
   // Refs for values accessed inside the async send() callback.
   // These stay in sync via effects below, so send() always reads the
@@ -272,8 +284,12 @@ export const useConversationHistory = (
   const estimateTokens = useCallback((text: string): number => Math.ceil(text.length / 4), []);
 
   const compaction = useCompaction({
-    model,
-    contextWindow,
+    // Live values: after a fallback pins a smaller/larger model, compaction's
+    // threshold math and its non-fallback chat path must track the ACTIVE
+    // model, not the static constants the hook was configured with.
+    model: activeModel.model,
+    contextWindow: activeModel.contextWindow,
+    fallbackStateRef,
     thresholdRatio: compactionThresholdRatio,
     maxRetries: compactionMaxRetries,
     retryBaseDelayMs: compactionRetryBaseDelayMs,
@@ -361,6 +377,11 @@ export const useConversationHistory = (
     setDraft("");
     setIsLoading(true);
 
+    // Hoisted so the catch below can remove the empty streaming placeholder;
+    // null means the streaming bubble was never created (ids are UUID strings,
+    // so a null filter matches nothing).
+    let streamingId: string | null = null;
+
     try {
       const loadedDocs = currentLoadedDocs[locale];
       const resumeRaw = loadedDocs.find((d) => d.title === "Resume" || d.title === "Özgeçmiş")?.content.trim() ?? "";
@@ -418,19 +439,18 @@ ${faqQuestions.join("\n")}`;
         { role: "user", content: userMessage },
       ];
 
-      const apiOptions: StreamingChatOptions = {
+      const apiOptions: ChatFallbackOptions = {
         tools,
         stream: true,
         verbosity: "low",
-        model: LLMModel,
         signal: abortControllerRef.current.signal,
-      } as StreamingChatOptions;
+      };
 
-      const response = (await puter.ai.chat(apiMessages, apiOptions, false)) as AsyncIterable<ExtendedChatResponseChunk>;
+      const response = chatStreamWithFallback(apiMessages, apiOptions, fallbackStateRef.current, syncActiveModel);
 
       const assistantMessage: Message = { id: crypto.randomUUID(), role: "assistant", text: "" };
       setMessages((prev) => [...prev, assistantMessage]);
-      const streamingId = assistantMessage.id;
+      streamingId = assistantMessage.id;
 
       let assistantText = "";
       let pendingToolCall: { id: string; name: string; input: { query: string; searchType: string } } | null = null;
@@ -522,14 +542,13 @@ ${faqQuestions.join("\n")}`;
           toolResultMessage,
         ];
 
-        const finalApiOptions: StreamingChatOptions = {
+        const finalApiOptions: ChatFallbackOptions = {
           stream: true,
           verbosity: "low",
-          model: LLMModel,
           signal: abortControllerRef.current.signal,
-        } as StreamingChatOptions;
+        };
 
-        const finalResponse = (await puter.ai.chat(followUpMessages, finalApiOptions)) as AsyncIterable<ExtendedChatResponseChunk>;
+        const finalResponse = chatStreamWithFallback(followUpMessages, finalApiOptions, fallbackStateRef.current, syncActiveModel);
 
         assistantText = "";
         turnUsage = { prompt: 0, completion: 0, inputCacheRead: 0, request: 0, billedUsage: 0, usdCents: 0 };
@@ -576,9 +595,19 @@ ${faqQuestions.join("\n")}`;
         checkAndEnqueueCompactionRef.current(newHistory, tokenUsageRef.current);
       }
     } catch (error) {
-      if (error instanceof Error && error.name === "AbortError") return;
+      // Shared runtime-proof abort check (isAbort): puter.js throws PLAIN
+      // OBJECTS, not Error instances, so `instanceof Error` alone would
+      // misclassify an abort as a failure and render an error bubble to the
+      // user.
+      if (isAbort(error, abortControllerRef.current?.signal)) return;
       console.error("[useConversationHistory] send error:", error);
-      setMessages((prev) => [...prev, { id: crypto.randomUUID(), role: "assistant", text: t("ui.chat.encounteredError") }]);
+      // Remove the empty streaming placeholder before surfacing the error,
+      // otherwise a blank assistant bubble stays above the error message.
+      setMessages((prev) =>
+        prev
+          .filter((m) => m.id !== streamingId || m.text.trim() !== "")
+          .concat([{ id: crypto.randomUUID(), role: "assistant", text: t("ui.chat.encounteredError") }]),
+      );
     } finally {
       setIsLoading(false);
     }
@@ -586,6 +615,7 @@ ${faqQuestions.join("\n")}`;
     locale,
     isIndexing,
     t,
+    syncActiveModel,
   ]);
 
   // Enter key handler for input (respects IME composition)
@@ -607,7 +637,8 @@ ${faqQuestions.join("\n")}`;
     isLoading,
     isHistorySummarizing: compaction.isHistorySummarizing,
     tokenUsage,
-    contextWindow,
+    contextWindow: activeModel.contextWindow,
+    currentModel: activeModel.model,
     send,
     handleChange,
     handleKeyDown,

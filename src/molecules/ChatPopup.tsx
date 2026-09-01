@@ -17,7 +17,7 @@ import { CloseButton } from "@/atoms/CloseButton";
 import MarkdownRenderer from "@/atoms/MarkdownRenderer";
 import ChatUsageIndicator from "@/atoms/ChatUsageIndicator";
 import { DocumentSources } from "@/constants/chat";
-import { LLMModel, LLMModelContextWindow, CompactionThresholdRatio, CompactionMaxRetries, CompactionRetryBaseDelayMs } from "@/constants/chat";
+import { CompactionThresholdRatio, CompactionMaxRetries, CompactionRetryBaseDelayMs } from "@/constants/chat";
 import { useKeyboardShortcuts, useDocumentIndex, useConversationHistory } from "@/hooks";
 
 puter.quiet = true;
@@ -68,8 +68,8 @@ export const ChatPopup: React.FC<{ open: boolean; onClose: () => void }> = memo(
     locale: currentLocale,
     searchIndex,
     loadedDocuments,
-    model: LLMModel,
-    contextWindow: LLMModelContextWindow,
+    // NOTE: no `model`/`contextWindow` — the hook tracks the active (possibly
+    // fallback-pinned) model internally via its fallback state.
     compactionThresholdRatio: CompactionThresholdRatio,
     compactionMaxRetries: CompactionMaxRetries,
     compactionRetryBaseDelayMs: CompactionRetryBaseDelayMs,

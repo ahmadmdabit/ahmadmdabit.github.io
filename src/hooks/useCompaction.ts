@@ -7,6 +7,7 @@ import {
   CompactionMaxRetries,
   CompactionRetryBaseDelayMs,
 } from "@/constants/chat";
+import { chatCompleteWithFallback, isAbort, type ChatFallbackOptions, type FallbackState } from "@/lib/ModelFallback";
 
 interface UseCompactionCallbacks {
   /** Called when compaction succeeds with the compacted history */
@@ -27,6 +28,8 @@ interface UseCompactionOptions {
   model: string;
   /** Context window size in tokens */
   contextWindow: number;
+  /** Fallback state ref for model fallback (optional) */
+  fallbackStateRef?: React.RefObject<FallbackState>;
   /** Threshold ratio (0-1) to trigger compaction */
   thresholdRatio?: number;
   /** Max retry attempts for failed compaction */
@@ -60,6 +63,7 @@ export const useCompaction = (options: UseCompactionOptions): UseCompactionRetur
   const {
     model,
     contextWindow,
+    fallbackStateRef,
     thresholdRatio = CompactionThresholdRatio,
     maxRetries = CompactionMaxRetries,
     retryBaseDelayMs = CompactionRetryBaseDelayMs,
@@ -127,25 +131,34 @@ SUMMARY:`;
       const prompt = buildCompactionPrompt(history);
 
       try {
-        const response = await puter.ai.chat(
-          [
-            {
-              role: "system",
-              content:
-                "You are a professional conversation summarizer. Produce a concise factual summary preserving all specific details about the candidate's experience, projects, and skills.",
-            },
-            { role: "user", content: prompt },
-          ],
+        const messages = [
           {
-            model,
-            signal,
-          } as ChatOptions,
-        );
+            role: "system" as const,
+            content:
+              "You are a professional conversation summarizer. Produce a concise factual summary preserving all specific details about the candidate's experience, projects, and skills.",
+          },
+          { role: "user" as const, content: prompt },
+        ];
 
-        const summaryText = typeof response === "string" ? response : (response.message?.content as string) ?? "";
+        const response = fallbackStateRef
+          ? await chatCompleteWithFallback(
+            messages,
+            { signal } as ChatFallbackOptions,
+            fallbackStateRef.current,
+          )
+          : await puter.ai.chat(messages, { model, signal } as ChatOptions);
 
-        if (!summaryText || summaryText.trim().length === 0) {
-          throw new Error("Empty summary returned from LLM");
+        const summaryText =
+          typeof response === "string"
+            ? response
+            : (response as { message?: { content?: string } })?.message?.content ?? "";
+
+        // A blank summary must fail the job (retry queue / onFailure) — never
+        // onSuccess, which would silently replace history with an empty
+        // summary. This also catches HTTP-200 error bodies resolved by the
+        // SDK (their `message` is an error STRING, so content is undefined).
+        if (!summaryText.trim()) {
+          throw new Error("Compaction model returned an empty summary");
         }
 
         const recentTurns = history.slice(-2);
@@ -154,7 +167,10 @@ SUMMARY:`;
           ...recentTurns,
         ];
       } catch (error) {
-        if (error instanceof Error && error.name === "AbortError") {
+        // Shared runtime-proof abort check (isAbort): puter.js / ModelFallback
+        // re-throw PLAIN OBJECTS, not Error instances, so `instanceof Error`
+        // would misclassify a user abort as a retryable failure.
+        if (isAbort(error)) {
           throw error;
         }
         throw new Error(
@@ -163,7 +179,7 @@ SUMMARY:`;
         );
       }
     },
-    [model, buildCompactionPrompt],
+    [model, fallbackStateRef, buildCompactionPrompt],
   );
 
   // Process compaction queue - use ref to avoid memoization issues with recursive async calls
@@ -190,7 +206,12 @@ SUMMARY:`;
         // Call success callback with compacted history, original history, and token usage
         callbacksRef.current.onSuccess(compacted, job.history, job.tokenUsage);
       } catch (error) {
-        if (error instanceof Error && error.name === "AbortError") {
+        // Shared runtime-proof abort check (isAbort): puter.js (via
+        // chatCompleteWithFallback) re-throws PLAIN OBJECTS, not Error
+        // instances, so `instanceof Error` would misclassify a user abort as
+        // a retryable failure and burn the retry queue against an
+        // already-aborted AbortController.
+        if (isAbort(error, controller.signal)) {
           isHistorySummarizingRef.current = false;
           setIsHistorySummarizing(false);
           return;
