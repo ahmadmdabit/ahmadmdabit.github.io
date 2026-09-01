@@ -7,6 +7,10 @@ import { BoldedText } from "@/atoms/BoldedText";
 import Link from "@mui/material/Link";
 import Container from "@mui/material/Container";
 import Paper from "@mui/material/Paper";
+import { useParams, useLocation } from "react-router";
+import { isLocale } from "@/i18n/locales";
+import { buildFullMeta } from "@/seo/pageMeta";
+import { JsonLd } from "@/seo/JsonLd";
 
 interface ContentRendererProps {
   content: string;
@@ -16,28 +20,22 @@ interface ContentRendererProps {
 const replacePlaceholders = (text: string, replacements: Record<string, string>) => {
   const placeholders = Object.keys(replacements);
   if (placeholders.length === 0) return text;
-  const regex = new RegExp(`(${placeholders.map((ph) => ph.replace(/[[\]]/g, "\\$&")).join("|")})`, "g");
+  const regex = new RegExp(`(${placeholders.map((ph) => ph.replace(/[[\\]]/g, "\\$&")).join("|")})`, "g");
   return text.replace(regex, (match) => replacements[match] ?? match);
 };
 
-// Helper to parse and render content string
 const ContentRenderer: React.FC<ContentRendererProps> = memo(({ content, replacements }) => {
-  // Replace placeholders before rendering
   const replacedContent = replacePlaceholders(content, replacements);
-
-  // Split by lines after replacement
   const lines = replacedContent.split("\n");
 
   return (
     <>
       {lines.map((line, lineIndex) => {
-        // Split by markdown links [text](url)
         const parts = line.split(/(\[.*?\]\(.*?\))/g);
 
         return (
           <React.Fragment key={lineIndex}>
             {parts.map((part, i) => {
-              // Detect link markup [text](url)
               const match = part.match(/^\[(.*?)\]\((.*?)\)$/);
               if (match) {
                 const [, text, url] = match;
@@ -47,7 +45,6 @@ const ContentRenderer: React.FC<ContentRendererProps> = memo(({ content, replace
                   </Link>
                 );
               } else {
-                // Handle bold markup inside plain text parts
                 const boldParts = part.split(/\*\*/);
                 return boldParts.map((boldPart, j) => (j % 2 === 1 ? <BoldedText key={j} text={boldPart} /> : <React.Fragment key={j}>{boldPart}</React.Fragment>));
               }
@@ -66,6 +63,11 @@ interface PrivacyPageProps {
 
 export const PrivacyPage: React.FC<PrivacyPageProps> = memo(({ isPlainText }) => {
   const { t } = useTranslation();
+  const { locale: localeParam } = useParams();
+  const { pathname: currentPath } = useLocation();
+  const locale = isLocale(localeParam) ? localeParam : "en";
+  const pathname = currentPath || `/${locale}/privacy`;
+  const meta = buildFullMeta("privacy", locale, pathname, t);
   const sections = t("privacy.sections", { returnObjects: true });
   const address = t("resume.contactInfo.address").split(" ");
   const replacements = {
@@ -80,56 +82,67 @@ export const PrivacyPage: React.FC<PrivacyPageProps> = memo(({ isPlainText }) =>
   };
 
   return (
-    <Container maxWidth={false} sx={{ flex: 1, display: "flex", flexDirection: "column", px: 0, my: 3 }}>
-      <Box sx={{ position: "relative", overflow: "hidden" }}>
-        <Paper
-          sx={{
-            flex: 1,
-            backgroundColor: "black",
-            color: "grey.200",
-            borderRadius: "0.6rem",
-            borderStyle: "solid",
-            borderWidth: "0.13rem",
-            borderColor: "success.main",
-            overflowY: "auto",
-            fontFamily: "SF Mono, Consolas, monospace",
-            fontSize: 14,
-            mb: 0.2,
-            mx: 0.2,
-            display: "flex",
-            flexDirection: "column",
-          }}
-        >
-          <Box sx={{ p: 2, flex: 1 }}>
-            <Typography variant="h5" pt={1} pb={2}>
-              {t("privacy.title")}
-            </Typography>
-            <Chip label={`${t("privacy.updateDate")}: 17-09-2025`} sx={{ mb: 2 }} />
-            {sections.map((section, k1) => (
-              <Box key={k1}>
-                <Typography variant="h6">{section.title}</Typography>
-                <Typography variant="body1" pt={1} pb={2}>
-                  {/* 
-              {section.content.split("\n").map((line, k2) => (
-                <React.Fragment key={k2}>
-                  {line}
-                  <br />
-                </React.Fragment>
-              ))} 
-            */}
-                  {<ContentRenderer content={section.content} replacements={replacements} />}
-                </Typography>
-              </Box>
-            ))}
-          </Box>
-        </Paper>
-      </Box>
+    <>
+      <title>{meta.title}</title>
+      <meta name="description" content={meta.description} />
+      <meta name="author" content={t("ui.meta.author")} />
+      <link rel="canonical" href={meta.canonical} />
+      {meta.hreflang.map((h) => (
+        <link key={h.lang} rel="alternate" hrefLang={h.lang} href={h.href} />
+      ))}
+      <meta property="og:title" content={meta.og.title} />
+      <meta property="og:description" content={meta.og.description} />
+      <meta property="og:type" content={meta.og.type} />
+      <meta property="og:url" content={meta.og.url} />
+      <meta property="og:image" content={meta.og.image} />
+      <meta name="twitter:card" content={meta.twitter.card} />
+      <meta name="twitter:title" content={meta.twitter.title} />
+      <meta name="twitter:description" content={meta.twitter.description} />
+      <meta name="twitter:image" content={meta.twitter.image} />
+      <JsonLd locale={locale} routeKey="privacy" t={t} pathname={pathname} />
+      <Container maxWidth={false} sx={{ flex: 1, display: "flex", flexDirection: "column", px: 0, my: 3 }}>
+        <Box sx={{ position: "relative", overflow: "hidden" }}>
+          <Paper
+            sx={{
+              flex: 1,
+              backgroundColor: "black",
+              color: "grey.200",
+              borderRadius: "0.6rem",
+              borderStyle: "solid",
+              borderWidth: "0.13rem",
+              borderColor: "success.main",
+              overflowY: "auto",
+              fontFamily: "SF Mono, Consolas, monospace",
+              fontSize: 14,
+              mb: 0.2,
+              mx: 0.2,
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            <Box sx={{ p: 2, flex: 1 }}>
+              <Typography variant="h5" pt={1} pb={2}>
+                {t("privacy.title")}
+              </Typography>
+              <Chip label={`${t("privacy.updateDate")}: 17-09-2025`} sx={{ mb: 2 }} />
+              {sections.map((section, k1) => (
+                <Box key={k1}>
+                  <Typography variant="h6">{section.title}</Typography>
+                  <Typography variant="body1" pt={1} pb={2}>
+                    {<ContentRenderer content={section.content} replacements={replacements} />}
+                  </Typography>
+                </Box>
+              ))}
+            </Box>
+          </Paper>
+        </Box>
 
-      {!isPlainText && (
-        <Typography variant="caption" color="grey.400" align="center" paddingTop={1}>
-          {t("ui.meta.allRightsReserved")} {new Date().getFullYear()}
-        </Typography>
-      )}
-    </Container>
+        {!isPlainText && (
+          <Typography variant="caption" color="grey.400" align="center" paddingTop={1}>
+            {t("ui.meta.allRightsReserved")} {new Date().getFullYear()}
+          </Typography>
+        )}
+      </Container>
+    </>
   );
 });

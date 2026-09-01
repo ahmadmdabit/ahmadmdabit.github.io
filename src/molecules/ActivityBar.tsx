@@ -1,5 +1,5 @@
 import React, { memo, useCallback } from "react";
-import { NavLink } from "react-router";
+import { NavLink, useParams, useLocation } from "react-router";
 import { useTranslation } from "react-i18next";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
@@ -21,6 +21,7 @@ import { ActivityButton } from "@/atoms/ActivityButton";
 import { PersonPhoto } from "@/atoms/PersonPhoto";
 import { LanguageSelector } from "@/molecules/LanguageSelector";
 import { getPageData } from "@/data/pagesData";
+import { isLocale } from "@/i18n/locales";
 
 const icons: Record<keyof Pages, React.ElementType> = {
   about: PersonIcon,
@@ -57,12 +58,22 @@ export interface ActivityBarProps {
   onToggleChat: () => void;
 }
 
+// Normalize path for comparison — strip trailing slashes so /en and /en/ match.
+function normalizePath(path: string): string {
+  return path.replace(/\/+$/, "") || "/";
+}
+
 export const ActivityBar: React.FC<ActivityBarProps> = memo(({ isChatOpen, language, onToggleChat }) => {
   const { t } = useTranslation();
+  const { locale: localeParam } = useParams();
+  const { pathname } = useLocation();
+  const locale = isLocale(localeParam) ? localeParam : "en";
 
   const handleToggleChat = useCallback(() => {
     onToggleChat();
   }, [onToggleChat]);
+
+  const currentPath = normalizePath(pathname);
 
   return (
     <Stack direction="row" alignItems="center" sx={{ px: 0, gap: 0.5, flexFlow: "wrap" }}>
@@ -73,11 +84,12 @@ export const ActivityBar: React.FC<ActivityBarProps> = memo(({ isChatOpen, langu
       {Object.keys(icons).map((key) => {
         const currentIconKey = key as keyof typeof icons;
         const currentIcon = icons[currentIconKey];
-        const toPath = key === "about" ? "/" : `/${key}`;
+        const toPath = key === "about" ? `/${locale}` : `/${locale}/${key}`;
+        const isActive = currentPath === normalizePath(toPath);
         return (
           <Tooltip key={key} title={getPageData(currentIconKey, t)}>
             <NavLink to={toPath} style={{ textDecoration: "none" }}>
-              {({ isActive }) => <ActivityButton selected={isActive}>{React.createElement(currentIcon)}</ActivityButton>}
+              <ActivityButton selected={isActive}>{React.createElement(currentIcon)}</ActivityButton>
             </NavLink>
           </Tooltip>
         );

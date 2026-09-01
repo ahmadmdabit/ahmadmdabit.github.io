@@ -12,7 +12,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "typecheck": "tsc --noEmit",
-    "build": "tsc -b && yarn hash-locales && vite build",
+    "build": "tsc -b && yarn hash-locales && vite build && node scripts/prerender.mjs",
     "build:lint": "yarn lint:fix && yarn build",
     "preview": "vite preview",
     "predeploy": "yarn build:lint",

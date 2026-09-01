@@ -1,5 +1,5 @@
 import { memo, useCallback, useState } from "react";
-import { useLocation, Outlet } from "react-router";
+import { useLocation, Outlet, useParams } from "react-router";
 import { useTranslation } from "react-i18next";
 import { keyframes } from "@emotion/react";
 import Container from "@mui/material/Container";
@@ -12,6 +12,9 @@ import { ActivityBar } from "@/molecules/ActivityBar";
 import { ChatPopup } from "@/molecules/ChatPopup";
 import { StatusBar } from "@/molecules/StatusBar";
 import { getPageData } from "@/data/pagesData";
+import { buildFullMeta, routeKeyFromPath } from "@/seo/pageMeta";
+import { JsonLd } from "@/seo/JsonLd";
+import { isLocale } from "@/i18n/locales";
 
 const draw = keyframes`
   100% {
@@ -65,65 +68,31 @@ interface HomePageMetaDemoProps {
 }
 const HomePageMetaDemo: React.FC<HomePageMetaDemoProps> = memo(({ pathname }) => {
   const { t } = useTranslation();
-  const active = (pathname.split("/")[1] as keyof Pages) || "about";
-  let pageTitle = t("ui.meta.title");
-  try {
-    pageTitle += " - " + getPageData(active, t);
-  } catch (error) {
-    console.warn(error);
-  }
+  const { locale: localeParam } = useParams();
+  const locale = isLocale(localeParam) ? localeParam : "en";
+  const routeKey = routeKeyFromPath(pathname, locale);
+  const meta = buildFullMeta(routeKey, locale, pathname, t);
 
   return (
     <>
-      <title>{pageTitle}</title>
-      <meta
-        name="description"
-        content={t("ui.meta.description")}
-      />
-      <meta
-        name="keywords"
-        content={t("ui.meta.keywords")}
-      />
-      <meta
-        name="author"
-        content={t("ui.meta.author")}
-      />
-      <meta
-        property="og:title"
-        content={t("ui.meta.title")}
-      />
-      <meta
-        property="og:description"
-        content={t("ui.meta.description")}
-      />
-      <meta
-        property="og:type"
-        content="website"
-      />
-      <meta
-        property="og:url"
-        content={`https://ahmadmdabit.github.io${pathname}`}
-      />
-      <meta
-        property="og:image"
-        content={`https://ahmadmdabit.github.io/PersonalPhoto.png?v=${import.meta.env.VITE_ASSET_HASH}`}
-      />
-      <meta
-        name="twitter:card"
-        content="summary_large_image"
-      />
-      <meta
-        name="twitter:title"
-        content={t("ui.meta.title")}
-      />
-      <meta
-        name="twitter:description"
-        content={t("ui.meta.description")}
-      />
-      <meta
-        name="twitter:image"
-        content={`https://ahmadmdabit.github.io/PersonalPhoto.png?v=${import.meta.env.VITE_ASSET_HASH}`}
-      />
+      <title>{meta.title}</title>
+      <meta name="description" content={meta.description} />
+      <meta name="keywords" content={t("ui.meta.keywords")} />
+      <meta name="author" content={t("ui.meta.author")} />
+      <link rel="canonical" href={meta.canonical} />
+      {meta.hreflang.map((h) => (
+        <link key={h.lang} rel="alternate" hrefLang={h.lang} href={h.href} />
+      ))}
+      <meta property="og:title" content={meta.og.title} />
+      <meta property="og:description" content={meta.og.description} />
+      <meta property="og:type" content={meta.og.type} />
+      <meta property="og:url" content={meta.og.url} />
+      <meta property="og:image" content={meta.og.image} />
+      <meta name="twitter:card" content={meta.twitter.card} />
+      <meta name="twitter:title" content={meta.twitter.title} />
+      <meta name="twitter:description" content={meta.twitter.description} />
+      <meta name="twitter:image" content={meta.twitter.image} />
+      <JsonLd locale={locale} routeKey={routeKey} t={t} pathname={pathname} />
     </>
   );
 });
@@ -135,7 +104,12 @@ export const HomePage: React.FC = () => {
 
   const [chatOpen, setChatOpen] = useState(false);
   const pathname = location.pathname;
-  const active = (pathname.split("/")[1] as keyof Pages) || "about";
+  const active = (pathname.split("/").filter(Boolean)[1] as keyof Pages) || "about";
+
+  // The section (without locale prefix) drives the fade-slide animation.
+  // Only the section triggers animation, NOT locale changes — so switching
+  // languages doesn't replay the fade effect.
+  const section = pathname.replace(/^\/(en|tr)\b/, "") || "/";
 
   const handleToggleChat = useCallback(() => {
     setChatOpen((prev) => !prev);
@@ -183,7 +157,7 @@ export const HomePage: React.FC = () => {
             }}
           >
             <Box
-              key={pathname}
+              key={section}
               sx={{
                 p: 2,
                 flex: 1,

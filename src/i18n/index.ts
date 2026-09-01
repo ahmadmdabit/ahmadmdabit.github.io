@@ -1,22 +1,26 @@
-import i18n from 'i18next';
+import i18next from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import HttpBackend from 'i18next-http-backend';
 import LanguageDetector from 'i18next-browser-languagedetector';
+import { DEFAULT_LOCALE, extractLocaleFromPath } from '@/i18n/locales';
 
-i18n
-  .use(HttpBackend) // Loads translations from server
-  .use(LanguageDetector) // Detects user language
-  .use(initReactI18next) // Passes i18n down to react-i18next
+// Determine initial locale from URL path, falling back to detector.
+const pathLocale = extractLocaleFromPath(window.location.pathname);
+
+i18next
+  .use(HttpBackend)
+  .use(LanguageDetector)
+  .use(initReactI18next)
   .init({
-    fallbackLng: import.meta.env.VITE_LOCALE_DEFAULT, // Use en if detected lng is not available
+    fallbackLng: DEFAULT_LOCALE,
     debug: import.meta.env.DEV,
-    load: 'languageOnly', // Instructs i18next to ignore region-specific codes like -US
-    interpolation: { escapeValue: false }, // React already safes from xss
-    
-    // Dynamic loadPath with hash for cache busting
+    load: 'languageOnly',
+    interpolation: { escapeValue: false },
+    // Start with the URL-prefixed locale so the first render matches the path.
+    lng: pathLocale,
     backend: {
-      loadPath: `/locales/{{lng}}/{{ns}}.json${import.meta.env.VITE_LOCALE_HASH ? `?v=${import.meta.env.VITE_LOCALE_HASH}` : ''}`, // Append ?v=hash if defined
+      loadPath: `/locales/{{lng}}/{{ns}}.json${import.meta.env.VITE_LOCALE_HASH ? `?v=${import.meta.env.VITE_LOCALE_HASH}` : ''}`,
     },
   });
 
-export default i18n;
+export default i18next;
