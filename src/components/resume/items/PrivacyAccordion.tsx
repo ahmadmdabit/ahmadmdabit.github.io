@@ -1,6 +1,5 @@
 import { memo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Outlet } from "react-router";
 import { useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -12,6 +11,7 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ErrorIcon from "@mui/icons-material/Error";
+import { PrivacySections } from "@/pages/PrivacySections";
 
 interface PrivacyAccordionProps {
   privacyNoticeConfirm: boolean;
@@ -53,7 +53,7 @@ export const PrivacyAccordion: React.FC<PrivacyAccordionProps> = memo(({
           <Typography component="span">{t("ui.misc.privacyNoticeConfirmIntroductory")}</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Outlet />
+          <PrivacySections />
           <FormGroup sx={{ background: theme.palette.background.paper, padding: 2, borderRadius: 2 }}>
             <Typography variant="subtitle1">{t("ui.misc.privacyNoticeConfirmIntroductorySub")}</Typography>
             <FormControlLabel

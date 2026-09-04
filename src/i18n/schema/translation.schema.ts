@@ -37,6 +37,7 @@ const translation = {
       languages: "",
       contact: "",
       privacy: "",
+      terms: "",
     },
     buttons: {
       downloadCV: "",
@@ -84,6 +85,9 @@ const translation = {
       },
       sendMessage: "",
       stop: "",
+      consentRequired: "",
+      consentError: "",
+      consentRequiredCheckbox: "",
     },
     misc: {
       returnToHomePage: "",
@@ -96,6 +100,10 @@ const translation = {
       privacyNoticeConfirmIntroductorySub: "",
       microsoftCertified: "",
       microsoftCertification: "",
+      footer: {
+        privacy: "",
+        terms: "",
+      },
     },
   },
   resume: {
@@ -165,6 +173,24 @@ const translation = {
   privacy: {
     title: "",
     updateDate: "",
+    updateDateIso8601: "",
+    updateDateRegional: "",
+    updateDateLongForm: "",
+    version: "",
+    sections: [
+      {
+        title: "",
+        content: ""
+      },
+    ]
+  },
+  terms: {
+    title: "",
+    updateDate: "",
+    updateDateIso8601: "",
+    updateDateRegional: "",
+    updateDateLongForm: "",
+    version: "",
     sections: [
       {
         title: "",

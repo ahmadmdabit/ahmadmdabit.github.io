@@ -26,5 +26,19 @@
 }
 
 a {
+    color: #00EE00;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #008100;
+}
+
+footer {
+    text-align: center;
+    padding-top: 0.3rem;
+}
+
+footer a {
     color: inherit;
 }

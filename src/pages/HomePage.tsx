@@ -6,7 +6,6 @@ import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import { styled } from "@mui/material/styles";
-import Typography from "@mui/material/Typography";
 import { type Pages } from "@/types/Pages.types";
 import { ActivityBar } from "@/molecules/ActivityBar";
 import { ChatPopup } from "@/molecules/ChatPopup";
@@ -149,9 +148,9 @@ export const HomePage: React.FC = () => {
               fontSize: 14,
               mb: 0.2,
               mx: 0.2,
-              minHeight: "77.5vh",
-              height: "77.5vh",
-              maxHeight: "77.5vh",
+              minHeight: "calc(100vh - 220px)",
+              height: "calc(100vh - 220px)",
+              maxHeight: "calc(100vh - 220px)",
               display: "flex",
               flexDirection: "column",
             }}
@@ -174,15 +173,6 @@ export const HomePage: React.FC = () => {
 
           <AnimatedBorderBoxWrapper />
         </Box>
-
-        <Typography
-          variant="caption"
-          color="grey.400"
-          align="center"
-          paddingTop={1}
-        >
-          {t("ui.meta.allRightsReserved")} {new Date().getFullYear()}
-        </Typography>
       </Container>
       <ChatPopup
         open={chatOpen}

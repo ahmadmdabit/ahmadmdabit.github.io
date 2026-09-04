@@ -4,7 +4,7 @@
 export const SITE_URL = "https://ahmadmdabit.github.io";
 
 /** OpenGraph image path (without cache-busting query). */
-export const OG_IMAGE = `${SITE_URL}/PersonalPhoto.png`;
+export const OG_IMAGE = `${SITE_URL}/assets/imgs/PersonalPhoto.png`;
 
 /**
  * Returns the OG image URL with conditional cache-busting.

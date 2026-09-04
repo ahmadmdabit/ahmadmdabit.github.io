@@ -7,6 +7,10 @@ import { ActivityButton } from "@/atoms/ActivityButton";
 import Avatar from "@mui/material/Avatar";
 import { isLocale } from "@/i18n/locales";
 
+function getAssetUrl(path: string): string {
+  return `${path}${import.meta.env.VITE_ASSET_HASH ? `?v=${import.meta.env.VITE_ASSET_HASH}` : ""}`;
+}
+
 export interface LanguageSelectorProps {
   language: string;
 }
@@ -43,7 +47,7 @@ export const LanguageSelector: React.FC<LanguageSelectorProps> = ({ language }) 
         <ActivityButton onClick={handleEnClick} selected={isTR} sx={{ ml: isTR ? 0 : "-2.524rem !important", transition: "margin 0.2s ease-in-out" }}>
           <Avatar
             variant="rounded"
-            src={`/TR.png${import.meta.env.VITE_ASSET_HASH ? `?v=${import.meta.env.VITE_ASSET_HASH}` : ""}`}
+            src={getAssetUrl("/assets/imgs/TR.png")}
             sx={{
               width: 32,
               height: 32,
@@ -55,7 +59,7 @@ export const LanguageSelector: React.FC<LanguageSelectorProps> = ({ language }) 
         <ActivityButton onClick={handleTrClick} selected={!isTR}>
           <Avatar
             variant="rounded"
-            src={`/EN.png${import.meta.env.VITE_ASSET_HASH ? `?v=${import.meta.env.VITE_ASSET_HASH}` : ""}`}
+            src={getAssetUrl("/assets/imgs/EN.png")}
             sx={{
               width: 32,
               height: 32,

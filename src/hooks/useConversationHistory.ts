@@ -1,6 +1,6 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 import type { TFunction } from "i18next";
-import type { ChatMessage } from "@heyputer/puter.js/types/modules/ai";
+import type { ChatMessage } from "@heyputer/puter.js";
 import type { Message, UsageInfo, LoadedDocument, SearchIndex } from "../types/Chat.types";
 import { useAutoScroll } from "./useAutoScroll";
 import { useSearch } from "./useSearch";
@@ -145,6 +145,8 @@ interface UseConversationHistoryOptions {
   t: TFunction;
   /** Whether indexing is in progress */
   isIndexing: boolean;
+  /** Whether the user has consented to data processing. Blocks first message until true. */
+  hasConsent: boolean;
 }
 
 interface UseConversationHistoryReturn {
@@ -195,13 +197,16 @@ export const useConversationHistory = (
     t,
     isIndexing,
     faqSearchIndexes,
+    hasConsent,
   } = options;
 
-  const [messages, setMessages] = useState<Message[]>(() => [{
-    id: crypto.randomUUID(),
-    role: "assistant",
-    text: t("ui.chat.initialMessage"),
-  }]);
+  const [messages, setMessages] = useState<Message[]>(() => []);
+  console.log('Has Consent:', hasConsent);
+  //   hasConsent ? [{
+  //   id: crypto.randomUUID(),
+  //   role: "assistant",
+  //   text: t("ui.chat.initialMessage"),
+  // }] : []);
   const [draft, setDraft] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [tokenUsage, setTokenUsage] = useState<UsageInfo>({

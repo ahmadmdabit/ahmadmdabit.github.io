@@ -2,6 +2,7 @@ import { createBrowserRouter, redirect, type LoaderFunctionArgs } from "react-ro
 import App from "@/App";
 import { HomePage } from "@/pages/HomePage";
 import { PrivacyPage } from "@/pages/PrivacyPage";
+import { TermsOfServicePage } from "@/pages/TermsOfServicePage";
 import { ErrorPage } from "@/pages/ErrorPage";
 import { AboutSection } from "@/components/resume/sections/AboutSection";
 import { SkillsSection } from "@/components/resume/sections/SkillsSection";
@@ -71,18 +72,16 @@ const router = createBrowserRouter([
               {
                 path: "contact",
                 element: <ContactSection />,
-                children: [
-                  {
-                    path: "",
-                    element: <PrivacyPage isPlainText={true} />,
-                  },
-                ],
               },
             ],
           },
           {
             path: "privacy",
-            element: <PrivacyPage isPlainText={false} />,
+            element: <PrivacyPage />,
+          },
+          {
+            path: "terms",
+            element: <TermsOfServicePage />,
           },
         ],
       },

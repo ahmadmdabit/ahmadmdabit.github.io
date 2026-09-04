@@ -6,7 +6,7 @@ colors:
   primary: "#00EE00"
   secondary: "#008100"
   tertiary: "#00CC00"
-  error: "#ad3737"
+  error: "#bb3656"
   warning: "#ad8837"
   success: "#00EE00"
   background:
@@ -25,7 +25,7 @@ colors:
   usage:
     safe: "#00EE00"
     warning: "#ad8837"
-    danger: "#ad3737"
+    danger: "#bb3656"
     cache: "#6E7D73"
 typography:
   fontFamily: "'Cascadia Code', Consolas, monospace"
@@ -134,6 +134,10 @@ components:
     padding: "2px 8px"
     typography: "{typography.body-sm}"
     color: "{colors.text.secondary}"
+  link:
+    textColor: "{colors.primary}"
+  link-hover:
+    textColor: "{colors.secondary}"
 ---
 
 ## Overview
@@ -145,7 +149,7 @@ Terminal-inspired developer portfolio chat assistant. The visual identity draws 
 - **Primary (#00EE00):** The signature "terminal green" — used for primary actions, active states, successful operations, and safe usage levels.
 - **Secondary (#008100):** Muted green for hover states and secondary emphasis.
 - **Tertiary (#00CC00):** Intermediate green for subtle highlights.
-- **Error (#ad3737):** Muted red for destructive actions and danger states (usage > 80%).
+- **Error (#bb3656):** Muted red for destructive actions and danger states (usage > 80%).
 - **Warning (#ad8837):** Amber for caution states (usage 60-80%).
 - **Background Default (#000000):** True black page background.
 - **Background Paper (#0D1711):** Dark green-tinted surface for the chat container.
@@ -158,7 +162,7 @@ Terminal-inspired developer portfolio chat assistant. The visual identity draws 
 - **Border Focus (#00EE00):** Active focus ring color.
 - **Usage Safe (#00EE00):** Context usage < 60% — comfortable headroom.
 - **Usage Warning (#ad8837):** Context usage 60-80% — approaching limit.
-- **Usage Danger (#ad3737):** Context usage > 80% — compaction imminent.
+- **Usage Danger (#bb3656):** Context usage > 80%. Note: background compaction already triggers at 75% (inside the warning zone).
 - **Usage Cache (#6E7D73):** Cached token indicator (input_cache_read).
 
 ## Typography
@@ -167,7 +171,7 @@ Cascadia Code (monospace) for everything — headings, body, labels, code. This 
 
 ## Layout
 
-4px baseline spacing scale. `sm` (8px) for intra-component gaps, `md` (16px) for inter-component gaps, `lg` (24px) for section breaks. The usage indicator sits in the input area with compact horizontal layout.
+4px baseline spacing scale. `sm` (8px) for intra-component gaps, `md` (16px) for inter-component gaps, `lg` (24px) for section breaks. The usage indicator sits in the input area with compact horizontal layout. The site footer is centered (`text-align: center`, `padding-top: 0.3rem`); footer links inherit surrounding text color instead of link green.
 
 ## Shapes
 
@@ -180,7 +184,7 @@ Rounded corners are modest: `sm` (4px) on pills/badges, `md` (8px) on cards and 
 A horizontal bar showing context window utilization with three segments:
 - **Safe zone** (green): 0-60% usage
 - **Warning zone** (amber): 60-80% usage
-- **Danger zone** (red): 80-100% usage — compaction triggers at 80%
+- **Danger zone** (red): 80-100% usage — background compaction already triggered at 75%
 
 Below the bar: token counts (prompt + cache read / total context window), model badge, and optional compaction status pill.
 
@@ -197,6 +201,10 @@ Small pill badge appearing when background compaction runs. Uses cache color (#6
 ### Model Badge
 
 Compact badge showing the active model (e.g., "gpt-oss-120b"). Uses card surface with subtle border.
+
+### Links & Footer
+
+All anchors render in primary green with no underline (`text-decoration: none` via global CSS); hover shifts to muted secondary green. Exception: footer links inherit surrounding text color (`color: inherit`) so the centered caption footer stays quiet. Content links (privacy sections, contact list) open in new tabs with `rel="noopener noreferrer"`.
 
 ## Do's and Don'ts
 

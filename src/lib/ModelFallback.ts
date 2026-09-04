@@ -1,5 +1,5 @@
 import puter from "@heyputer/puter.js";
-import type { ChatMessage } from "@heyputer/puter.js/types/modules/ai";
+import type { ChatMessage } from "@heyputer/puter.js";
 import { AvailableLLMModels, LLMModel } from "@/constants/chat";
 import type { FallbackModel, FallbackState } from "@/types/Chat.types";
 

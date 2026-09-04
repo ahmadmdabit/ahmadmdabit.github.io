@@ -1,7 +1,7 @@
 import { useRef, useCallback, useState, useEffect } from "react";
 import puter from "@heyputer/puter.js";
 import type { UsageInfo, CompactionJob } from "../types/Chat.types";
-import type { ChatOptions } from "@heyputer/puter.js/types/modules/ai";
+import type { ChatOptionsWithSignal } from "@heyputer/puter.js";
 import {
   CompactionThresholdRatio,
   CompactionMaxRetries,
@@ -146,7 +146,7 @@ SUMMARY:`;
             { signal } as ChatFallbackOptions,
             fallbackStateRef.current,
           )
-          : await puter.ai.chat(messages, { model, signal } as ChatOptions);
+          : await puter.ai.chat(messages, { model, signal } as ChatOptionsWithSignal);
 
         const summaryText =
           typeof response === "string"

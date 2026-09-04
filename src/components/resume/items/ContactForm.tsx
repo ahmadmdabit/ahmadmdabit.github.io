@@ -9,7 +9,6 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ErrorIcon from "@mui/icons-material/Error";
 import { PrivacyAccordion } from "@/components/resume/items/PrivacyAccordion";
 
-
 export const ContactForm: React.FC = memo(() => {
   const { t } = useTranslation();
   const [name, setName] = useState("");
@@ -102,7 +101,7 @@ export const ContactForm: React.FC = memo(() => {
           required 
         />
 
-        <Box pt={1}>
+        <Box pt={1} >
           <PrivacyAccordion
             privacyNoticeConfirm={privacyNoticeConfirm}
             onPrivacyConfirmChange={handlePrivacyConfirmChange}

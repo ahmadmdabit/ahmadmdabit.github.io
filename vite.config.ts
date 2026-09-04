@@ -26,9 +26,18 @@ export default defineConfig({
         //     return 'vendor';
         //   }
         // },
-        chunkFileNames: 'chunks/[name].[hash].js',
-        entryFileNames: 'entries/[name].[hash].js',
-        assetFileNames: 'assets/[name].[hash].[ext]',
+        chunkFileNames: 'assets/scripts/chunks/[name].[hash].js',
+        entryFileNames: 'assets/scripts/entries/[name].[hash].js',
+        assetFileNames: (assetInfo: { name?: string }) => {
+          const name = assetInfo.name || '';
+          if (/\.(woff2?|ttf|eot)$/i.test(name)) {
+            return 'assets/fonts/[name].[hash].[ext]';
+          }
+          if (/\.css$/i.test(name)) {
+            return 'assets/styles/[name].[hash].[ext]';
+          }
+          return 'assets/imgs/[name].[hash].[ext]';
+        },
       }
     }
   }

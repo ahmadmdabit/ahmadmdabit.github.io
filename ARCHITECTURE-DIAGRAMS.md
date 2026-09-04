@@ -62,12 +62,15 @@ graph TB
 
 ```mermaid
 graph TD
-    App["App.tsx\nOutlet + Loading"]
+    App["App.tsx\nOutlet + Loading + Footer"]
     Router["router.tsx\nRoutes Config"]
 
     subgraph "Pages"
         HomePage["HomePage.tsx"]
         PrivacyPage["PrivacyPage.tsx"]
+        PrivacyContent["PrivacyContent.tsx\nPaper layout wrapper"]
+        PrivacySections["PrivacySections\nShared privacy blocks"]
+        TermsOfServicePage["TermsOfServicePage.tsx"]
         ErrorPage["ErrorPage.tsx"]
     end
 
@@ -96,7 +99,6 @@ graph TD
         BoldedKeyword["BoldedKeyword"]
         AnimatedBadge["AnimatedBadge"]
         BoldedText["BoldedText"]
-        ReplacePlaceholders["ReplacePlaceholders"]
     end
 
     subgraph "Resume Sections"
@@ -126,6 +128,7 @@ graph TD
     App --> Router
     Router --> HomePage
     Router --> PrivacyPage
+    Router --> TermsOfServicePage
     Router --> ErrorPage
 
     HomePage --> ActivityBar
@@ -157,6 +160,9 @@ graph TD
     ContactSection --> ContactList
     ContactSection --> ContactForm
     ContactSection --> PrivacyAccordion
+    PrivacyAccordion --> PrivacySections
+    PrivacyPage --> PrivacyContent
+    PrivacyContent --> PrivacySections
 
     ChatPopup --> StatusIndicator
     ChatPopup --> CloseButton
@@ -248,7 +254,7 @@ flowchart TD
     CallLLM2 --> StreamLoop2["Stream Final Response\nSame parsing logic"]
     StreamLoop2 --> PersistMsg
 
-    PersistMsg --> CompactCheck["checkAndEnqueueCompaction\nREAL token usage:\nprompt + input_cache_read\n> 75% of 131K?"]
+    PersistMsg --> CompactCheck["checkAndEnqueueCompaction\nREAL token usage:\nprompt + input_cache_read\n> 75% of active window?"]
     CompactCheck -->|Yes| EnqueueJob["Enqueue Compaction Job\nqueueMicrotask"]
     CompactCheck -->|No| Ready
 
@@ -289,7 +295,7 @@ sequenceDiagram
     ChatPopup->>Token: Accumulate prompt + input_cache_read
     ChatPopup->>ChatPopup: checkAndEnqueueCompaction(history)
 
-    alt Tokens > 75% of 131K (~98K)
+    alt Tokens > 75% of active window
         ChatPopup->>Queue: Enqueue CompactionJob\n{id, history, resolve, reject, attempt: 0}
         ChatPopup->>ChatPopup: queueMicrotask(processCompactionQueue)
 
@@ -323,7 +329,7 @@ sequenceDiagram
 
 ---
 
-## 5. Document Loading & Indexing Pipeline
+## 5. Document Loading & Indexing Workflow
 
 ```mermaid
 flowchart LR
@@ -442,9 +448,11 @@ flowchart TD
 graph TD
     Router["createBrowserRouter App Layout"]
 
-    App["App\nOutlet + Loading"]
+    App["App\nOutlet + Loading + Footer"]
 
-    Root["path: /\nchildren: HomePage"]
+    Root["path: /\nredirect to DEFAULT_LOCALE"]
+
+    LocaleRoot["path: /:locale\nloader: validateLocale\ninvalid -> redirect /en"]
 
     HomePage["HomePage\nActivityBar + StatusBar +\nPaper + Outlet +\nChatPopup"]
 
@@ -459,14 +467,14 @@ graph TD
         Contact["path: contact\nContactSection"]
     end
 
-    ContactPrivacy["Contact children\npath: empty\nPrivacyPage isPlainText true"]
-
-    Privacy["path: privacy\nPrivacyPage isPlainText false"]
+    Privacy["path: privacy\nPrivacyPage"]
+    Terms["path: terms\nTermsOfServicePage"]
     Error["errorElement\nErrorPage"]
 
     Router --> App
     App --> Root
-    Root --> HomePage
+    App --> LocaleRoot
+    LocaleRoot --> HomePage
     HomePage --> About
     HomePage --> Skills
     HomePage --> Experience
@@ -475,9 +483,9 @@ graph TD
     HomePage --> Certifications
     HomePage --> Languages
     HomePage --> Contact
-    Contact --> ContactPrivacy
-    Root --> Privacy
-    Root -.->|errors| Error
+    LocaleRoot --> Privacy
+    LocaleRoot --> Terms
+    LocaleRoot -.->|errors| Error
 ```
 
 ---
@@ -570,7 +578,7 @@ sequenceDiagram
     ChatPopup->>Compaction: checkAndEnqueueCompaction
 
     Compaction->>TokenRef: read prompt + inputCacheRead
-    Compaction->>Compaction: threshold = 131000 * 0.75
+    Compaction->>Compaction: threshold = activeModel.contextWindow * 0.75\n(fallback-aware, not a static constant)
 
     alt prompt + inputCacheRead > threshold
         Compaction->>Compaction: enqueue job via queueMicrotask
@@ -597,7 +605,7 @@ flowchart TD
 
     subgraph "Build"
         LocaleFiles["locales/en/translation.json\nlocales/tr/translation.json"]
-        SchemaValidation["translation.schema.ts\nZod validation\ntype-safe keys"]
+        SchemaValidation["translation.schema.ts\nshape-mirror object\ntype-safe keys (no zod)"]
         HashLocale["scripts/hash-locale.mjs\nSHA1 combined content\nto VITE_LOCALE_HASH"]
         ViteConfig["vite.config.ts\ndefine: VITE_LOCALE_HASH"]
     end
@@ -607,7 +615,7 @@ flowchart TD
         I18nConfig["i18n.init\nHttpBackend + LanguageDetector\nload: languageOnly"]
         LoadPath["backend.loadPath\n/locales/lng/translation.json?v=VITE_LOCALE_HASH"]
         DetectLang["LanguageDetector\nnavigator.language to en/tr"]
-        Fallback["fallbackLng:\nVITE_LOCALE_DEFAULT"]
+        Fallback["fallbackLng:\nDEFAULT_LOCALE"]
     end
 
     subgraph "Runtime - Usage"
@@ -642,6 +650,7 @@ graph TB
         LazyPII["Lazy PII Hydration\nisContactInfoQuery check\nstripPIIFromResume"]
         FAQFilter["FAQ EXTERNAL Filter\nCommented guard in\nchunkFAQDocument"]
         ToolValidation["Tool Call Validation\nComplete tool_use only\nValidated at stream time"]
+        ChatConsent["Explicit Chat Consent\nsessionStorage checkbox\ngates first send"]
     end
 
     subgraph "Stream Security"
@@ -660,11 +669,12 @@ graph TB
     end
 
     subgraph "Content Security"
-        CSP["CSP Meta Tag\ndefault-src 'self'\nconnect-src: Puter.ai, GetForm\nstyle-src: Google Fonts\nscript-src: 'self'"]
+        CSP["CSP Meta Tag\ndefault-src 'self'\nconnect-src: Puter.ai, Getform/Forminit\nstyle-src: Google Fonts\nscript-src: 'self'"]
     end
 
     UserQuery["User Message"] --> LazyPII
     UserQuery --> ToolValidation
+    UserQuery --> ChatConsent
     StreamChunks["Puter.js Stream"] --> ReasoningDrop
     StreamChunks --> AbortControl
     LLMResponse["Raw LLM Output"] --> DOMPurifyConfig
@@ -679,32 +689,34 @@ graph TB
 
 ---
 
-## 12. Build & Deployment Pipeline
+## 12. Build & Deployment Workflow
 
 ```mermaid
 flowchart LR
     Dev["yarn dev\nVite Dev Server\nHMR + TypeScript"]
 
-    TypeCheck["yarn typecheck\ntsc --noEmit"]
-    HashLocale["yarn hash:locale\nscripts/hash-locale.mjs\nSHA1 to .env"]
-    Build["yarn build\nTypecheck -> Hash -> vite build"]
-    Lint["yarn build:lint\neslint + build"]
+    TscB["tsc -b\nProject references build"]
+    HashLocales["yarn hash-locales\nscripts/hash-locale.mjs\nSHA1 to .env"]
+    UpdateSitemap["node scripts/update-sitemap.mjs\nlastmod to today\nskips yearly entries"]
+    ViteBuild["vite build\nHashed assets\nassets/scripts|fonts|styles|imgs"]
+    Prerender["node scripts/prerender.mjs\nparallel workers (CPU-1)\nvite preview + gs-pro-cli --full-html\n20 routes en+tr\nwatchdog + retry + CDP tab sweep"]
     Deploy["yarn deploy\ngh-pages -d dist"]
 
     subgraph "GitHub Pages"
         GHAction["GitHub Pages Deployment\n404.html SPA fallback\nbase: /"]
     end
 
-    Dev --> TypeCheck
-    TypeCheck --> HashLocale
-    HashLocale --> Build
-    Build --> Lint
-    Lint --> Deploy
+    Dev --> TscB
+    TscB --> HashLocales
+    HashLocales --> UpdateSitemap
+    UpdateSitemap --> ViteBuild
+    ViteBuild --> Prerender
+    Prerender --> Deploy
     Deploy --> GHAction
 
     %% Key outputs
-    Build --> Dist["dist/\nindex.html\nassets/\nlocales/\nchunks/"]
-    HashLocale --> EnvFile[".env\nVITE_LOCALE_HASH\nVITE_ASSET_HASH"]
+    ViteBuild --> Dist["dist/\nindex.html\nassets/\nlocales/\nchunks/"]
+    HashLocales --> EnvFile[".env\nVITE_LOCALE_HASH\nVITE_ASSET_HASH"]
 ```
 
 ---
@@ -715,6 +727,7 @@ flowchart LR
 graph TD
     subgraph "HomePage State"
         ChatOpen["chatOpen: boolean\ntoggleChat"]
+        ChatConsent["chatConsent: boolean\nsessionStorage gate\nfirst message blocked"]
         I18nLang["i18n.language\nfrom i18n instance"]
     end
 
@@ -754,11 +767,12 @@ graph TD
     end
 
     subgraph "Derived/UI State"
-        UsagePercent["getUsagePercent\n(prompt + cache) / 131k * 100"]
+        UsagePercent["getUsagePercent\n(prompt + cache) / activeWindow * 100"]
         UsageColor["getUsageColor\nsafe/warning/danger"]
     end
 
     ChatOpen --> ChatPopup
+    ChatConsent --> Messages
     I18nLang --> LoadedDocs
     LoadedDocsRef --> LoadedDocs
     SearchIndexRef --> SearchIndex
@@ -805,8 +819,9 @@ graph TD
 ```mermaid
 graph LR
     subgraph "ChatPopup (Presentational)"
-        SendBtn["Send Button\nIconButton + Enter key (IME safe)"]
-        Input["TextField\nmultiline, maxRows=3"]
+        SendBtn["Send Button\nconsent-gated handleSend"]
+        Input["TextField\nmultiline, maxRows=3\nconsent-gated Enter wrapper"]
+        ConsentBox["Consent Checkbox\nsessionStorage persist\nblocks first message"]
         StopBtn["Stop Button\nIconButton"]
         MsgList["Messages.map -> Box + Paper +\nMarkdownRenderer"]
         UsageInd["UsageIndicator\nToken counts, %, Model, Compaction"]
@@ -834,6 +849,7 @@ graph LR
 
     SendBtn --> UseConv
     Input --> UseConv
+    ConsentBox --> UseConv
     StopBtn --> UseConv
     UseConv --> UseDocIdx
     UseConv --> UseSearch

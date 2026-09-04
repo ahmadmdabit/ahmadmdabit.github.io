@@ -32,7 +32,7 @@ export const ContactList: React.FC<ContactListProps> = memo(({ contact }) => {
           <ListItemText
             primary={
               item.href ? (
-                <Link href={item.href} target="_blank" rel="noopener noreferrer" color="inherit">
+                <Link href={item.href} target="_blank" rel="noopener noreferrer" color="inherit" underline="none">
                   {item.text}
                 </Link>
               ) : (

@@ -1,9 +1,14 @@
-import { memo, useRef, useCallback } from "react";
+import React, { memo, useRef, useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useParams, Link } from "react-router";
+import { isLocale } from "@/i18n/locales";
 import { styled } from "@mui/material/styles";
 import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
+import Checkbox from "@mui/material/Checkbox";
 import CircularProgress from "@mui/material/CircularProgress";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormGroup from "@mui/material/FormGroup";
 import IconButton from "@mui/material/IconButton";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -11,6 +16,7 @@ import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
+import ErrorIcon from "@mui/icons-material/Error";
 import puter from "@heyputer/puter.js";
 import { StatusIndicator } from "@/atoms/StatusIndicator";
 import { CloseButton } from "@/atoms/CloseButton";
@@ -19,6 +25,7 @@ import ChatUsageIndicator from "@/atoms/ChatUsageIndicator";
 import { DocumentSources } from "@/constants/chat";
 import { CompactionThresholdRatio, CompactionMaxRetries, CompactionRetryBaseDelayMs } from "@/constants/chat";
 import { useKeyboardShortcuts, useDocumentIndex, useConversationHistory } from "@/hooks";
+import type { Message } from "@/types/Chat.types";
 
 puter.quiet = true;
 
@@ -51,10 +58,41 @@ const StyledChatPopupPaper = styled(Paper)(({ theme }) => ({
   },
 }));
 
+const MessageComponent: React.FC<{ message: Message }> = memo(({ message }) => {
+  const { t } = useTranslation();
+
+  return (
+    <Box sx={{ maxWidth: "90%", alignSelf: message.role === "user" ? "flex-end" : "flex-start" }}>
+      <Typography
+        variant="caption"
+        color="grey.400"
+      >
+        {message.role === "user" ? t("ui.chat.senderYou") : t("ui.chat.senderAssistant")}
+      </Typography>
+      <Paper
+        sx={{
+          px: 1.5,
+          py: 1,
+          mt: 0.5,
+          backgroundColor: "grey.700",
+          color: message.role === "user" ? "success.main" : "text.primary",
+          overflow: "auto",
+        }}
+      >
+        <MarkdownRenderer content={message.text} />
+      </Paper>
+    </Box>
+  );
+});
+
 export const ChatPopup: React.FC<{ open: boolean; onClose: () => void }> = memo(({ open, onClose }) => {
   const { t, i18n } = useTranslation();
   const currentLocale = i18n.language.startsWith("tr") ? "tr" : "en";
+  const { locale: localeParam } = useParams();
+  const locale = isLocale(localeParam) ? localeParam : "en";
   const inputRef = useRef<HTMLTextAreaElement>(null);
+  const [chatConsent, setChatConsent] = useState(() => sessionStorage.getItem("chatConsent") === "true");
+  const [chatConsentError, setChatConsentError] = useState(false);
 
   // Document indexing hook
   const { searchIndex, loadedDocuments, isIndexing, faqSearchIndexes } = useDocumentIndex({
@@ -65,6 +103,7 @@ export const ChatPopup: React.FC<{ open: boolean; onClose: () => void }> = memo(
 
   // Conversation history hook
   const { messages, draft, isLoading, isHistorySummarizing, tokenUsage, contextWindow, send, handleChange, handleKeyDown, handleStop, scrollContainerRef, bottomRef } = useConversationHistory({
+    hasConsent: chatConsent,
     locale: currentLocale,
     searchIndex,
     loadedDocuments,
@@ -82,12 +121,42 @@ export const ChatPopup: React.FC<{ open: boolean; onClose: () => void }> = memo(
   // when send callback identity changes (which happens when searchIndex, loadedDocuments, etc. change)
   const sendRef = useRef(send);
   sendRef.current = send;
-  const stableSend = useCallback(() => sendRef.current(), []);
+  const handleSend = useCallback(() => {
+    if (!chatConsent) {
+      setChatConsentError(true);
+      return;
+    }
+    setChatConsentError(false);
+    send();
+  }, [chatConsent, send]);
+
+  // Consent-gated Enter key for the chat input. The hook's handleKeyDown calls
+  // send() directly, so without this wrapper Enter would bypass the consent
+  // checkbox (defense in depth alongside the disabled-input + handleSend gates).
+  const handleInputKeyDown = useCallback((e: React.KeyboardEvent<HTMLDivElement | HTMLTextAreaElement>) => {
+    if (!chatConsent && messages.length === 0) {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        setChatConsentError(true);
+      }
+      return;
+    }
+    handleKeyDown(e);
+  }, [chatConsent, messages.length, handleKeyDown]);
+
+  const handleChatConsentChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const checked = e.target.checked;
+    setChatConsent(checked);
+    sessionStorage.setItem("chatConsent", String(checked));
+    if (checked) {
+      setChatConsentError(false);
+    }
+  }, []);
 
   // Keyboard shortcuts (Escape to close)
   useKeyboardShortcuts({
     onEscape: onClose,
-    onEnter: stableSend,
+    onEnter: handleSend,
     focusRef: inputRef,
     enabled: open,
   });
@@ -126,30 +195,19 @@ export const ChatPopup: React.FC<{ open: boolean; onClose: () => void }> = memo(
           sx={{ flex: 1, overflowY: "auto", p: 2 }}
           spacing={2}
         >
+          <MessageComponent
+            key={-1}
+            message={{
+              id: crypto.randomUUID(),
+              role: "assistant",
+              text: t("ui.chat.initialMessage"),
+            }}
+          />
           {messages.map((m) => (
-            <Box
+            <MessageComponent
               key={m.id}
-              sx={{ maxWidth: "90%", alignSelf: m.role === "user" ? "flex-end" : "flex-start" }}
-            >
-              <Typography
-                variant="caption"
-                color="grey.400"
-              >
-                {m.role === "user" ? t("ui.chat.senderYou") : t("ui.chat.senderAssistant")}
-              </Typography>
-              <Paper
-                sx={{
-                  px: 1.5,
-                  py: 1,
-                  mt: 0.5,
-                  backgroundColor: "grey.700",
-                  color: m.role === "user" ? "success.main" : "text.primary",
-                  overflow: "auto",
-                }}
-              >
-                <MarkdownRenderer content={m.text} />
-              </Paper>
-            </Box>
+              message={m}
+            />
           ))}
           <div ref={bottomRef} />
         </Stack>
@@ -173,6 +231,50 @@ export const ChatPopup: React.FC<{ open: boolean; onClose: () => void }> = memo(
             </Box>
           )}
 
+          {!chatConsent && messages.length === 0 && (
+            <Box sx={{ mb: 1.5 }}>
+              <FormGroup>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={chatConsent}
+                      onChange={handleChatConsentChange}
+                      size="small"
+                      sx={{ py: 0.5, height: "2.5rem" }}
+                      slotProps={{
+                        input: { "aria-label": t("ui.chat.consentRequired") },
+                      }}
+                    />
+                  }
+                  label={
+                    <Typography
+                      variant="caption"
+                      color="text.secondary"
+                    >
+                      {t("ui.chat.consentRequiredCheckbox")}{" "}
+                      <Link
+                        to={`/${locale}/privacy`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {t("ui.misc.footer.privacy")}
+                      </Link>
+                    </Typography>
+                  }
+                />
+              </FormGroup>
+              {chatConsentError && (
+                <Typography
+                  color="error"
+                  variant="caption"
+                  sx={{ display: "flex", alignItems: "center", gap: 0.5 }}
+                >
+                  <ErrorIcon fontSize="inherit" /> {t("ui.chat.consentError")}
+                </Typography>
+              )}
+            </Box>
+          )}
+
           <Box sx={{ display: "flex", gap: 1 }}>
             <TextField
               inputRef={inputRef}
@@ -183,10 +285,12 @@ export const ChatPopup: React.FC<{ open: boolean; onClose: () => void }> = memo(
               maxRows={3}
               value={draft}
               onChange={handleChange}
-              onKeyDown={handleKeyDown}
-              disabled={!open || isLoading || isIndexing}
+              onKeyDown={handleInputKeyDown}
+              disabled={!open || isLoading || isIndexing || (!chatConsent && messages.length === 0)}
               placeholder={
-                isIndexing ? t("ui.chat.pleaseWaitIndexingDocuments")
+                !chatConsent && messages.length === 0 ? t("ui.chat.consentRequired")
+                : isIndexing ?
+                  t("ui.chat.pleaseWaitIndexingDocuments")
                 : isLoading ?
                   t("ui.chat.loadingPlaceholder")
                 : t("ui.chat.placeholder")
@@ -194,8 +298,8 @@ export const ChatPopup: React.FC<{ open: boolean; onClose: () => void }> = memo(
             />
             {!isLoading && (
               <IconButton
-                onClick={send}
-                disabled={!draft.trim() || isLoading || isIndexing || !open}
+                onClick={handleSend}
+                disabled={!draft.trim() || isLoading || isIndexing || !open || (!chatConsent && messages.length === 0)}
                 aria-label={t("ui.chat.sendMessage")}
                 title={t("ui.chat.sendMessage")}
                 color="primary"

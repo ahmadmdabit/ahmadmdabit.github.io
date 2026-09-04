@@ -46,5 +46,6 @@ const AnimatedAvatar = styled(Avatar)(({ theme }) => ({
 }));
 
 export const PersonPhoto: React.FC<{ src?: string }> = memo(({ src }) => {
-  return <AnimatedAvatar src={src || `/PersonalPhoto.png?v=${import.meta.env.VITE_ASSET_HASH}`} />;
+  const fallback = `/assets/imgs/PersonalPhoto.png${import.meta.env.VITE_ASSET_HASH ? `?v=${import.meta.env.VITE_ASSET_HASH}` : ""}`;
+  return <AnimatedAvatar src={src || fallback} />;
 });

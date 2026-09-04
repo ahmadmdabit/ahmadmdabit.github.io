@@ -1,5 +1,5 @@
 import type { TFunction } from "i18next";
-import { SUPPORTED_LOCALES, type Locale } from "@/i18n/locales";
+import { SUPPORTED_LOCALES, DEFAULT_LOCALE, type Locale } from "@/i18n/locales";
 import type { LooseT } from "@/seo/types";
 import { SITE_URL, getOgImage } from "@/seo/constants";
 
@@ -12,7 +12,8 @@ export type RouteKey =
   | "certifications"
   | "languages"
   | "contact"
-  | "privacy";
+  | "privacy"
+  | "terms";
 
 interface RouteMetaConfig {
   titleKey: string;
@@ -66,6 +67,11 @@ export const PAGE_META: Record<RouteKey, RouteMetaConfig> = {
     descriptionKey: "ui.meta.description",
     ogType: "website",
   },
+  terms: {
+    titleKey: "ui.pages.terms",
+    descriptionKey: "ui.meta.description",
+    ogType: "website",
+  },
 };
 
 export function titleSuffix(t: TFunction): string {
@@ -106,7 +112,7 @@ export function buildFullMeta(
   }));
   hreflang.push({
     lang: "x-default",
-    href: `${SITE_URL}${pathname.replace(`/${locale}`, "") || "/"}`,
+    href: `${SITE_URL}/${DEFAULT_LOCALE}${pathname.replace(`/${locale}`, "") || "/"}`,
   });
 
   const breadcrumb: Array<{ name: string; href: string }> = [
