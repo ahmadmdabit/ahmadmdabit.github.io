@@ -45,7 +45,10 @@
         "percent": "Percent"
       },
       "sendMessage": "Send",
-      "stop": "Stop"
+      "stop": "Stop",
+      "consentRequired": "I consent to the processing of my personal data and messages by third-party AI providers as described in the Privacy Notice.",
+      "consentError": "You must consent to the Privacy Notice before sending messages.",
+      "consentRequiredCheckbox": "I have read and agree to the Privacy Notice and consent to the processing of my personal data by third-party AI providers."
     },
     "misc": {
       "returnToHomePage": "Return To Home Page",
@@ -57,7 +60,11 @@
       "privacyNoticeConfirmIntroductory": "Please read our Privacy Notice carefully before submitting the form.",
       "privacyNoticeConfirmIntroductorySub": "By checking the box below, you confirm that you have read and understood the Privacy Notice and agree to the processing of your personal data as described.",
       "microsoftCertified": "Microsoft Certified",
-      "microsoftCertification": "Azure Data Engineer Associate - 2025"
+      "microsoftCertification": "Azure Data Engineer Associate - 2025",
+      "footer": {
+        "privacy": "Privacy Notice",
+        "terms": "Terms of Service"
+      }
     },
     "buttons": {
       "downloadCV": "Download my CV",
@@ -76,7 +83,8 @@
       "certifications": "Certifications",
       "languages": "Languages",
       "contact": "Contact",
-      "privacy": "Privacy"
+      "privacy": "Privacy",
+      "terms": "Terms"
     },
     "meta": {
       "title": "Ahmet FATIHOGLU - Senior Software Developer and Software Architect",
@@ -781,22 +789,26 @@
   "privacy": {
     "title": "Privacy Notice",
     "updateDate": "Last updated",
+    "updateDateIso8601": "2026-09-02",
+    "updateDateRegional": "09/02/2026",
+    "updateDateLongForm": "September 2, 2026",
+    "version": "1.0",
     "sections": [
       {
         "title": "1. Who We Are",
-        "content": "This website (“we”, “our”, “us”) is operated by [Your Name / Company Name], based in [Your Country].  \nFor Turkey, we are the **Data Controller** under Law No. 6698 on the Protection of Personal Data (KVKK).  \nFor the EU/EEA, we are the **Data Controller** under the General Data Protection Regulation (GDPR)."
+        "content": "This website (“we”, “our”, “us”) is operated by Ahmet FATIHOGLU, based in Istanbul, Turkey.  \nFor Turkey, we are the **Data Controller** under Law No. 6698 on the Protection of Personal Data (KVKK).  \nFor the EU/EEA, we are the **Data Controller** under the General Data Protection Regulation (GDPR)."
       },
       {
         "title": "2. What Data We Collect",
-        "content": "When you submit a form on our website, we collect the information you provide, which may include:\n\n- Name\n- Email address\n- Any other details you choose to share in the message field\n\nWe do **not** use cookies or tracking technologies on this website."
+        "content": "We collect data when you:\n\n- **Submit a contact form**: Name, email, message\n- **Use the AI chat**: Your messages, document context (resume/projects/FAQ), conversation history (stored in browser session), and token usage metrics\n\nWe do **not** use cookies, tracking technologies, or analytics. We use browser localStorage to remember your language preference, and sessionStorage to persist your chat consent choice within a browsing session."
       },
       {
         "title": "3. How We Use Your Data",
-        "content": "We use your submitted information solely to:\n\n- Respond to your inquiries\n- Provide the services or information you requested\n- Maintain records of our communications"
+        "content": "We use your data to:\n\n- Respond to your inquiries via contact form\n- Process and respond to AI chat messages (sent to Puter.ai LLM API)\n- Summarize conversation history for context compaction (sent to Puter.ai)\n- Maintain chat session state during your visit"
       },
       {
         "title": "4. How Your Data is Processed",
-        "content": "Form submissions are securely transmitted to and processed by **Getform**, a third-party form backend service.  \nGetform stores your submission data on its servers and may process it in accordance with its own [Privacy Policy](https://getform.io/legal/privacy-policy).  \nWe have chosen Getform because it complies with industry-standard security practices."
+        "content": "**Static assets**: GitHub Pages (global CDN)  \n**Form data**: Forminit (EU/US) — [Privacy Policy](https://forminit.com/privacy-policy/) ● [Terms & Conditions](https://forminit.com/terms-conditions/)  \n**Chat messages**: Puter.ai (US) under Standard Contractual Clauses — [Privacy Policy](https://puter.com/privacy) ● [Terms of Service](https://puter.com/terms)  \n**Chat compaction**: Puter.ai (US) — conversation history sent for summarization  \n\nWe operate no servers. All data processing is handled by the above third-party processors.  \nOur form processor **Forminit** is the new name for Getform.io. The platform rebranded from Getform to Forminit in January 2026. All features, accounts, and data carried over — the service is the same, with a new name and continued improvements. Forminit has been operating since October 2015 and is used by companies including Burger King, Volkswagen, Toyota, Lidl, and CodeAcademy.  \nLearn more: [https://forminit.com](https://forminit.com)"
       },
       {
         "title": "5. Legal Basis for Processing",
@@ -804,19 +816,65 @@
       },
       {
         "title": "6. Data Retention",
-        "content": "We retain your personal data only as long as necessary to fulfill the purposes outlined above, unless a longer retention period is required by law."
+        "content": "We retain your personal data only as long as necessary to fulfill the purposes outlined above, unless a longer retention period is required by law.  \nChat session data is stored in your browser session only and is cleared when you close the browser tab. Your language preference persists via localStorage across sessions. Your chat consent choice is stored in sessionStorage and cleared when the browsing session ends."
       },
       {
         "title": "7. Your Rights",
-        "content": "Depending on your location, you may have the right to:\n\n- Access the personal data we hold about you\n- Request correction or deletion of your data\n- Withdraw your consent at any time\n- Object to processing or request restriction of processing\n- File a complaint with the relevant data protection authority\n\nFor Turkey, you may exercise your rights under **KVKK Article 11** by contacting us at [Your Contact Email]."
+        "content": "Depending on your location, you may have the right to:\n\n- Access the personal data we hold about you\n- Request correction or deletion of your data\n- Withdraw your consent at any time\n- Object to processing or request restriction of processing\n- Clear your chat history by refreshing the page\n- File a complaint with the relevant data protection authority\n\nFor Turkey, you may exercise your rights under **KVKK Article 11** by contacting us."
       },
       {
         "title": "8. International Data Transfers",
-        "content": "Your data may be transferred to and processed in countries outside your own, including the United States, where Getform's servers may be located.  \nWe ensure such transfers comply with applicable data protection laws."
+        "content": "Your data may be transferred to and processed in countries outside your own:\n\n- **Puter.ai** (US) — chat message processing and model fallback  \n- **Forminit** (EU/US) – form submission processing  \n\nWe rely on Standard Contractual Clauses (SCCs) for EU-US transfers and ensure compliance with applicable data protection laws including KVKK Board decisions on cross-border transfers."
       },
       {
-        "title": "9. Contact Us",
-        "content": "If you have any questions about this Privacy Notice or how we handle your data, please contact:  \n[Your Name / Company Name]  \nEmail: [Your Contact Email]  \nAddress: [Your Address]"
+        "title": "9. AI Chat Specifics",
+        "content": "When you use our AI chat:\n\n- Your messages and document context (resume, projects, FAQ) are sent to Puter.ai LLM API\n- We may route through multiple model providers for reliability\n- Conversation history is sent for background compaction when context limits are reached\n- No conversation data is used to train AI models\n- Chat data is session-only and cleared when you close the browser\n- **Special category data**: Do not share health, biometric, or political opinion data. If you do, you consent to its processing solely for responding to your inquiry."
+      },
+      {
+        "title": "10. Children's Privacy",
+        "content": "Our website is not directed to children under 13. We do not knowingly collect personal data from children. If you believe a child has provided us with personal data, please contact us for deletion."
+      },
+      {
+        "title": "11. Automated Decision-Making",
+        "content": "We do not use automated decision-making or profiling that produces legal or similarly significant effects."
+      },
+      {
+        "title": "12. Contact Us",
+        "content": "If you have any questions about this Privacy Notice or how we handle your data, please contact:  \n**Ahmet FATIHOGLU**  \nEmail: ahmet.fatihoglu.89@gmail.com  \nAddress: Istanbul, Turkey"
+      }
+    ]
+  },
+  "terms": {
+    "title": "Terms of Service",
+    "updateDate": "Last updated",
+    "updateDateIso8601": "2026-09-02",
+    "updateDateRegional": "09/02/2026",
+    "updateDateLongForm": "September 2, 2026",
+    "version": "1.0",
+    "sections": [
+      {
+        "title": "1. Terms of Use",
+        "content": "This website is published as Ahmet FATIHOGLU's personal portfolio. By using this site, you accept these terms."
+      },
+      {
+        "title": "2. Intellectual Property",
+        "content": "All content on this website (text, images, code, design) is protected by copyright. Unauthorized reproduction, distribution, or modification is prohibited."
+      },
+      {
+        "title": "3. Disclaimer",
+        "content": "Information on this website is provided \"as is\". The site owner makes no warranty regarding the accuracy, completeness, or timeliness of information."
+      },
+      {
+        "title": "4. AI Chat Service",
+        "content": "The AI chat feature on this site uses a third-party AI provider (Puter.ai). Before using the chat, you must explicitly consent to the processing of your personal data and messages by checking a consent checkbox. This consent is stored in your browser's sessionStorage and is cleared when you close the browser. AI responses are automatically generated and may contain errors. Users use AI responses at their own risk."
+      },
+      {
+        "title": "5. Governing Law",
+        "content": "These terms are governed by the laws of the Republic of Turkey. Disputes will be resolved in Istanbul courts."
+      },
+      {
+        "title": "6. Contact",
+        "content": "For questions about these terms: ahmet.fatihoglu.89@gmail.com"
       }
     ]
   }
