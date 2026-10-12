@@ -1,183 +1,120 @@
-# Ahmet FATİHOĞLU
+# Ahmet Fatihoğlu
 
-**E-posta:** ahmet.fatihoglu.89@gmail.com  
-**Telefon:** +90 543 838 0942  
-**Adres:** ÇEKMEKÖY, İSTANBUL, TÜRKİYE  
-**Web Sitesi:** https://ahmadmdabit.github.io
+**E-posta:** ahmet.fatihoglu.89@gmail.com - **Telefon:** +90 543 838 0942  
+**Adres:** İstanbul, Türkiye  
+**Web Sitesi:** https://ahmadmdabit.github.io - **LinkedIn:** https://linkedin.com/in/ahmetfatihoglu
 
-## PROFESYONEL ÖZET
+## Profesyonel Özet
 
-Kurumsal yazılımlar, ERP sistemleri, dağıtık sistemler, mikroservisler, web, masaüstü ve mobil uygulamaların tasarımı, geliştirilmesi ve yayına alınmasında 10 yılı aşkın deneyime sahip **Kıdemli Yazılım Geliştirici ve Yazılım Mimarı**.
+Ön uç ve arka uç mimarilerinde sağlam kurumsal platformlar ve ERP sistemleri geliştirme konusunda **10+ yıllık deneyime sahip Kıdemli Full-Stack Geliştirici ve Yazılım Mimarı**. C# ve .NET Core ile arka uç mühendisliğinde ileri düzey uzmanlık; modern tarayıcı ortamlarında (React) ve Node.js çalışma zamanlarında TypeScript ile derin ön uç ve sunucu tarafı yetkinliği. Docker ve Microsoft Azure kullanarak ölçeklenebilir, yüksek erişilebilirliğe sahip çözümler oluşturmak için SOLID Prensipleri, Clean Architecture, Domain-Driven Design (DDD) ve Command Query Responsibility Segregation (CQRS) uygulamalarında kanıtlanmış başarı. Mimari tasarımdan otomatik bulut dağıtımına kadar uçtan uca yazılım geliştirme yaşam döngüsünü (SDLC) yönetmede kanıtlanmış bir geçmiş.
 
-Güçlü C# ve .NET geçmişi; .NET Core, ASP.NET Core, ASP.NET MVC, Web API, Entity Framework Core, WCF, WPF ve WinForms teknolojilerini içerir. SOLID prensipleri (Single Responsibility, Open/Closed, Liskov Substitution, Interface Segregation, ve Dependency Inversion), Clean Architecture, Domain-Driven Design (DDD), Command Query Responsibility Segregation (CQRS), N-Tier mimarisi, API Gateway ve RESTful API desenlerini kullanarak çözüm mimarisi ve sistem tasarımı konularında deneyimlidir.
+## Teknik Beceriler
 
-RabbitMQ, MassTransit, Ocelot API Gateway, JWT kimlik doğrulama, SQL Server, PostgreSQL, MySQL, Redis, Docker, Microsoft Azure, CI/CD süreçleri, OpenTelemetry ve Serilog ile servis odaklı ve olay güdümlü (event-driven) arka uçlar (backend) oluşturma konusunda pratik deneyime sahiptir.
-
-TypeScript, JavaScript, React, Vue.js, Angular, HTML5, CSS3, Tailwind CSS, Material UI ile full-stack geliştirme ve Dart ve Flutter kullanarak platformlar arası (cross-platform) mobil geliştirme yetkinliği bulunmaktadır.
-
-Projeleri konsept, gereksinim analizi ve sistem tasarımından başlayarak full-stack uygulama, test, bulut dağıtımı, sürüm yönetimi, dokümantasyon, sorun giderme ve üretim desteğine kadar uçtan uca yönetme yeteneğiyle tanınır.
-
-**Microsoft Sertifikalı,** Azure Data Engineer Associate - 2025.
-
-## TEKNİK BECERİLER
-
-- **Programlama Dilleri:** C#, TypeScript, JavaScript, Kotlin, Java, PHP, C, C++, VB.NET
-- **Mimariler ve Tasarım Desenleri:** Microservices, Clean Architecture, Domain-Driven Design (DDD), CQRS, SOLID Prensipleri (SRP, OCP, LSP, ISP, DIP), N-Tier, MVVM, Zero-Allocation Architecture, Fine-Grained Reactivity, List Virtualization, Signal-Based Reactivity, Atomic Design
-- **.NET Ekosistemi:** ASP.NET Core, .NET Framework, ASP.NET MVC, Web API, Entity Framework Core, WCF, WPF, WinForms, P/Invoke / LibraryImport, AutoMapper, MediatR, Mediator.SourceGenerator, Polly, FluentValidation, CommunityToolkit.Mvvm, Hangfire
-- **Web ve Frontend:** React, Vue, Angular, RxJS, Node.js, Bun, Laravel, HTML5, CSS3, Tailwind CSS, MUI, SASS, Bootstrap, jQuery, Vite.js, WebPack, Gulp.js, Hyperscript, i18next, History API, React Router
-- **Backend ve API'ler:** RESTful API, gRPC, MassTransit, RabbitMQ, Ocelot (API Gateway), Swagger, JWT, Refit, JsonSchema.Net
-- **Veritabanları ve Önbellek (Cache):** Microsoft SQL Server, PostgreSQL, MySQL, SQLite, MongoDB, Cassandra, Redis
-- **Bulut, DevOps ve Altyapı:** Microsoft Azure (Virtual Machines, Storage, Functions, Blobs, File Share, Tables), Docker, MinIO, Heroku, CI/CD, Git, GitHub, SVN, Microsoft IIS, Apache HTTP Server, Microsoft Server, Ubuntu Server, Serilog, ZLogger, OpenTelemetry, VirtualBox, Windows Kernel API, GitHub Pages
-- **Test ve Kalite Güvencesi (QA):** NUnit, xUnit, Moq, FluentAssertions, Testcontainers, coverlet.collector, Bogus, WireMock.Net, Karma, Jasmine, Vitest, ESLint, Prettier, Husky, İçerik Güvenliği Politikası (CSP)
-- **Yapay Zeka, Arama ve API Entegrasyonu:** Claude, GPT, Google Gemini AI, YouTube API, GitHub Copilot, Ollama, OpenRouter, ElasticSearch, Lucene, MiniSearch, Chrome Extensions, Prompt Engineering, Context Engineering, Retrieval-Augmented Generation (RAG), Yapay Zeka Orkestrasyonu, Cline
+- **Programlama Dilleri:** C#, TypeScript, JavaScript, PHP, Kotlin, Java, C, C++, VB.NET
+- **Mimariler ve Desenler:** Mikroservisler, Clean Architecture, Domain-Driven Design (DDD), CQRS, SOLID Prensipleri (SRP, OCP, LSP, ISP, DIP), N-Katmanlı, MVVM, Sıfır Bellek Ayırma Mimarisi (Zero-Allocation Architecture), Atomic Design
+- **.NET Ekosistemi:** .NET Framework, ASP.NET Core, ASP.NET MVC, Web API, Entity Framework Core, WCF, WPF, WinForms, P/Invoke, AutoMapper, MediatR, Mediator.SourceGenerator, Polly, FluentValidation, CommunityToolkit.Mvvm, Hangfire
+- **Web ve Ön Uç:** React, Vue, Angular, RxJS, Node.js, Bun, Laravel, HTML5, CSS3, Tailwind CSS, MUI, SASS, Bootstrap, jQuery, Vite.js, WebPack, Gulp.js, Hyperscript, i18next, History API
+- **Arka Uç ve API'ler:** RESTful API, gRPC, MassTransit, RabbitMQ, Ocelot (API Gateway), Swagger, JSON Web Token (JWT), Refit, JsonSchema.Net
+- **Veritabanları ve Önbellekleme:** Microsoft SQL Server, PostgreSQL, MySQL, SQLite, MongoDB, Cassandra, Redis
+- **Bulut, DevOps ve Altyapı:** Microsoft Azure (Virtual Machines, Storage, Functions, Blobs, File Share, Tables), Docker, MinIO, Heroku, Sürekli Entegrasyon/Sürekli Dağıtım (CI/CD), Git, GitHub, SVN, Microsoft IIS, Apache HTTP Server, Microsoft Server, Ubuntu Server, Serilog, ZLogger, OpenTelemetry, VirtualBox, Windows Kernel API, GitHub Pages
+- **Test ve Kalite Güvencesi (QA):** NUnit, xUnit, Moq, FluentAssertions, Testcontainers, coverlet.collector, Bogus, WireMock.Net, Karma, Jasmine, Vitest, TestCafe, ESLint, Prettier, Husky, İçerik Güvenliği Politikası (CSP)
+- **Yapay Zeka, Arama ve API Entegrasyonu:** Claude, GPT, Gemini, YouTube API, GitHub Copilot, Ollama, OpenRouter, ElasticSearch, Lucene, MiniSearch, Chrome Uzantıları, Prompt Mühendisliği, Bağlam Mühendisliği, Retrieval-Augmented Generation (RAG), Yapay Zeka Orkestrasyonu, Cline
 - **Mobil ve Masaüstü:** Flutter, Dart, Ionic, Android, Electron.js
-- **Komut Satırı Araçları (CLI):** System.CommandLine, Commander.js, JSONPath
+- **CLI Araçları:** System.CommandLine, Commander.js, JSONPath
 - **Proje Yönetimi:** Jira, Asana, Slack
 
-## İŞ DENEYİMİ
+## Profesyonel Deneyim
 
-Yazılım mimarisi, bulut platformları ve full-stack mühendislik alanlarında 10 yılı aşkın uzmanlığı vurgulayan kronolojik kariyer geçmişi.
+### Kıdemli Yazılım Geliştirici ve Yazılım Mimarı - Freelancer - İstanbul, Türkiye (Uzaktan)
 
-### Kıdemli Yazılım Geliştirici ve Yazılım Mimarı - Freelancer, İstanbul, Türkiye, Uzaktan
+**08/2025 – Devam Ediyor**
 
-**07/2025 – Present**
+- SOLID prensipleri ve Clean Architecture, CQRS ve DDD ile uçtan uca .NET ve React/Angular TS çözümleri tasarladı ve teslim etti; eski monolitik yapıları mikroservislere taşıyarak pazara çıkış süresini %39, yayın sonrası hata yoğunluğunu ise %60 azalttı.
+- RAG ve otonom bir ajan katmanı ile React + Vite/Vitest kullanarak yapay zeka entegreli ön uç platformları geliştirdi; sorgu sonucu doğruluğunu %95'e kadar artırırken %85–%100 test kapsamını sürdürdü; duyarlı tarayıcı uzantıları aracılığıyla erişimi genişletti.
+- Çok aşamalı CI/CD hatları kurarak ve Docker ile konteynerleştirme uygulayarak yazılım teslimat yaşam döngüsünün tamamını otomatikleştirdi, üretim dağıtım süresini 15 dakikadan 3 dakikaya (%80) düşürdü.
 
-- Projelerin ilk konsept ve sistem tasarımından full-stack uygulamasına, bulut dağıtımına ve sürüm yönetimine kadar tüm süreçleri yönetilerek uçtan uca yazılım çözümleri tasarlandı ve teslim edildi.
-- Modüler, test edilebilir ve sürdürülebilir kod tabanları tasarlamak için SOLID prensipleri ve Clean Architecture uygulandı; servis katmanları genelinde tek sorumluluk (single-responsibility) sınırları zorunlu kılındı ve arayüz soyutlamaları (interface abstractions) ile bağımlılık enjeksiyonu (dependency injection) konteynerleri aracılığıyla bağımlılığın tersine çevrilmesi (dependency inversion) sağlandı.
-- .NET, DDD, MassTransit ve RabbitMQ kullanarak mikroservis mimarisiyle ölçeklenebilir arka uç sistemleri ve JWT ile güvence altına alınıp Ocelot API Gateway üzerinden yönlendirilen RESTful API'ler geliştirildi.
-- React.js, TypeScript, MUI ve Tailwind CSS kullanılarak modern ve duyarlı kullanıcı arayüzleri ile tarayıcı eklentileri geliştirildi; Vite ve Vitest içeren güçlü bir test altyapısı kurularak ve Google Gemini AI ile YouTube Data API'leri gibi üçüncü parti servisler entegre edilerek yüksek kod kalitesi güvence altına alındı.
-- CI/CD süreçleri (pipeline), Docker ile konteynerleştirme (containerization) ve OpenTelemetry ile Serilog kullanılarak gözlemlenebilirlik (observability) adımları uygulanarak uçtan uca bir DevOps yaşam döngüsü kuruldu ve otomatikleştirildi.
-
-### Yazılım Geliştirici - HİTİT BİLGİ TEKNOLOJİLERİ, İstanbul, Türkiye, Hibrit
+### Kıdemli Yazılım Geliştirici - HITIT BİLGİ TEKNOLOJİLERİ - İstanbul, Türkiye (Hibrit)
 
 **01/2024 – 07/2025**
 
-- İş birliğine dayalı bir yazılım geliştirme ekibinin parçası olarak şirketin temel ERP uygulamasının ve diğer iç sistemlerinin geliştirilmesine ve bakımına katkıda bulunuldu.
-- ASP.NET MVC, Web Services (WCF), ASP.NET Core, RESTful API, WinForms, DevExpress, MS SQL Server, React.js ve Flutter kullanılarak geliştirme yapıldı.
+- DevExpress ile ASP.NET Core, ASP.NET MVC, WCF ve WinForms kullanarak amiral gemisi Kurumsal Kaynak Planlama (ERP) platformu için temel kurumsal modüller ve iş mantığı geliştirdi, günlük işlem verimliliğini %5 artırdı.
+- ERP platformu genelinde operasyonel iş akışlarını kolaylaştırmak için RESTful API'leri kullanan 3 etkileşimli React.js ön uç modülü ve 3 platformlar arası Flutter mobil modülü geliştirdi.
+- Stok (Malzeme) Yöneti̇mi̇, Sipariş Yönetimi, Satın Alma Yönetimi, Sevk Yöneti̇mi̇, Toptan Satış Yönetimi, Perakende Satış Yönetimi, Maliyet Yönetimi ve Üretim Yönetimi'ni kapsayan modüllere katkıda bulundu ve bu modülleri teslim etti.
 
-### Yazılım Geliştirici - Freelancer, İstanbul, Türkiye, Uzaktan
+### Kıdemli Yazılım Geliştirici - Getron TR - İstanbul, Türkiye (Uzaktan)
 
-**11/2023 – 01/2024**
+**01/2023 – 12/2023**
 
-- En iyi pratikler takip edilerek WPF ve Konsol platformları kullanılarak C# .NET uygulamaları geliştirildi.
-- MVC deseni kullanılarak PHP Laravel ve Lumen framework'leri ile RESTful servisler ve web uygulamaları oluşturuldu.
-- MySQL ile veritabanı çözümleri tasarlandı ve yönetildi.
+- Eklenti mimarisi kullanarak C# (.NET Framework/.NET) ile otomatik kurumsal arka plan işleme motorları ve Windows Hizmetleri geliştirdi; bulut tabanlı kalıcılık için Azure Blobs, File Share, Tables ve MS SQL'i entegre ederek otomatik görev verimliliğini %5 artırdı.
+- Eski kodu yeniden düzenleyerek, bağımlılıkları yükselterek ve dependency injection benimseyerek eski .NET Framework 4.6.2 uygulamalarını .NET 7'ye modernize etti. Tekrarlanan bakım çabasını ~%10–15 azalttı, o dönem desteklenen çalışma zamanı yamaları, modern kriptografi ve varsayılan olarak güvenli yapılandırmalarla güvenliği artırdı ve hedeflenen kıyaslamalarda 1,5–2 kat daha yüksek verimlilik sağladı.
 
-### Yazılım Geliştirici - Getron TR, İstanbul, Türkiye, Uzaktan
-
-**01/2023 – 11/2023**
-
-- Windows Servisleri, WPF, Konsol uygulamaları ve n-Tier mimari projeleri dahil olmak üzere .NET Core ve .NET Framework kullanılarak C# .NET uygulamaları geliştirildi.
-- n-Tier mimarisi takip edilerek ASP.NET MVC web uygulamaları oluşturuldu.
-- Bulut tabanlı çözümler için Blobs, File Share, Tables ve MS SQL gibi Azure hizmetleri uygulandı.
-
-### Full-Stack Mühendisi - Freelancer, İstanbul, Türkiye, Uzaktan
+### Full-Stack Mühendisi - Freelancer - İstanbul, Türkiye (Uzaktan)
 
 **04/2020 – 12/2022**
 
-- n-Tier ve Mikroservis mimarileri takip edilerek ASP.NET Core, MVC, WinForms, WPF ve Konsol platformları kullanılarak C# .NET uygulamaları geliştirildi.
-- MVC deseni kullanılarak PHP Laravel ve Lumen framework'leri ile RESTful servisler ve web uygulamaları oluşturuldu.
-- MS SQL ve MySQL ile veritabanı çözümleri tasarlandı ve yönetildi.
+- C#, ASP.NET Core, MVC, WPF ve WinForms kullanarak uçtan uca web ve masaüstü uygulamaları geliştirdi; eski monolitik kod tabanlarını ölçeklenebilir Servis Odaklı Mimarilere (SOA) dönüştürdü.
+- Mobil ve İçerik Yönetim Sistemi (CMS) arka uçları için MySQL üzerinde Laravel/Lumen REST API'leri geliştirdi—kimlik doğrulama, profiller, bildirimler, uygulama içi satın alımlar, yayınlama, medya, Rol Tabanlı Erişim Kontrolü (RBAC)—ortalama API yanıt süresini %20 azalttı.
+- MySQL ve SQLite genelinde optimize edilmiş veritabanı şemaları ve ilişkisel indeksler tasarlayarak maliyetli tablo taramalarını azalttı ve sorgu performansını %45 artırdı.
 
-### Yazılım Geliştirici - SETCARD, İstanbul, Türkiye, Yerinde
+### Yazılım Geliştirme Uzmanı - SETCARD - İstanbul, Türkiye (Ofiste)
 
 **08/2018 – 03/2020**
 
-- İş birliğine dayalı bir yazılım geliştirme ekibinin parçası olarak şirketin temel ERP web uygulamasının ve diğer iç sistemlerinin geliştirilmesine ve bakımına katkıda bulunuldu.
-- ASP.NET WebForms, DevExpress ve MS SQL Server (Stored Procedure) kullanılarak geliştirme yapıldı.
+- 9 kişilik bir mühendislik ekibinde katkıda bulunarak, ASP.NET WebForms ve DevExpress kullanan kurumsal ölçekte Kurumsal Kaynak Planlama (ERP), Müşteri İlişkileri Yönetimi (CRM) ve Kart Yönetim Sistemi web uygulamalarını sürdürdü ve optimize etti; kart yaşam döngüsü, müşteri ve işyeri operasyonları genelinde kesintisiz işlem sürecini sağlamak için kritik iş darboğazlarını çözdü.
+- Ön ödemeli kart platformunda finansal raporlama için 30'dan fazla MS SQL Server saklı yordamı yazdı ve ince ayar yaptı; günlük kart yükleme ve toplu iş görevleri için idempotent yeniden deneme ve yeniden başlatma mantığı uygulayarak manuel kurtarma çabasını önemli ölçüde azalttı.
+- DevExpress Web Forms Controls'e geçerek, duyarlı çapraz cihaz erişimi için sunucu tarafı veri bağlama ve uyarlanabilir render uygulayarak eski bir ASP.NET WebForms finansal gösterge panelini modernize etti.
 
-### Full-Stack Geliştirici - Freelancer, İstanbul, Türkiye, Uzaktan
+### Full-Stack Geliştirici - Freelancer - İstanbul, Türkiye (Uzaktan)
 
-**10/2017 – 08/2018**
+**11/2017 – 07/2018**
 
-- Geliştirme yaşam döngüsünün tüm aşamalarında tam kapsamlı (full-stack) uygulamalar oluşturuldu ve bakımı yapıldı.
-- Duyarlı, tarayıcılar arası uyumlu web arayüzleri oluşturuldu.
-- Otomatik dağıtım için Heroku ve Azure gibi CI araçları kullanıldı.
-- BT desteği ve yazılım geliştirme danışmanlık hizmetleri sağlandı.
+- Yazılım geliştirme yaşam döngüsü (SDLC) boyunca uçtan uca full-stack web uygulamaları geliştirdi; PHP, Laravel ve MySQL üzerine kurulu arka uç hizmetleriyle JavaScript (ES6+), HTML5 ve CSS3 kullanarak duyarlı, tarayıcılar arası uyumlu arayüzler teslim etti.
+- Microsoft Azure ve Heroku kullanarak otomatik bulut dağıtım hatları uyguladı, manuel yazılım yayın süresini 10 dakikadan 3 dakikaya, yani %70 oranında azalttı.
 
-### Yazılım Geliştirici - Verisun Bilişim, İstanbul, Türkiye, Yerinde
+### Yazılım Geliştirici - Verisun Bilişim - İstanbul, Türkiye (Ofiste)
 
 **09/2015 – 10/2017**
 
-- Tam kapsamlı (full-stack) uygulamalar tasarlandı, analiz edildi, geliştirildi, test edildi, hataları ayıklandı ve bakımı yapıldı.
-- Projeye özgü teknolojiler kullanılarak standartlara uygun ve istenen işlevselliği sağlayan kodlar yazıldı.
-- Duyarlı, tarayıcılar arası uyumlu web arayüzleri oluşturuldu.
-- Entegre, ölçeklenebilir çözümler sunmak için Git, Slack, Asana ve Jira kullanılarak ekip üyeleriyle iş birliği yapıldı.
-- Sistem mühendisleri, geliştiriciler, proje yöneticileri ve analistlerle çalışıldı.
-- Proje gereksinimleri doğrultusunda gerekli dokümantasyon hazırlandı.
-- Web sunucularındaki sorunlar giderildi, yapılandırıldı ve gerekli modül ve eklentilerle genişletildi.
-- Uygulama veritabanları tasarlandı, modellendi, geliştirildi, yönetildi, yedeklendi ve dağıtıldı.
-- Yedekleme ve kurtarma stratejileri uygulandı.
-- Sanal makineler kuruldu, yapılandırıldı ve yönetildi.
-- İşletim sistemleri ve gerekli yazılımlar kuruldu, yapılandırıldı ve güncellendi.
-- Photoshop ve Illustrator görüntüleri HTML5 uygulamalarına dönüştürüldü.
-- Soruları yanıtlayarak ve teknik sorunları çözerek müşteri desteği sağlandı.
-- Uygulama işlevselliğini geliştirmek ve kullanıcı deneyimini optimize etmek için yenilikçi fikirlere katkıda bulunuldu.
+- 8 kişilik işlevler arası bir mühendislik ekibi içinde full-stack web uygulamaları ve istemci arayüzleri tasarladı ve sürdürdü; konseptten yayına kadar 13 üretim uygulaması teslim etmek için Git, Jira ve Asana'dan yararlandı.
+- İlişkisel veritabanı yaşam döngülerini ve web sunucularını (IIS, Apache) yönetti; kesintisiz erişilebilirliği sağlamak için yapılandırılmış şema yedeklemeleri, felaket kurtarma stratejileri ve sanal makine yapılandırmaları uyguladı.
+- Müşteri odaklı teknik çözümler ve mimari dokümantasyon sundu; 10 başarılı müşteri uygulaması yayını genelinde tasarım spesifikasyonlarını ölçeklenebilir üretim koduna dönüştürdü.
 
-## PROJECTS
+## Projeler
 
-Ek kişisel projelerimi de içeren çalışmalarımın tamamı [kendi web sitemde](https://ahmadmdabit.github.io) yer almaktadır.
+### Toplantı Sistemi (Meeting System)
 
-### [Distributed File Fragmentor](https://github.com/ahmadmdabit/DistributedFileFragmentor)
+- **Bağlantı:** https://github.com/ahmadmdabit/MeetingSystem
+- **Teknolojiler:** C#, .NET 9, ASP.NET Core, Clean Architecture, Entity Framework Core 9, SQL Server, Repository & Unit of Work Desenleri, Angular 20, TypeScript, RxJS, JWT, Hangfire, MinIO, Docker Compose, Testcontainers, NUnit, Moq, FluentAssertions, Karma, Jasmine, Swagger/OpenAPI
+- Repository/Unit of Work desenleriyle EF Core 9 ve SQL Server üzerinde .NET 9 Clean Architecture (Api, Business, Context, Model) ile tam kapsamlı bir toplantı sistemi tasarladı; RxJS vm$ görünüm modelleri ve JWT rota korumaları kullanan bağımsız bir Angular 20 ön ucu geliştirdi; tüm yığını Swagger/OpenAPI uç noktaları, sağlık kontrolü uç noktaları ve Bogus ile oluşturulmuş bir veri setiyle Docker Compose (tek komut) içinde çalıştırdı; gerçek bir SQL Server örneğine karşı 96 NUnit/Testcontainers arka uç testi ve 145 Karma/Jasmine ön uç birim testi ile test etti.
 
-- **Teknolojiler:** .NET 9, Clean Architecture, SOLID Principles, CQRS, EF Core 9, System.CommandLine, Resilience Patterns
-- .NET 9, Clean Architecture ve SOLID prensipleri kullanılarak büyük dosyaları parçalara ayıran, bunları birden fazla depolama sağlayıcısına (Dosya Sistemi, Veritabanı) dağıtan ve bütünlüğü SHA-256 ile doğrulayan dağıtık bir dosya depolama sistemi tasarlandı.
-- Kaynak üreten (source-generated) bir Mediator ile CQRS deseni uygulandı ve paralel işlemleri güvenli ve verimli bir şekilde yönetmek için izole DbContext kapsamlarına sahip sağlam bir toplu işleme (batch processing) sistemi geliştirildi.
-- Üstel geri çekilme (exponential backoff) ve devre kesici (circuit breaker) gibi ileri düzey dayanıklılık (resilience) desenleri entegre edildi ve path traversal gibi güvenlik zafiyetlerine karşı önlemler alındı.
+### Bildirim Sistemi (Notification System)
 
-### [Meeting System](https://github.com/ahmadmdabit/MeetingSystem)
+- **Bağlantı:** https://github.com/ahmadmdabit/NotificationSystem
+- **Teknolojiler:** .NET 10, Clean Architecture, CQRS, DDD, Mikroservisler, Ocelot API Gateway, ASP.NET Core MVC, Dapper, SQL Server, MassTransit, RabbitMQ, JWT, Docker, TUnit, ArchUnitNET, GitHub Actions
+- 8 projeli bir N-Katmanlı çözümü CQRS, DDD ve paylaşılan bir çekirdek (`DomainEvent`, `IRequest`, `IDomainEventDispatcher`) ile 22 projeli çok katmanlı bir Clean Architecture'a taşıyan bir .NET 10 mikroservis platformu tasarladı; her bir RabbitMQ olayını sessizce yok sayan bir değişim adlandırma kusurunu teşhis ederek gerçek broker entegrasyon koruması ile %100 teslimatı geri kazandırdı.
+- Mimari sapmayı derlemeyi bozan bir hataya dönüştüren 392 TUnit testi ve 15 ArchUnitNET kuralı ile kaliteyi güvence altına aldı; mutasyon testiyle kanıtlanan 2 Kritik hatayı (DI bağımlılık hatası, maskeleme atlatması) kapattı; GitHub Actions CI/CD aracılığıyla 0 uyarılı Release derlemesiyle Docker'laştırılmış root olmayan imajlar yayınladı.
 
-- **Teknolojiler:** .NET 9, Angular 20+, Clean Architecture, SOLID Principles, Docker, MinIO, Hangfire, Testcontainers, RxJS
-- Backend için .NET 9 Clean Architecture, SOLID prensipleri ve frontend için Angular 20+ Standalone Components kullanılarak full-stack ve konteynerize edilmiş bir toplantı yönetim sistemi tasarlandı.
-- Nesne depolama (object storage) için MinIO ve arka plan görevlerinin (background jobs) işlenmesi için Hangfire gibi servisler entegre edilerek, Docker Compose kullanılarak eksiksiz bir DevOps ortamı kuruldu.
-- Duyarlı ve öngörülebilir bir kullanıcı deneyimi oluşturmak amacıyla, bileşen durumunu (component state) deklaratif olarak yöneten, RxJS ile reaktif bir frontend geliştirildi.
-- Yüksek güvenilirlik sağlamak amacıyla, gerçek bir SQL Server örneği üzerinde entegrasyon testleri çalıştırmak için Testcontainers kullanılarak backend için sağlam bir test stratejisi oluşturuldu.
+### Kişisel Web Sitem: Kişisel Web Sitesi ve Yapay Zeka Sohbet Asistanı (RAG)
 
-### [Architectly](https://github.com/ahmadmdabit/architectly)
+- **Bağlantı:** https://github.com/ahmadmdabit/ahmadmdabit.github.io
+- **Teknolojiler:** SOLID Prensipleri, Atomic Design, React 19, TypeScript, MUI v7, React Router v7, i18next, puter.js, MiniSearch
+- `MiniSearch` üzerinde çift modlu SSS/diller arası erişim ile istemci tarafı bir RAG motoru, 20'den fazla model genelinde otomatik çoklu model yedeklemeli bir `puter.js` akışlı yapay zeka asistanı, aktif bağlam penceresinin %75'inde engellemeyen bağlam sıkıştırması ile üstel geri çekilme, gerçek sağlayıcı token telemetrisi, tembel PII hidrasyonu, katı İçerik Güvenliği Politikası (CSP) ve LLM'in aşırı iddiada bulunmasını önleyen 3 katmanlı bir sistem istemi içeren iki dilli (İngilizce/Türkçe) veri odaklı bir React 19 SPA geliştirdi.
 
-Yapay Zeka Destekli Döküman Üreticisi
+## Eğitim
 
-- **Teknolojiler:** SOLID Principles, TypeScript, Vite, Puter.js, i18next, IndexedDB, Signal-Based Reactivity, SCSS, WCAG 2.1 AA
-- Sadece istemci tarafında (client-only) çalışan, strict TypeScript, SCSS ve Vite üzerine kurulu, %100 yerel çalışan yapay zeka destekli bir BRD/PRD döküman üreticisi geliştirildi.
-- Uygulama arayüzü güncellemelerini koordine etmek için hafif sinyal primitifleri (`signal`, `computed`, `effect`) kullanan SolidJS tarzı özel bir reaktif durum yönetim (state management) sistemi tasarlandı.
-- IndexedDB (FIFO tahliye mekanizmalı 100 dökümana kadar) ve localStorage kullanan istemci taraflı kalıcılık (persistence) katmanı uygulandı; Puter.js yapay zeka çağrıları AbortController ile güvence altına alındı.
-- Odak tuzakları (focus trap), klavye navigasyonu ve dinamik RTL (sağdan sola) oluşturma özelliğine sahip çok dilli (EN/TR/AR) destek içeren, WCAG 2.1 AA standartlarıyla uyumlu erişilebilir bir arayüz tasarlandı.
+### Elektrik-Elektronik Mühendisliği Lisans Derecesi (Bilgisayar Mühendisliği)
 
-### [Kişisel Web Sitem](https://github.com/ahmadmdabit/ahmadmdabit.github.io)
+- Halep Üniversitesi - Elektrik ve Elektronik Mühendisliği Fakültesi - Halep, Suriye - 2014
 
-Kişisel Web Sitesi ve Yapay Zeka Asistanı (RAG)
+## Sertifikalar
 
-- **Teknolojiler:** SOLID Principles, Atomic Design, React 19, TypeScript, Material-UI (MUI) v7, React Router v7, puter.js, MiniSearch, CSP, GitHub Pages
-- Bileşen odaklı Atomic Design metodolojisi ve React Router v7 navigasyonu içeren, veri odaklı ve reaktif bir React 19 / TypeScript tek sayfa uygulaması (SPA) olarak kişisel portföy web sitesi tasarlandı ve geliştirildi.
-- Yapılandırılmış özgeçmiş ve SSS (FAQ) belgeleri üzerinde çalışan iki dilli (bilingual) bir tam metin arama dizini oluşturmak amacıyla `MiniSearch` kütüphanesini kullanan istemci taraflı (client-side) RAG sistemi tasarlandı.
-- `puter.js` entegrasyonu ile LLM akışını (streaming), araç çağırma (tool-calling) yeteneklerini, veri gizliliğini korumak için dinamik kişisel veri maskelemeyi (lazy PII hydration) ve gerçek zamanlı token kullanım göstergesini içeren yapay zeka asistanı geliştirildi.
-- Token sınır aşımı hatalarını önlemek amacıyla, geçmiş konuşma verilerini arka planda dinamik olarak özetleyen, üstel geri çekilme (exponential backoff) mekanizmasına sahip bloklamayan bir bağlam sıkıştırma kuyruğu (`queueMicrotask`) tasarlandı.
-- XSS vektörlerini engellemek için özelleştirilmiş `DOMPurify` HTML arındırma filtreleri ve katı İçerik Güvenliği Politikası (CSP) kuralları uygulanarak güvenlik altyapısı güçlendirildi; W3C ARIA erişilebilirlik standartlarına tam uyum sağlandı.
+- Microsoft Certified: Azure Data Engineer Associate - Microsoft - 2025  
+  Referans: https://learn.microsoft.com/en-us/users/ahmetfatiholu-7655/credentials/9c26f4cb26082be7
+- CompTIA Certified: A+ – CompTIA - 2010  
+  Referans: https://bit.ly/Certificate-APlus
 
-### [Notification System](https://github.com/ahmadmdabit/NotificationSystem)
-
-- **Teknolojiler:** .NET Core, Microservices Architecture, Ocelot API Gateway, Dapper, SQL Server, RESTful API
-- Kullanıcı ve bildirim işlevlerini bağımsız, ölçeklenebilir servislere ayıran bir mikroservis mimarisi kullanarak dağıtık bir sistem tasarladım ve uyguladım.
-- Frontend için tek ve birleşik bir giriş noktası sağlamak, istek yönlendirmeyi merkezileştirmek ve servis keşfini basitleştirmek amacıyla Ocelot kullanarak bir API Gateway yapılandırdım.
-- Servisler ve veritabanı arasında verimli iletişim sağlamak amacıyla, doğrudan SQL sorgu yürütme için Dapper ORM kullanarak yüksek performanslı bir veri erişim katmanı oluşturdum.
-
-## EĞİTİM
-
-Mühendislik, bilgisayar bilimleri temelleri ve teknik problem çözme alanlarında akademik nitelikler.
-
-### Elektrik ve Elektronik Mühendisliği Lisans Derecesi - Bilgisayar Mühendisliği
-
-**01/2007 – 01/2014**
-
-- Halep Üniversitesi, Elektrik ve Elektronik Mühendisliği Fakültesi, Halep, Suriye.
-
-## SERTİFİKALAR
-
-- **Azure Data Engineer Associate** (Microsoft) - 2025 - [Referans](https://learn.microsoft.com/en-us/users/ahmetfatiholu-7655/credentials/9c26f4cb26082be7)
-- **A+** (CompTIA) - 2010
-
-## DİLLER
+## Diller
 
 - **Türkçe** (Profesyonel)
 - **İngilizce** (Profesyonel)
-- **Arapça** (Anadil)
+- **Arapça** (Ana Dil)
