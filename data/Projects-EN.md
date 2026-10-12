@@ -16,6 +16,13 @@
 - Developed advanced management tools (process termination, elevation, inspection) with safeguards to maintain system stability and compliance.
 - Architected a modular, maintainable desktop solution using .NET WPF and MVVM, aligned with enterprise‑grade development practices and open‑sourced under MIT license.
 
+### NotificationSystem - [github.com/ahmadmdabit/NotificationSystem](https://github.com/ahmadmdabit/NotificationSystem)
+
+- **Technologies:** .NET 10, Microservices Architecture, Ocelot API Gateway, Dapper, SQL Server, RESTful API, Clean Architecture, CQRS, DDD, RabbitMQ, MassTransit, ArchUnitNET, Docker Compose
+- Designed and implemented a distributed system using a microservices architecture, separating user and notification functionalities into independent, scalable services. Enforced Clean Architecture, CQRS and DDD with ArchUnitNET architecture tests. Integrated RabbitMQ with MassTransit for domain event dispatch. Containerized with Docker Compose. MVC UI acts as BFF with service-account authentication. Idempotent notification delivery. 392 tests including integration tests.
+- Configured an API Gateway using Ocelot to provide a single, unified entry point, centralizing request routing and simplifying service discovery for the frontend.
+- Built a high-performance data access layer using the Dapper ORM for direct SQL query execution, ensuring efficient communication between services and the database.
+
 ### Meeting System - [github.com/ahmadmdabit/MeetingSystem](https://github.com/ahmadmdabit/MeetingSystem)
 
 - **Technologies:** .NET 9, Angular 20+, Clean Architecture, SOLID Principles, Docker, MinIO, Hangfire, Testcontainers, RxJS
@@ -81,7 +88,7 @@
 ### Aided - [github.com/ahmadmdabit/aided](https://github.com/ahmadmdabit/aided)
 
 - **Technologies:** SOLID Principles, JavaScript, TypeScript, Fine-Grained Reactivity, Web Workers, Vitest, TestCafe, Web Security (XSS)
-- Authored and published a minimal, zero-dependency JavaScript library (5.92kb) for building reactive user interfaces without a Virtual DOM, leveraging an ownership graph for automatic memory cleanup.
+- Authored and published a minimal, zero-dependency JavaScript library (6.34 kB) for building reactive user interfaces without a Virtual DOM, leveraging an ownership graph for automatic memory cleanup.
 - Engineered an asynchronous longest increasing subsequence (LIS) algorithm using **Web Workers** for non-blocking DOM reconciliation, alongside a high-performance, headless list virtualizer (`VirtualFor`).
 - Hardened library security with proactive XSS mitigations, implementing URL protocol blocking (e.g., rejecting `javascript:` on sensitive attributes), automatic event-handler binding validation, and strict tag-name validation.
 - Integrated a zero-overhead performance profiler, scheduler error isolation, and `createResource` cancellation utilizing `AbortSignal` API hooks.
@@ -89,8 +96,8 @@
 
 ### RepoAIfy - [github.com/ahmadmdabit/RepoAIfy](https://github.com/ahmadmdabit/RepoAIfy)
 
-- **Technologies:** C#, .NET 9, WPF, MVVM, .NET Class Library, .NET CLI, JSON, Git, Markdown
-- Architected and developed a dual-interface .NET 9 solution (WPF & CLI) to analyze and document large codebases, using the MVVM pattern to ensure a clean separation of concerns.
+- **Technologies:** C#, .NET 10, WPF, MVVM, .NET Class Library, .NET CLI, JSON, Git, Markdown, Clean Architecture, SOLID, Serilog
+- Architected and developed a dual-interface .NET 10 solution (WPF & CLI) to analyze and document large codebases, using the MVVM pattern to ensure a clean separation of concerns.
 - Implemented a dynamic, real-time file filtering system with an interactive tree view and cancellable tasks for a responsive and seamless user experience.
 - Engineered an automated output chunking feature to split large code analyses into manageable Markdown files, optimizing them for AI model consumption and review.
 
@@ -99,7 +106,7 @@
 - **Technologies:** React 19, TypeScript, Tailwind CSS, Vite, Vitest, Chrome Manifest V3, Google Gemini AI
 - Developed a Chrome extension featuring a multi-step AI pipeline using Google's Gemini AI to perform complex operations on browser tabs, including summarization, translation, and custom data extraction.
 - Engineered a modern, responsive user interface with React 19 and Tailwind CSS, featuring real-time task status updates and the ability to synthesize data from multiple tabs into a single output.
-- Established a professional, scalable development environment with a strict testing framework (Vitest, React Testing Library) and automated code quality checks using ESLint, Prettier, and Husky git hooks.
+- Established a professional, scalable development environment with a strict testing framework (Vitest, Native React DOM Testing Utilities) and automated code quality checks using ESLint, Prettier, and Husky git hooks. 135 tests, 92.67% coverage.
 
 ### e-store - [github.com/ahmadmdabit/e-store](https://github.com/ahmadmdabit/e-store)
 
@@ -107,13 +114,6 @@
 - Architected a full-stack e-commerce application on .NET 6, implementing a scalable N-Tier design to cleanly separate the Data Access (DAL), Business Logic (BLL), and API layers.
 - Implemented a secure RESTful backend API featuring JWT-based authentication to protect user data and manage application access, fully documented with Swagger.
 - Developed a complete user-facing application using ASP.NET Core MVC and Razor Views, integrating core e-commerce features like a product catalog, shopping cart, and order processing.
-
-### NotificationSystem - [github.com/ahmadmdabit/NotificationSystem](https://github.com/ahmadmdabit/NotificationSystem)
-
-- **Technologies:** .NET Core, Microservices Architecture, Ocelot API Gateway, Dapper, SQL Server, RESTful API
-- Designed and implemented a distributed system using a microservices architecture, separating user and notification functionalities into independent, scalable services.
-- Configured an API Gateway using Ocelot to provide a single, unified entry point, centralizing request routing and simplifying service discovery for the frontend.
-- Built a high-performance data access layer using the Dapper ORM for direct SQL query execution, ensuring efficient communication between services and the database.
 
 ### SinavOlusturma (Exam Management System) - [github.com/ahmadmdabit/SinavOlusturma](https://github.com/ahmadmdabit/SinavOlusturma)
 

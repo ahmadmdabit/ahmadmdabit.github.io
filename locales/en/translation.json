@@ -1,7 +1,7 @@
 {
   "portfolio": {
-    "fullName": "Ahmet FATIHOGLU",
-    "role": "Senior Software Developer and Software Architect"
+    "fullName": "Ahmet Fatihoglu",
+    "role": "Senior Full-Stack Developer and Software Architect"
   },
   "ui": {
     "headings": {
@@ -87,32 +87,32 @@
       "terms": "Terms"
     },
     "meta": {
-      "title": "Ahmet FATIHOGLU - Senior Software Developer and Software Architect",
-      "description": "Ahmet FATIHOGLU - Senior Software Developer and Software Architect Portfolio. Showcasing full-stack web, desktop, and mobile development projects with expertise in C# .NET, React, and cloud technologies.",
-      "author": "Ahmet FATIHOGLU",
-      "keywords": "Ahmet FATIHOGLU, Senior Software Developer and Software Architect, Architect, C#, TypeScript, JavaScript, Kotlin, Java, PHP, C, C++, VB.NET, .NET Ecosystem, ASP.NET Core, ASP.NET MVC, .NET Framework, Web API, Entity Framework Core, WCF, WPF, WinForms, Domain-Driven Design, DDD, CQRS, Microservices, Clean Architecture, React, Vue, Angular, Node.js, Laravel, HTML5, CSS3, Tailwind CSS, MUI, RESTful API, gRPC, MassTransit, RabbitMQ, Ocelot API Gateway, Swagger, JWT, PostgreSQL, MongoDB, Cassandra, Redis, Microsoft Azure, Docker, CI/CD, Git, GitHub, xUnit, Vitest, ESLint, Prettier, Google Gemini AI, YouTube API, Flutter, Dart, Ionic, Android",
+      "title": "Ahmet Fatihoglu - Senior Full-Stack Developer and Software Architect",
+      "description": "Ahmet Fatihoglu - Senior Full-Stack Developer and Software Architect Portfolio. Showcasing full-stack web, desktop, and mobile development projects with expertise in C# .NET, React, and cloud technologies.",
+      "author": "Ahmet Fatihoglu",
+      "keywords": "Ahmet Fatihoglu, Senior Full-Stack Developer and Software Architect, Architect, C#, TypeScript, JavaScript, Kotlin, Java, PHP, C, C++, VB.NET, .NET Ecosystem, ASP.NET Core, ASP.NET MVC, .NET Framework, Web API, Entity Framework Core, WCF, WPF, WinForms, Domain-Driven Design, DDD, CQRS, Microservices, Clean Architecture, React, Vue, Angular, Node.js, Laravel, HTML5, CSS3, Tailwind CSS, MUI, RESTful API, gRPC, MassTransit, RabbitMQ, Ocelot API Gateway, Swagger, JWT, PostgreSQL, MongoDB, Cassandra, Redis, Microsoft Azure, Docker, CI/CD, Git, GitHub, xUnit, Vitest, ESLint, Prettier, Google Gemini AI, YouTube API, Flutter, Dart, Ionic, Android",
       "allRightsReserved": "All Rights Reserved ©"
     }
   },
   "resume": {
     "contactInfo": {
-      "name": "Ahmet FATIHOGLU",
-      "title": "Senior Software Developer and Software Architect",
+      "name": "Ahmet Fatihoglu",
+      "title": "Senior Full-Stack Developer and Software Architect",
       "email": "ahmet.fatihoglu.89@gmail.com",
       "phone": "+90 543 838 0942",
-      "address": "CEKMEKOY, ISTANBUL, TURKEY",
+      "address": "Istanbul, Turkey",
       "website": "https://ahmadmdabit.github.io",
       "github": "https://github.com/ahmadmdabit",
       "linkedin": "https://www.linkedin.com/in/ahmetfatihoglu"
     },
     "summary": {
-      "main": "Senior Software Developer and Software Architect with 10+ years of experience designing, developing, and deploying enterprise software, ERP systems, distributed systems, microservices, web applications, desktop applications, and mobile applications.",
+      "main": "Senior Full-Stack Developer and Software Architect with 10+ years of experience delivering robust enterprise platforms and ERP systems across front-end and back-end architectures. Advanced expertise in back-end engineering with C# and .NET Core, paired with deep front-end and server-side proficiency in TypeScript across modern browser environments (React) and Node.js runtimes. Demonstrated success implementing SOLID Principles, Clean Architecture, Domain-Driven Design (DDD), and Command Query Responsibility Segregation (CQRS) to build scalable, high-availability solutions utilizing Docker and Microsoft Azure. Proven track record directing the end-to-end software development lifecycle (SDLC) from architectural design through automated cloud deployment.",
       "highlights": [
         "Strong C# and .NET background, including .NET Core, ASP.NET Core, ASP.NET MVC, Web API, Entity Framework Core, WCF, WPF, and WinForms. Experienced in solution architecture and system design using SOLID principles (Single Responsibility, Open/Closed, Liskov Substitution, Interface Segregation, and Dependency Inversion), Clean Architecture, Domain-Driven Design (DDD), Command Query Responsibility Segregation (CQRS), N-Tier architecture, API Gateway, and RESTful API patterns.",
         "Hands-on experience building service-oriented and event-driven backends with RabbitMQ, MassTransit, Ocelot API Gateway, JWT authentication, SQL Server, PostgreSQL, MySQL, Redis, Docker, Microsoft Azure, CI/CD pipelines, OpenTelemetry, and Serilog.",
         "Full-stack development experience with TypeScript, JavaScript, React, Vue.js, Angular, HTML5, CSS3, Tailwind CSS, Material UI, and cross-platform mobile development using Dart and Flutter.",
         "Known for leading projects from concept, requirements analysis, and system design through full-stack implementation, testing, cloud deployment, release management, documentation, troubleshooting, and production support.",
-        "Microsoft Certified, Azure Data Engineer Associate - 2025."
+        "Microsoft Certified: Azure Data Engineer Associate - 2025."
       ]
     },
     "skills": [
@@ -142,7 +142,6 @@
           "MVVM",
           "Zero-Allocation Architecture",
           "Fine-Grained Reactivity",
-          "List Virtualization",
           "Signal-Based Reactivity",
           "Atomic Design"
         ]
@@ -158,7 +157,7 @@
           "WCF",
           "WPF",
           "WinForms",
-          "P/Invoke / LibraryImport",
+          "P/Invoke",
           "AutoMapper",
           "MediatR",
           "Mediator.SourceGenerator",
@@ -203,7 +202,7 @@
           "RabbitMQ",
           "Ocelot (API Gateway)",
           "Swagger",
-          "JWT",
+          "JSON Web Token (JWT)",
           "Refit",
           "JsonSchema.Net"
         ]
@@ -233,7 +232,7 @@
           "Docker",
           "MinIO",
           "Heroku",
-          "CI/CD",
+          "Continuous Integration/Continuous Deployment (CI/CD)",
           "Git",
           "GitHub",
           "SVN",
@@ -263,6 +262,7 @@
           "Karma",
           "Jasmine",
           "Vitest",
+          "TestCafe",
           "ESLint",
           "Prettier",
           "Husky",
@@ -274,7 +274,7 @@
         "items": [
           "Claude",
           "GPT",
-          "Google Gemini AI",
+          "Gemini",
           "YouTube API",
           "GitHub Copilot",
           "Ollama",
@@ -321,101 +321,76 @@
       {
         "role": "Senior Software Developer and Software Architect",
         "company": "Freelancer",
-        "duration": "07/2025 – Present",
-        "location": "Istanbul, Turkey, Online",
+        "duration": "08/2025 – Present",
+        "location": "Istanbul, Turkey (Remote)",
         "tasks": [
-          "Architected and delivered end-to-end software solutions, leading projects from initial concept and system design through to full-stack implementation, cloud deployment, and release management.",
-          "Applied SOLID principles and Clean Architecture to design modular, testable, and maintainable codebases, mandating single-responsibility boundaries across service layers and leveraging dependency inversion through interface abstractions and dependency injection containers.",
-          "Engineered scalable backend systems using a microservices architecture with .NET, DDD, MassTransit and RabbitMQ, and RESTful APIs secured by JWT and routed through an Ocelot API Gateway.",
-          "Developed modern, responsive user interfaces and browser extensions using React.js, TypeScript, MUI, and Tailwind CSS, ensuring high-quality code with a robust testing framework featuring Vite and Vitest and by integrating third-party services such as the Google Gemini AI and YouTube Data APIs.",
-          "Established and automated a complete DevOps lifecycle, implementing CI/CD pipelines, containerization with Docker, and observability with OpenTelemetry and Serilog."
+          "Architected and delivered full-stack .NET and React/Angular TS solutions with SOLID principles and Clean Architecture, CQRS, and DDD; migrated legacy monoliths to microservices, cut time-to-market by 39% and post-release defect density by 60%.",
+          "Built AI-integrated frontend platforms using React + Vite/Vitest with RAG and an autonomous agentic layer, raising query result accuracy up to 95% while sustaining 85%–100% test coverage; extended reach via responsive browser extensions.",
+          "Automated the complete software delivery lifecycle by establishing multi-stage CI/CD pipelines, containerization with Docker, reducing production deployment duration from 15 minutes down to 3 minutes / by 80%."
         ]
       },
       {
-        "role": "Software Developer",
+        "role": "Senior Software Developer",
         "company": "HİTİT BİLGİ TEKNOLOJİLERİ",
         "duration": "01/2024 – 07/2025",
-        "location": "Istanbul, Turkey, Hybrid",
+        "location": "Istanbul, Turkey (Hybrid)",
         "tasks": [
-          "Contributed to the development and maintenance of the company's core ERP application and other internal systems as part of a collaborative software development team.",
-          "Developed using ASP.NET MVC, Web Services (WCF), ASP.NET Core, DDD, CQRS, RESTful API, WinForms, DevExpress, MS SQL Server, React.js and Flutter."
+          "Engineered core enterprise modules and business logic for the flagship Enterprise Resource Planning (ERP) platform utilizing ASP.NET Core, ASP.NET MVC, WCF, and WinForms with DevOps, boosting daily processing efficiency by 5%.",
+          "Developed 3 interactive React.js front-end modules and 3 cross-platform Flutter mobile modules, consuming RESTful APIs to streamline operational workflows across the ERP platform.",
+          "Contributed and Delivered modules spanning Stock Management, Order Management, Procurement Management, Shipment Management, Wholesale Sales Management, Retail Sales Management, Cost Management, and Production Management."
         ]
       },
       {
-        "role": "Software Developer",
-        "company": "Freelancer",
-        "duration": "11/2023 – 01/2024",
-        "location": "Istanbul, Turkey, Online",
-        "tasks": [
-          "Developed C# .NET applications using WPF, and Console platforms, following the best practices.",
-          "Built RESTful services and web applications with PHP Laravel and Lumen frameworks using MVC pattern.",
-          "Designed and managed database solutions with MySQL."
-        ]
-      },
-      {
-        "role": "Software Developer",
+        "role": "Senior Software Developer",
         "company": "Getron TR",
-        "duration": "01/2023 – 11/2023",
-        "location": "Istanbul, Turkey, Online",
+        "duration": "01/2023 – 12/2023",
+        "location": "Istanbul, Turkey (Remote)",
         "tasks": [
-          "Developed C# .NET applications using .NET Core and .NET Framework, including Windows Services, WPF, Console apps, and n-Tier architecture projects.",
-          "Built ASP.NET MVC web applications following n-Tier architecture.",
-          "Implemented Azure services such as Blobs, File Share, Tables, and MS SQL for cloud-based solutions."
+          "Built automated enterprise background processing engines and Windows Services in C# (.NET Framework/.NET) using plugin architecture, integrating Azure Blobs, File Share, Tables, and MS SQL for cloud-based persistence, increasing automated task throughput by 5%.",
+          "Modernized legacy .NET Framework 4.6.2 applications to .NET 7 by refactoring legacy code, upgrading dependencies, and adopting dependency injection. Reduced recurring maintenance effort by ~10–15%, improved security through then-supported runtime patches, modern cryptography, and secure-by-default configurations, and 1.5–2x higher throughput in targeted benchmarks."
         ]
       },
       {
         "role": "Full-Stack Engineer",
         "company": "Freelancer",
         "duration": "04/2020 – 12/2022",
-        "location": "Istanbul, Turkey, Online",
+        "location": "Istanbul, Turkey (Remote)",
         "tasks": [
-          "Developed C# .NET applications using ASP.NET Core, MVC, WinForms, WPF, and Console platforms, following n-Tier and Microservices architectures.",
-          "Built RESTful services and web applications with PHP Laravel and Lumen frameworks using MVC pattern.",
-          "Designed and managed database solutions with MS SQL and MySQL."
+          "Built end-to-end web and desktop applications using C#, ASP.NET Core, MVC, WPF, and WinForms, transitioning legacy monolithic codebases into scalable Service-Oriented Architectures (SOA).",
+          "Engineered Laravel/Lumen REST APIs on MySQL for mobile and Content Management System (CMS) backends—auth, profiles, push, in-app purchases, publishing, media, Role-Based Access Control (RBAC)—reducing average API response time by 20%.",
+          "Designed optimized database schemas and relational indexes across MySQL and SQLite, reducing expensive table scans and improving query performance by 45%."
         ]
       },
       {
-        "role": "Software Developer",
+        "role": "Software Developer Specialist",
         "company": "SETCARD",
         "duration": "08/2018 – 03/2020",
-        "location": "Istanbul, Turkey, On-Site",
+        "location": "Istanbul, Turkey (On-Site)",
         "tasks": [
-          "Contributed to the development and maintenance of the company's core ERP web application and other internal systems as part of a collaborative software development team.",
-          "Developed using ASP.NET WebForms, DevExpress and MS SQL Server (Stored Procedure)."
+          "Contributed on a 9-person engineering team, maintained and optimized enterprise-scale Enterprise Resource Planning (ERP), Customer Relationship Management (CRM), and Card Management System web applications using ASP.NET WebForms and DevOps, resolving business-critical bottlenecks to ensure seamless transactional processing across card lifecycle, customer, and merchant operations.",
+          "Authored and tuned 30+ MS SQL Server stored procedures for financial reporting on a prepaid card platform; implemented idempotent retry and restart logic for daily card load and batch jobs, significantly reducing manual recovery effort.",
+          "Modernized a legacy ASP.NET WebForms financial dashboard by migrating to DevOps Web Forms Controls, implementing server-side data binding and adaptive rendering for responsive cross-device access."
         ]
       },
       {
         "role": "Full-Stack Developer",
         "company": "Freelancer",
-        "duration": "10/2017 – 08/2018",
-        "location": "Istanbul, Online",
+        "duration": "11/2017 – 07/2018",
+        "location": "Istanbul, Turkey (Remote)",
         "tasks": [
-          "Built and maintained full-stack applications through all stages of the development lifecycle.",
-          "Built responsive, cross-browser compatible web interfaces.",
-          "Utilized CI tools such as Heroku and Azure for automated deployment.",
-          "Provided IT support and software development consulting services."
+          "Engineered full-stack web applications across the entire software development lifecycle (SDLC), delivering responsive, cross-browser compatible interfaces using JavaScript (ES6+), HTML5, and CSS3, with back-end services built on PHP, Laravel, and MySQL.",
+          "Implemented automated cloud deployment pipelines using Microsoft Azure and Heroku, reducing manual software release turnaround time from 10 minutes to 3 minutes, a 70% reduction."
         ]
       },
       {
         "role": "Software Developer",
         "company": "Verisun Bilisim",
         "duration": "09/2015 – 10/2017",
-        "location": "Istanbul, Turkey, On-Site",
+        "location": "Istanbul, Turkey (On-Site)",
         "tasks": [
-          "Designed, analyzed, developed, tested, debugged and maintained full-stack applications.",
-          "Wrote code that meets standards and provides desired functionality using project-specific technologies.",
-          "Built responsive, cross-browser compatible web interfaces.",
-          "Collaborated with team members using Git, Slack, Asana, and Jira.",
-          "Worked with system engineers, developers, project managers, and analysts to deliver integrated, scalable solutions.",
-          "Prepared the necessary documentation in line with the project requirements.",
-          "Troubleshooted and configured web servers and extended them with necessary modules and plugins.",
-          "Designed, modeled, developed, managed, backed up and deployed application databases.",
-          "Implemented backup and recovery strategies.",
-          "Installed, configured and managed virtual machines.",
-          "Installed, configured and updated operating systems and necessary software.",
-          "Converted Photoshop and illustrator images into HTML5 applications.",
-          "Provided customer support by answering questions and resolving technical issues.",
-          "Contributed innovative ideas to enhance application functionality and optimize user experience."
+          "Designed and maintained full-stack web applications and client interfaces within a 8-member cross-functional engineering team, leveraging Git, Jira, and Asana to deliver 13 production applications from concept to release.",
+          "Administered relational database lifecycles and web servers (IIS, Apache), implementing structured schema backups, disaster recovery strategies, and virtual machine configurations to ensure continuous availability.",
+          "Delivered customer-focused technical solutions and architectural documentation, converting design specifications into scalable production code across 10 successful client application releases."
         ]
       }
     ],
@@ -455,6 +430,62 @@
           "Integrated tray enhancements and storage statistics modules for holistic monitoring and quick access to system metrics.",
           "Developed advanced management tools (process termination, elevation, inspection) with safeguards to maintain system stability and compliance.",
           "Architected a modular, maintainable desktop solution using .NET WPF and MVVM, aligned with enterprise‑grade development practices and open‑sourced under MIT license."
+        ]
+      },
+      {
+        "name": "Meeting System",
+        "url": "https://github.com/ahmadmdabit/MeetingSystem",
+        "technologies": [
+          "C#",
+          ".NET 9",
+          "ASP.NET Core",
+          "Clean Architecture",
+          "Entity Framework Core 9",
+          "SQL Server",
+          "Repository & Unit of Work Patterns",
+          "Angular 20",
+          "TypeScript",
+          "RxJS",
+          "JWT",
+          "Hangfire",
+          "MinIO",
+          "Docker Compose",
+          "Testcontainers",
+          "NUnit",
+          "Moq",
+          "FluentAssertions",
+          "Karma",
+          "Jasmine",
+          "Swagger/OpenAPI"
+        ],
+        "description": [
+          "Architected a full-stack meeting system with a .NET 9 Clean Architecture (Api, Business, Context, Model) on EF Core 9 and SQL Server with Repository/Unit of Work, an Angular 20 standalone frontend using RxJS vm$ view models and JWT route guards; the entire stack in Docker Compose (single command) with Swagger/OpenAPI endpoints, health-check endpoints, and a Bogus-seeded dataset; tested with 96 NUnit/Testcontainers backend tests against a real SQL Server instance and 145 Karma/Jasmine frontend unit tests."
+        ]
+      },
+      {
+        "name": "Notification System",
+        "url": "https://github.com/ahmadmdabit/NotificationSystem",
+        "technologies": [
+          ".NET 10",
+          "Clean Architecture",
+          "CQRS",
+          "DDD",
+          "Microservices",
+          "Ocelot API Gateway",
+          "ASP.NET Core MVC",
+          "Dapper",
+          "SQL Server",
+          "MassTransit",
+          "RabbitMQ",
+          "JWT",
+          "Docker",
+          "TUnit",
+          "ArchUnitNET",
+          "GitHub Actions"
+        ],
+        "description": [
+          "Architected a .NET 10 microservices platform migrating an 8-project N-Tier solution to a 22-project multi-layer Clean Architecture with CQRS, DDD, and a shared kernel (`DomainEvent`, `IRequest`, `IDomainEventDispatcher`); diagnosed an exchange-naming defect silently discarding every RabbitMQ event, restoring 100% delivery via a real-broker integration guard.",
+          "Enforced quality with 392 TUnit tests and 15 ArchUnitNET rules making architecture drift build-breaking; closed 2 Critical defects (DI dependency failure, redaction bypass) proven via mutation testing, shipped Dockerized non-root images via GitHub Actions CI/CD with a 0-warning Release build."
         ]
       },
       {
@@ -536,27 +567,6 @@
         ]
       },
       {
-        "name": "Meeting System",
-        "url": "https://github.com/ahmadmdabit/MeetingSystem",
-        "technologies": [
-          ".NET 9",
-          "Angular 20+",
-          "Clean Architecture",
-          "SOLID Principles",
-          "Docker",
-          "MinIO",
-          "Hangfire",
-          "Testcontainers",
-          "RxJS"
-        ],
-        "description": [
-          "Architected a full-stack, containerized meeting management system using .NET 9 Clean Architecture and SOLID Principles for the backend and Angular 20+ Standalone Components for the frontend.",
-          "Implemented a complete DevOps environment using Docker Compose, integrating services like MinIO for object storage and Hangfire for background job processing.",
-          "Developed a reactive frontend with RxJS, managing component state declaratively to create a responsive and predictable user experience.",
-          "Established a robust testing strategy for the backend using Testcontainers to run integration tests against a real SQL Server instance, ensuring high reliability."
-        ]
-      },
-      {
         "name": "Semantic Tool Router",
         "url": "https://github.com/ahmadmdabit/semantic-tool-router",
         "technologies": [
@@ -576,26 +586,21 @@
         ]
       },
       {
-        "name": "Personal Website & AI Chat Assistant (RAG)",
+        "name": "Personal Website: Personal Website & AI Chat Assistant (RAG)",
         "url": "https://github.com/ahmadmdabit/ahmadmdabit.github.io",
         "technologies": [
           "SOLID Principles",
           "Atomic Design",
           "React 19",
           "TypeScript",
-          "Material-UI (MUI) v7",
+          "MUI v7",
           "React Router v7",
+          "i18next",
           "puter.js",
-          "MiniSearch",
-          "CSP",
-          "GitHub Pages"
+          "MiniSearch"
         ],
         "description": [
-          "Designed and built a dynamic, responsive portfolio website as a data-driven React 19 and TypeScript single-page application (SPA) featuring Atomic Design methodology and React Router v7 navigation.",
-          "Engineered a client-side, production-grade Retrieval-Augmented Generation (RAG) system utilizing `MiniSearch` to build a bilingual full-text search index across structured resume and FAQ documents.",
-          "Developed a conversational AI assistant integration using `puter.js`, implementing streaming, tool-calling pipelines, lazy PII hydration for data privacy, and real-time token telemetry tracking.",
-          "Implemented a non-blocking context compaction queue (`queueMicrotask`) with exponential backoff retries to dynamically summarize conversation histories, avoiding token threshold overflows.",
-          "Hardened client-side security by implementing strict Content Security Policy (CSP) headers, hardened `DOMPurify` sanitizer controls to block XSS vectors, and ensured W3C ARIA accessibility compliance."
+          "Built a bilingual (EN/TR) React 19 data-driven SPA featuring a client-side RAG engine on `MiniSearch` with dual-mode FAQ/cross-locale retrieval, a `puter.js` streaming AI assistant with automatic multi-model fallback across 20+ models, non-blocking context compaction at 75% of the active context window with exponential backoff, real provider token telemetry, lazy PII hydration, strict Content Security Policy (CSP), and a 3-tier system prompt that prevents LLM over-claiming."
         ]
       },
       {
@@ -636,23 +641,6 @@
           "Designed a stateful background daemon mode utilizing platform-specific sockets (Unix Domain Sockets and Windows Named Pipes) to persist active sessions across CLI invocations.",
           "Engineered client-side policy guards (tool allowlists/denylists, resource access validation, and payload size restriction) alongside JSONPath filtering (`--select`) for response processing.",
           "Established a multi-platform release pipeline using Bun compiler and GitHub Actions to automate cross-compilation, signing, and integrity verification (SHA-256) for Windows, macOS, and Linux binaries."
-        ]
-      },
-      {
-        "name": "Notification System",
-        "url": "https://github.com/ahmadmdabit/NotificationSystem",
-        "technologies": [
-          ".NET Core",
-          "Microservices Architecture",
-          "Ocelot API Gateway",
-          "Dapper",
-          "SQL Server",
-          "RESTful API"
-        ],
-        "description": [
-          "Designed and implemented a distributed system using a microservices architecture, separating user and notification functionalities into independent, scalable services.",
-          "Configured an API Gateway using Ocelot to provide a single, unified entry point, centralizing request routing and simplifying service discovery for the frontend.",
-          "Built a high-performance data access layer using the Dapper ORM for direct SQL query execution, ensuring efficient communication between services and the database."
         ]
       },
       {
@@ -752,9 +740,9 @@
     ],
     "education": [
       {
-        "degree": "B.Sc. Electrical & Electronics Engineering - Computer Engineering",
-        "duration": "01/2007 – 01/2014",
-        "institution": "University of Aleppo, Faculty of Electrical and Electronics Engineering, Aleppo, Syria.",
+        "degree": "B.Sc. Electrical & Electronics Engineering (Computer Engineering)",
+        "duration": "",
+        "institution": "University of Aleppo - Faculty of Electrical and Electronics Engineering - Aleppo, Syria - 2014",
         "description": "Academic qualifications in engineering, computer science fundamentals, and technical problem-solving."
       }
     ],
@@ -768,7 +756,8 @@
       {
         "name": "A+",
         "issuer": "CompTIA",
-        "year": "2010"
+        "year": "2010",
+        "reference": "https://bit.ly/Certificate-APlus"
       }
     ],
     "languages": [

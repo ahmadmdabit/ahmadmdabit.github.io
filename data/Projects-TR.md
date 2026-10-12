@@ -32,6 +32,13 @@
 - Duyarlı ve öngörülebilir bir kullanıcı deneyimi oluşturmak amacıyla, bileşen durumunu (component state) deklaratif olarak yöneten, RxJS ile reaktif bir frontend geliştirildi.
 - Yüksek güvenilirlik sağlamak amacıyla, gerçek bir SQL Server örneği üzerinde entegrasyon testleri çalıştırmak için Testcontainers kullanılarak backend için sağlam bir test stratejisi oluşturuldu.
 
+### NotificationSystem - [github.com/ahmadmdabit/NotificationSystem](https://github.com/ahmadmdabit/NotificationSystem)
+
+- **Teknolojiler:** .NET 10, Microservices Architecture, Ocelot API Gateway, Dapper, SQL Server, RESTful API, Clean Architecture, CQRS, DDD, RabbitMQ, MassTransit, ArchUnitNET, Docker Compose
+- Kullanıcı ve bildirim işlevlerini bağımsız, ölçeklenebilir servislere ayıran, mikroservis mimarisine sahip dağıtık bir sistem tasarlandı ve uygulandı. Clean Architecture, CQRS ve DDD ArchUnitNET mimari testleri ile zorlandı. Domain event dispatch için RabbitMQ ve MassTransit entegre edildi. Docker Compose ile konteynerize edildi. MVC UI, service-account kimlik doğrulamasıyla BFF olarak görev yapar. Idempotent bildirim teslimi. Broker destekli entegrasyon testleri dahil 392 test.
+- Frontend için tek ve birleşik bir giriş noktası sağlamak, istek yönlendirmeyi merkezileştirmek ve servis keşfini (service discovery) basitleştirmek için Ocelot kullanılarak bir API Gateway yapılandırıldı.
+- Servisler ve veritabanı arasında verimli iletişimi sağlamak amacıyla doğrudan SQL sorgusu yürütmek için Dapper ORM kullanılarak yüksek performanslı bir veri erişim katmanı kuruldu.
+
 ### Linguistics (Yüksek Performanslı Arapça Doğal Dil İşleme [NLP] Kütüphanesi) - [github.com/ahmadmdabit/Linguistics](https://github.com/ahmadmdabit/Linguistics)
 
 - **Teknolojiler:** C#, .NET 10, SOLID Principles, NLP, Span<T>, stackalloc, Morphological Analysis, Stemming, NUnit
@@ -81,7 +88,7 @@
 ### Aided - [github.com/ahmadmdabit/aided](https://github.com/ahmadmdabit/aided)
 
 - **Teknolojiler:** SOLID Principles, JavaScript, TypeScript, Fine-Grained Reactivity, Web Workers, Vitest, TestCafe, Web Security (XSS)
-- SolidJS'ten esinlenerek, Virtual DOM kullanmadan kullanıcı arayüzleri oluşturmak için sahiplik grafiği (ownership graph) ile otomatik bellek yönetimi sunan bağımsız reaktif bir JavaScript kütüphanesi (5.92kb) geliştirildi ve yayınlandı.
+- SolidJS'ten esinlenerek, Virtual DOM kullanmadan kullanıcı arayüzleri oluşturmak için sahiplik grafiği (ownership graph) ile otomatik bellek yönetimi sunan bağımsız reaktif bir JavaScript kütüphanesi (6.34 kB) geliştirildi ve yayınlandı.
 - Bloklamayan arayüz işlemleri için arka planda **Web Workers** kullanan asenkron en uzun artan alt dizi (LIS) liste mutabakat algoritması ve sanal liste bileşeni (`VirtualFor`) tasarlandı.
 - Hassas özniteliklerde güvenli olmayan URL protokollerini engelleme (`javascript:` vb.), otomatik olay yöneticisi (event handler) reddi ve katı etiket doğrulaması gibi proaktif XSS koruma mekanizmalarıyla kütüphane güvenliği artırıldı.
 - Sıfır ek yük getiren performans profilleyicisi, hata izolasyonlu zamanlayıcı (scheduler) ve `AbortSignal` kullanan `createResource` istek iptal mekanizması entegre edildi.
@@ -89,8 +96,8 @@
 
 ### RepoAIfy - [github.com/ahmadmdabit/RepoAIfy](https://github.com/ahmadmdabit/RepoAIfy)
 
-- **Teknolojiler:** C#, .NET 9, WPF, MVVM, .NET Class Library, .NET CLI, JSON, Git, Markdown
-- MVVM desenini kullanarak temiz bir sorumlulukların ayrımı (separation of concerns) sağlayan, büyük kod tabanlarını analiz etmek ve belgelemek için çift arayüzlü (WPF ve CLI) bir .NET 9 çözümü tasarlandı ve geliştirildi.
+- **Teknolojiler:** C#, .NET 10, WPF, MVVM, .NET Class Library, .NET CLI, JSON, Git, Markdown, Clean Architecture, SOLID, Serilog
+- MVVM desenini kullanarak temiz bir sorumlulukların ayrımı (separation of concerns) sağlayan, büyük kod tabanlarını analiz etmek ve belgelemek için çift arayüzlü (WPF ve CLI) bir .NET 10 çözümü tasarlandı ve geliştirildi.
 - Duyarlı ve akıcı bir kullanıcı deneyimi için etkileşimli bir ağaç görünümü ve iptal edilebilir görevler içeren dinamik, gerçek zamanlı bir dosya filtreme sistemi uygulandı.
 - Büyük kod analizlerini yönetilebilir Markdown dosyalarına bölmek ve bunları yapay zeka modelleri tarafından tüketilmeye ve incelenmeye uygun hale getirmek amacıyla otomatik bir çıktı bölme (chunking) özelliği geliştirildi.
 
@@ -99,7 +106,7 @@
 - **Teknolojiler:** React 19, TypeScript, Tailwind CSS, Vite, Vitest, Chrome Manifest V3, Google Gemini AI
 - Tarayıcı sekmelerinde özetleme, çeviri ve özel veri çıkarma dahil olmak üzere karmaşık işlemler gerçekleştirmek için Google'ın Gemini AI teknolojisini kullanan çok adımlı bir yapay zeka işlem hattı (pipeline) içeren bir Chrome eklentisi geliştirildi.
 - React 19 ve Tailwind CSS ile gerçek zamanlı görev durumu güncellemeleri ve birden fazla sekmeden gelen verileri tek bir çıktıda birleştirme yeteneği sunan modern, duyarlı bir kullanıcı arayüzü geliştirildi.
-- Vitest ve React Testing Library içeren sıkı bir test çerçevesi ile ESLint, Prettier ve Husky git kancaları (hooks) kullanılarak otomatikleştirilmiş kod kalitesi kontrollerine sahip profesyonel ve ölçeklenebilir bir geliştirme ortamı kuruldu.
+- Vitest ve Native React DOM Testing Utilities içeren sıkı bir test çerçevesi ile ESLint, Prettier ve Husky git kancaları (hooks) kullanılarak otomatikleştirilmiş kod kalitesi kontrollerine sahip profesyonel ve ölçeklenebilir bir geliştirme ortamı kuruldu. 135 test, %92.67 kapsama.
 
 ### e-store - [github.com/ahmadmdabit/e-store](https://github.com/ahmadmdabit/e-store)
 
@@ -107,13 +114,6 @@
 - Veri Erişimi (DAL), İş Mantığı (BLL) ve API katmanlarını temiz bir şekilde ayırmak için ölçeklenebilir bir N-Tier tasarımı uygulanarak .NET 6 üzerinde full-stack bir e-ticaret uygulaması tasarlandı.
 - Kullanıcı verilerini korumak ve uygulama erişimini yönetmek için JWT tabanlı kimlik doğrulama sunan ve Swagger ile tamamen belgelenmiş güvenli bir RESTful arka uç (backend) API'si uygulandı.
 - Ürün kataloğu, alışveriş sepeti ve sipariş işleme gibi temel e-ticaret özelliklerini entegre eden, ASP.NET Core MVC ve Razor Views kullanan eksiksiz bir kullanıcı odaklı uygulama geliştirildi.
-
-### NotificationSystem - [github.com/ahmadmdabit/NotificationSystem](https://github.com/ahmadmdabit/NotificationSystem)
-
-- **Teknolojiler:** .NET Core, Microservices Architecture, Ocelot API Gateway, Dapper, SQL Server, RESTful API
-- Kullanıcı ve bildirim işlevlerini bağımsız, ölçeklenebilir servislere ayıran, mikroservis mimarisine sahip dağıtık bir sistem tasarlandı ve uygulandı.
-- Frontend için tek ve birleşik bir giriş noktası sağlamak, istek yönlendirmeyi merkezileştirmek ve servis keşfini (service discovery) basitleştirmek için Ocelot kullanılarak bir API Gateway yapılandırıldı.
-- Servisler ve veritabanı arasında verimli iletişimi sağlamak amacıyla doğrudan SQL sorgusu yürütmek için Dapper ORM kullanılarak yüksek performanslı bir veri erişim katmanı kuruldu.
 
 ### SinavOlusturma (Exam Management System) - [github.com/ahmadmdabit/SinavOlusturma](https://github.com/ahmadmdabit/SinavOlusturma)
 
