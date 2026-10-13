@@ -3,7 +3,7 @@
 ### 1. İşe Alım Uzmanı ve Yetenek Kazanımı Taraması (En Yüksek Öncelikli)
 
 **1. Kendinizden bahseder misiniz?**  
-C# .NET ekosistemi, Clean Architecture ve mikroservisler konusunda uzmanlaşmış, 9 yılı aşkın deneyime sahip Kıdemli Yazılım Geliştirme Uzmanı ve Mimarım. React ve Angular kullanarak ölçeklenebilir arka uçların (backend) yanı sıra duyarlı ön yüzler (frontend) oluşturma konusunda güçlü bir geçmişe sahibim.
+C# .NET ekosistemi, Clean Architecture ve mikroservisler konusunda uzmanlaşmış, 10 yılı aşkın deneyime sahip Kıdemli Yazılım Geliştirme Uzmanı ve Mimarım. React ve Angular kullanarak ölçeklenebilir arka uçların (backend) yanı sıra duyarlı ön yüzler (frontend) oluşturma konusunda güçlü bir geçmişe sahibim.
 
 **Alternatif sorular:**
 
@@ -83,7 +83,7 @@ Kıdemli Yazılım Geliştirici (Senior Software Developer), Teknik Lider (Tech 
 - Arayışınızda öne çıkan spesifik roller nelerdir?
 
 **6. Maaş beklentiniz nedir?**  
-`HARİCİ` Maaş beklentilerim, 9 yılı aşkın deneyime sahip bir Kıdemli Yazılım Geliştirici ve Mimar için piyasa koşullarıyla uyumludur; ancak rolün getireceği spesifik sorumluluklara bağlı olarak rekabetçi bir tazminat paketini görüşmeye açığım.
+`HARİCİ` Maaş beklentilerim, 10 yılı aşkın deneyime sahip bir Kıdemli Yazılım Geliştirici ve Mimar için piyasa koşullarıyla uyumludur; ancak rolün getireceği spesifik sorumluluklara bağlı olarak rekabetçi bir tazminat paketini görüşmeye açığım.
 
 **Alternatif sorular:**
 
@@ -147,7 +147,7 @@ Kıdemli Yazılım Geliştirici (Senior Software Developer), Teknik Lider (Tech 
 - Yöneticinizin gözünde nasıl bir çalışandınız?
 
 **10. Bu rol için neden sizi işe almalıyız?**  
-Beni işe almalısınız çünkü temiz mimari (Clean Architecture), mikroservisler ve yüksek düzeyde optimize edilmiş .NET uygulamaları uygulama konusunda 9 yılı aşkın bir deneyim sunuyorum. Teknik hedeflerinize hızla uyum sağlayabilir ve sistem güvenilirliğine anında katkıda bulunabilirim.
+Beni işe almalısınız çünkü temiz mimari (Clean Architecture), mikroservisler ve yüksek düzeyde optimize edilmiş .NET uygulamaları uygulama konusunda 10 yılı aşkın bir deneyim sunuyorum. Teknik hedeflerinize hızla uyum sağlayabilir ve sistem güvenilirliğine anında katkıda bulunabilirim.
 
 **Alternatif sorular:**
 
@@ -805,7 +805,7 @@ Mevcut "e-store" tasarımımı, bir mikroservis mimarisini benimseyerek, ürün 
 Mevcut "e-store" tasarımımı, bir mikroservis mimarisini benimseyerek, ürün kataloglarını önbelleğe almak için Redis uygulayarak, API Gateway olarak Ocelot'u konumlandırarak ve sipariş karşılama süreçlerini asenkron olarak yönetmek için RabbitMQ kullanarak ölçeklendirirdim. Katalog, Sepet, Sipariş İşleme ve Ödeme için özelleşmiş mikroservisler oluştururdum. ACID kritik ödemeler için PostgreSQL, hızlı ürün kataloğu taramaları için MongoDB kullanarak servis başına veritabanı (database-per-service) yaklaşımını uygulardım.
 
 **45. Gerçek zamanlı bir sohbet uygulaması tasarlayın.**  
-Bunu, kalıcı istemci bağlantıları sağlamak amacıyla (benzer şekilde "Exchange" projemde yaptığım gibi) ASP.NET Core WebSockets kullanarak geliştirir, birden fazla sunucuya ölçeklenebilmek için arka planda bir Redis pub/sub yapısıyla destekler ve geçmiş mesaj geçmişini SQL Server'da saklardım.
+Bunu, kalıcı istemci bağlantıları sağlamak amacıyla (benzer şekilde "Exchange" projemde yaptığım gibi) ASP.NET Core WebSockets kullanarak geliştirir, birden fazla sunucuya ölçeklenebilmek için arka planda bir Redis pub/sub yapısıyla destekler ve geçmiş mesaj geçmişini MySQL'da saklardım.
 
 **Alternatif sorular:**
 
@@ -821,7 +821,7 @@ Bunu, kalıcı istemci bağlantıları sağlamak amacıyla (benzer şekilde "Exc
 - Bağlantı kopmalarında mesajların kaybolmamasını sağlayacak dayanıklılık yapısı nasıl kurulur?
 
 **Detaylı Cevap:**  
-Bunu, kalıcı istemci bağlantıları sağlamak amacıyla (benzer şekilde "Exchange" projemde yaptığım gibi) ASP.NET Core WebSockets kullanarak geliştirir, birden fazla sunucuya ölçeklenebilmek için arka planda bir Redis pub/sub yapısıyla destekler ve geçmiş mesaj geçmişini SQL Server'da saklardım. Kullanıcıların çevrimiçi/çevrimdışı durumlarını, kullanıcı dizinlerini gerçek zamanlı olarak doğru tutabilmek için kısa TTL'lere sahip bellek içi bir Redis kümesinde saklardım. Bağlantı iş parçacıklarını engellememek için mesajları asenkron bir arka plan iş sırası kullanarak yazardım.
+Bunu, kalıcı istemci bağlantıları sağlamak amacıyla (benzer şekilde "Exchange" projemde yaptığım gibi) ASP.NET Core WebSockets kullanarak geliştirir, birden fazla sunucuya ölçeklenebilmek için arka planda bir Redis pub/sub yapısıyla destekler ve geçmiş mesaj geçmişini MySQL'da saklardım. Kullanıcıların çevrimiçi/çevrimdışı durumlarını, kullanıcı dizinlerini gerçek zamanlı olarak doğru tutabilmek için kısa TTL'lere sahip bellek içi bir Redis kümesinde saklardım. Bağlantı iş parçacıklarını engellememek için mesajları asenkron bir arka plan iş sırası kullanarak yazardım.
 
 **46. Bir mikroservis mimarisini nasıl tasarlarsınız?**  
 Giriş noktası olarak Ocelot API Gateway'i konumlandırır, servisler arası asenkron olayları yönetmek için RabbitMQ ile MassTransit kullanır, uç noktaları JWT tabanlı durumsuz (stateless) kimlik doğrulaması ile korur ve konteynerize edilmiş servisleri Docker Compose kullanarak yönetirdim.
