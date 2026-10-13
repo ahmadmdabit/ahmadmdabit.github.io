@@ -42,8 +42,9 @@ const PREVIEW_PORT = 4173;
 const PREVIEW_HOST = "localhost";
 const PREVIEW_URL = `http://${PREVIEW_HOST}:${PREVIEW_PORT}`;
 
-// Parallel capture workers: one per CPU minus one (min 1), leaving a core
-// for the vite preview server + Chrome.
+// Parallel capture workers: open and handle up to (CPU-Cores -1) tabs concurrently in a
+// single Chrome instance (via the shared CDP endpoint) to balance throughput
+// with CDP contention and resource limits.
 const CONCURRENCY = Math.max(1, availableParallelism() - 1);
 
 // Per-route resilience: gs-pro-cli's own 60s tab timeout covers page load,
@@ -58,6 +59,7 @@ const CAPTURE_RETRY_DELAY_MS = 2000;
 // orphaning Chrome-driving children mid-capture.
 const activeCaptures = new Set();
 let previewProc = null;
+let chromeProc = null;
 let shuttingDown = false;
 
 async function shutdown(signal, exitCode) {
@@ -77,16 +79,151 @@ async function shutdown(signal, exitCode) {
   activeCaptures.clear();
   await sweepPreviewTabs();
   if (previewProc) await stopPreview(previewProc);
+  await stopChrome();
   process.exit(exitCode);
 }
 
 process.on("SIGINT", () => shutdown("SIGINT", 130));
 process.on("SIGTERM", () => shutdown("SIGTERM", 143));
 
-// CDP endpoint the captures run against. Must match the gs-pro-cli
-// defaults (we don't pass --host/--port), same coupling as gsProCli above.
+// CDP endpoint the captures run against.
 const CDP_HOST = "127.0.0.1";
 const CDP_PORT = 9222;
+
+// Chrome configuration: standard paths for auto-launching
+const CHROME_PATH =
+  process.env.CHROME_PATH ||
+  (() => {
+    if (process.platform === "win32") return "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe";
+    if (process.platform === "darwin") return "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
+    return "google-chrome"; // Linux fallback
+  })();
+const CHROME_USER_DATA_DIR = process.env.CHROME_USER_DATA_DIR || (process.platform === "win32" ? "C:\\temp\\chrome-debug" : "/tmp/chrome-debug");
+
+async function startChrome() {
+  console.log(`Checking for existing Chrome instance on port ${CDP_PORT}...`);
+  const existing = await cdpGet("/json/version");
+  if (existing && existing.status === 200) {
+    console.log("✓ Chrome is already running and ready.");
+    return;
+  }
+
+  console.log(`Starting Chrome (port ${CDP_PORT}) with user-data-dir: ${CHROME_USER_DATA_DIR}...`);
+  await mkdir(CHROME_USER_DATA_DIR, { recursive: true });
+
+  chromeProc = spawn(CHROME_PATH, [`--remote-debugging-port=${CDP_PORT}`, `--user-data-dir=${CHROME_USER_DATA_DIR}`, "--no-first-run", "--no-default-browser-check", "about:blank"], {
+    detached: true,
+    stdio: "ignore",
+  });
+  chromeProc.unref();
+  chromeProc.catch(() => {}); // Suppress unhandled rejection if it exits
+
+  // Wait for CDP to be ready
+  let attempts = 0;
+  while (attempts < 30) {
+    // 15 seconds max
+    const res = await cdpGet("/json/version");
+    if (res && res.status === 200) {
+      console.log("✓ Chrome CDP endpoint is ready.");
+      return;
+    }
+    await new Promise((r) => setTimeout(r, 500));
+    attempts++;
+  }
+  throw new Error("Chrome failed to start or CDP endpoint did not become ready in time.");
+}
+
+async function stopChrome() {
+  // Only close Chrome if THIS script spawned it
+  if (!chromeProc || chromeProc.exitCode !== null) {
+    chromeProc = null;
+    return;
+  }
+
+  console.log("Closing Chrome gracefully via CDP...");
+  let cdpClosed = false;
+  try {
+    const versionRes = await cdpGet("/json/version");
+    if (versionRes && versionRes.status === 200) {
+      const versionInfo = JSON.parse(versionRes.data);
+      const wsUrl = versionInfo.webSocketDebuggerUrl;
+      if (wsUrl) {
+        await new Promise(async (resolve) => {
+          const WebSocket = (await import("node:http")).WebSocket || globalThis.WebSocket;
+          // Use raw ws module or dynamic import — node:http has no WebSocket client.
+          // Fallback: use the built-in fetch+WebSocket if available (Node 21+),
+          // otherwise this block will catch and fall through to SIGTERM.
+          resolve();
+        });
+        // Proper implementation using dynamic ws import:
+        const { WebSocket } = await import("ws").catch(() => ({ WebSocket: null }));
+        if (WebSocket) {
+          cdpClosed = await new Promise((resolve) => {
+            const ws = new WebSocket(wsUrl);
+            const timeout = setTimeout(() => {
+              ws.terminate();
+              resolve(false);
+            }, 3000);
+            ws.on("open", () => {
+              ws.send(JSON.stringify({ id: 1, method: "Browser.close" }));
+            });
+            ws.on("message", () => {
+              clearTimeout(timeout);
+              ws.terminate();
+              resolve(true);
+            });
+            ws.on("error", () => {
+              clearTimeout(timeout);
+              resolve(false);
+            });
+          });
+        }
+      }
+    }
+  } catch {
+    // CDP WebSocket close failed — fall through to SIGTERM
+  }
+
+  if (!cdpClosed) {
+    console.log("CDP close failed or unavailable, falling back to SIGTERM...");
+    chromeProc.kill("SIGTERM");
+    await new Promise((resolve) => {
+      const timeout = setTimeout(() => {
+        chromeProc.removeListener("exit", onExit);
+        resolve();
+      }, 5000);
+      const onExit = () => {
+        clearTimeout(timeout);
+        resolve();
+      };
+      chromeProc.once("exit", onExit);
+    });
+  } else {
+    // Wait up to 5 seconds for process to exit after successful CDP close
+    await new Promise((resolve) => {
+      const timeout = setTimeout(() => {
+        chromeProc.removeListener("exit", onExit);
+        resolve();
+      }, 5000);
+      const onExit = () => {
+        clearTimeout(timeout);
+        resolve();
+      };
+      chromeProc.once("exit", onExit);
+    });
+  }
+
+  // Fallback to force kill if still running
+  if (chromeProc.exitCode === null) {
+    console.log("Chrome did not exit gracefully, ensuring exit...");
+    if (process.platform === "win32" && chromeProc.pid) {
+      await execFile("taskkill", ["/PID", String(chromeProc.pid), "/T", "/F"], { stdio: "ignore" }).catch(() => {});
+    } else {
+      chromeProc.kill("SIGKILL");
+    }
+  }
+  chromeProc = null;
+}
 
 function cdpGet(path) {
   return new Promise((resolve) => {
@@ -123,9 +260,7 @@ async function sweepPreviewTabs() {
     return;
   }
   const prefixes = [`${PREVIEW_URL}/`, `http://127.0.0.1:${PREVIEW_PORT}/`];
-  const ours = targets.filter(
-    (t) => t.type === "page" && typeof t.url === "string" && prefixes.some((p) => t.url.startsWith(p)),
-  );
+  const ours = targets.filter((t) => t.type === "page" && typeof t.url === "string" && prefixes.some((p) => t.url.startsWith(p)));
   if (ours.length === 0) return;
   let closed = 0;
   for (const t of ours) {
@@ -236,7 +371,9 @@ async function captureRoute(route, attempt = 1, isAlive = () => true) {
 // route can never take down the worker pool (Promise.all) with it.
 function runCaptureOnce(route, url, outFile, runStart) {
   return new Promise((resolve) => {
-    const args = ["--open-url", url, "--full-html", "-o", outFile, "--open-url-tab-timeout", "60"];
+    // --no-launch ensures gs-pro-cli strictly uses the existing Chrome instance
+    // and doesn't spawn a new one if CDP becomes temporarily unreachable.
+    const args = ["--open-url", url, "--full-html", "-o", outFile, "--open-url-tab-timeout", "60", "--no-launch"];
 
     // Windows: resolve node via cmd.exe (bare "node" without a shell is
     // unreliable under uv_spawn PATH lookup); shell stays false so the
@@ -332,13 +469,16 @@ function runCaptureOnce(route, url, outFile, runStart) {
 }
 
 async function main() {
+  // Start/Reuse Chrome instance before doing anything else
+  await startChrome();
+
   console.log("Starting vite preview...");
   const { preview } = await startPreview();
 
   // Give the server a moment to fully initialize
   await new Promise((r) => setTimeout(r, 2000));
 
-  console.log(`\nCapturing ${ROUTES.length} routes with ${CONCURRENCY} workers...\n`);
+  console.log(`\nCapturing ${ROUTES.length} routes with ${CONCURRENCY} concurrent tabs...\n`);
 
   let success = 0;
   let next = 0;
@@ -372,6 +512,7 @@ async function main() {
 
   await sweepPreviewTabs();
   await stopPreview(preview);
+  await stopChrome();
   process.exit(failed > 0 ? 1 : 0);
 }
 

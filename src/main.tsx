@@ -13,7 +13,6 @@ import "@fontsource/cascadia-code/700.css";
 import "@/index.css";
 import darkTheme from "@/theme";
 import router from "@/router";
-import SplashScreen from "@/atoms/SplashScreen";
 // import App from "@/App";
 
 const cache = createCache({ key: "css", prepend: true });
@@ -24,7 +23,6 @@ createRoot(document.getElementById("root")!).render(
       <ThemeProvider theme={darkTheme}>
         <CssBaseline />
         <ErrorBoundary>
-          <SplashScreen />
           {/* <App /> */}
           <RouterProvider router={router} />
         </ErrorBoundary>

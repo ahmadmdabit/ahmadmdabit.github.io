@@ -1,24 +1,126 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /> 
-    <link rel="icon" type="image/png" href="/sd-favicon/favicon-96x96.png?v=%VITE_ASSET_HASH%" sizes="96x96" />
-    <link rel="icon" type="image/svg+xml" href="/sd-favicon/favicon.svg?v=%VITE_ASSET_HASH%" />
-    <link rel="shortcut icon" href="/sd-favicon/favicon.ico?v=%VITE_ASSET_HASH%" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/sd-favicon/apple-touch-icon.png?v=%VITE_ASSET_HASH%" />
-    <link rel="manifest" href="/sd-favicon/site.webmanifest?v=%VITE_ASSET_HASH%" />
-    <meta name="theme-color" content="#000000" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data:; connect-src 'self' https://api.puter.com wss://api.puter.com https://getform.io https://forminit.com;">
-    <base href="/">
-    <style>
-      body { background-color: black; }
-    </style>
-  </head>
-  <body>
-    <div id="root"><!--app-html--></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" href="/sd-favicon/favicon-96x96.png?v=%VITE_ASSET_HASH%" sizes="96x96" />
+  <link rel="icon" type="image/svg+xml" href="/sd-favicon/favicon.svg?v=%VITE_ASSET_HASH%" />
+  <link rel="shortcut icon" href="/sd-favicon/favicon.ico?v=%VITE_ASSET_HASH%" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/sd-favicon/apple-touch-icon.png?v=%VITE_ASSET_HASH%" />
+  <link rel="manifest" href="/sd-favicon/site.webmanifest?v=%VITE_ASSET_HASH%" />
+  <meta name="theme-color" content="#000000" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data:; connect-src 'self' https://api.puter.com wss://api.puter.com https://getform.io https://forminit.com;">
+  <base href="/">
+  <style>
+    body {
+      background-color: black;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Static splash screen — paints before JS bundle loads */
+    .loader-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: #000000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.5s ease 0.3s, visibility 0.5s ease 0.3s;
+    }
+
+    .loader-overlay.done {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .loader {
+      --size: 1px;
+      width: calc(48 * var(--size));
+      height: calc(48 * var(--size));
+      display: inline-block;
+      position: relative;
+    }
+
+    .loader::after,
+    .loader::before {
+      content: "";
+      box-sizing: border-box;
+      width: calc(48 * var(--size));
+      height: calc(48 * var(--size));
+      border-radius: 50%;
+      border: calc(2 * var(--size)) solid #00EE00;
+      position: absolute;
+      left: 0;
+      top: 0;
+      animation: animloader 2s linear infinite;
+    }
+
+    .loader::after {
+      animation-delay: 1s;
+    }
+
+    @keyframes animloader {
+      0% {
+        transform: scale(0);
+        opacity: 1;
+      }
+
+      100% {
+        transform: scale(1);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <script>
+    let div = document.createElement("div");
+    div.className = "loader-overlay";
+    div.id = "loaderElement";
+    div.setAttribute("aria-hidden", "true");
+
+    let span = document.createElement("span");
+    span.className = "loader";
+
+    div.appendChild(span);
+
+    document.body.prepend(div);
+  </script>
+  <div id="root"><!--app-html--></div>
+  <script>
+    (function () {
+      "use strict";
+
+      var loaderElement = document.getElementById("loaderElement");
+      if (!loaderElement) return;
+
+      function hideLoader() {
+        loaderElement.classList.add("done");
+        loaderElement.setAttribute("aria-hidden", "true");
+        var loaderCssTransitionMs = 500;
+        var loaderCssDelayMs = 300;
+        setTimeout(function () {
+          // if (loaderElement.parentNode) {
+          //   loaderElement.parentNode.removeChild(loaderElement);
+          // }
+          loaderElement.remove();
+        }, loaderCssTransitionMs + loaderCssDelayMs);
+      }
+
+      window.addEventListener("load", function () {
+        setTimeout(hideLoader, 390);
+      });
+
+      setTimeout(hideLoader, 3000);
+    })();
+  </script>
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+
 </html>
