@@ -3,7 +3,7 @@
 ### 1. Recruiter & Talent Acquisition Screening (Highest Priority)
 
 **1. Tell me about yourself.**
-I am a Senior Software Developer and Architect with over 9 years of experience specializing in the C# .NET ecosystem, Clean Architecture, and microservices. I have a strong background in building scalable backends as well as responsive frontends using React and Angular.
+I am a Senior Software Developer and Architect with over 10 years of experience specializing in the C# .NET ecosystem, Clean Architecture, and microservices. I have a strong background in building scalable backends as well as responsive frontends using React and Angular.
 
 **Alternative phrasings:**
 - Can you introduce yourself?
@@ -18,7 +18,7 @@ I am a Senior Software Developer and Architect with over 9 years of experience s
 - Introduce yourself professionally.
 
 **2. Walk me through your career journey.**
-My career spans 9+ years, beginning in 2015 as a Full-Stack Developer designing desktop and web applications. Over the years, I transitioned into senior and architectural roles, designing complex distributed systems, containerized microservices, and high-performance libraries.
+My career spans 10+ years, beginning in 2015 as a Full-Stack Developer designing desktop and web applications. Over the years, I transitioned into senior and architectural roles, designing complex distributed systems, containerized microservices, and high-performance libraries.
 
 **Alternative phrasings:**
 - Describe your career progression.
@@ -78,7 +78,7 @@ I am seeking a Senior Software Developer, Tech Lead, or Software Architect posit
 - What sort of position are you looking for?
 
 **6. What are your salary expectations?**
-`EXTERNAL` My salary expectations are aligned with the market rate for a Senior Software Developer and Architect with 9+ years of experience, but I am open to discussing a competitive compensation package based on the specific responsibilities of the role.
+`EXTERNAL` My salary expectations are aligned with the market rate for a Senior Software Developer and Architect with 10+ years of experience, but I am open to discussing a competitive compensation package based on the specific responsibilities of the role.
 
 **Alternative phrasings:**
 - What salary range are you targeting?
@@ -138,7 +138,7 @@ My previous managers would describe me as a highly reliable, self-driven develop
 - What would your ex-manager say in a review?
 
 **10. Why should we hire you for this role?**
-You should hire me because I offer over 9 years of experience implementing clean architecture, microservices, and highly optimized .NET applications. I can quickly align with your technical goals and immediately contribute to system reliability.
+You should hire me because I offer over 10 years of experience implementing clean architecture, microservices, and highly optimized .NET applications. I can quickly align with your technical goals and immediately contribute to system reliability.
 
 **Alternative phrasings:**
 - What makes you the best candidate?
@@ -757,7 +757,7 @@ I would scale my "e-store" design by adopting a microservices architecture, impl
 I would scale my "e-store" design by adopting a microservices architecture, implementing Redis for caching product catalogs, utilizing Ocelot as an API Gateway, and employing RabbitMQ to manage order fulfillment processing asynchronously. Build specialized microservices for Catalog, Cart, Order Processing, and Checkout. Implement database-per-service using PostgreSQL for ACID-critical payments and MongoDB for fast catalog browsing.
 
 **45. Design a real-time chat application.**
-I would build this using ASP.NET Core WebSockets (similar to my "Exchange" project) for persistent client connections, backed by a Redis pub/sub backplane to scale across multiple servers, and store historical message threads in SQL Server.
+I would build this using ASP.NET Core WebSockets (similar to my "Exchange" project) for persistent client connections, backed by a Redis pub/sub backplane to scale across multiple servers, and store historical message threads in MySQL.
 
 **Alternative phrasings:**
 - How would you build a messaging app like WhatsApp or Slack?
@@ -772,7 +772,7 @@ I would build this using ASP.NET Core WebSockets (similar to my "Exchange" proje
 - Describe the system design for a real-time messaging application.
 
 **Extended Answer:**
-I would build this using ASP.NET Core WebSockets (similar to my "Exchange" project) for persistent client connections, backed by a Redis pub/sub backplane to scale across multiple servers, and store historical message threads in SQL Server. Store online/offline user states in an in-memory Redis cluster with tight TTLs to keep user directories accurate in real time. Write messages asynchronously using a background worker queue to avoid blocking connection threads.
+I would build this using ASP.NET Core WebSockets (similar to my "Exchange" project) for persistent client connections, backed by a Redis pub/sub backplane to scale across multiple servers, and store historical message threads in MySQL. Store online/offline user states in an in-memory Redis cluster with tight TTLs to keep user directories accurate in real time. Write messages asynchronously using a background worker queue to avoid blocking connection threads.
 
 **46. How would you design a microservices architecture?**
 I would implement Ocelot as an API Gateway, use MassTransit with RabbitMQ to handle asynchronous inter-service events, protect endpoints using JWT-based stateless authentication, and orchestrate containerized services using Docker Compose.
